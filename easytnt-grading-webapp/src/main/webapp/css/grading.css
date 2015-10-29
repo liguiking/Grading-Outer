@@ -1,0 +1,329 @@
+.tool-bar{
+	background: #9b9b9b;
+	height:50px;
+}
+
+.tool-bar .container{
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-left: 35px;
+}
+
+.navbar-inverse .navbar-nav>li>a{
+	color: #fff;
+	font-size:14pt;
+}
+
+@media screen and (max-width:768px){
+	.tool-bar .navbar-collapse{
+		background:#727272;
+	}
+}
+
+.navbar-inverse .navbar-nav>li :FIRST-CHILD{
+	padding-left:0px;
+}
+
+.workspace {
+	padding: 50px 15px 0 0;
+	height:100%;
+}
+
+.workspace .container,.workspace .container-fluid {
+	padding: 0;
+	width: 100%;
+}
+
+.img-panel-container{
+	padding-right: 0px;
+	
+}
+
+.img-panel {
+    height:100%;
+    margin-left:40px;
+}
+
+.point-panel-detail {
+	min-height: 100px;
+}
+
+.img-hilight-area{
+	border:2px dashed #FF4351;
+	text-align: right;
+	color: #FF4351;
+	font-size: 14pt;
+	font-weight: bold;
+}
+
+.img-panel-toolbox {
+	position: absolute;
+	top:10px;
+	width:35px;
+	left: 17px;
+	background-color:transparent;
+}
+
+.img-panel-toolbox .panel-body  .row .col-md-12{
+	padding-left:5px;
+}
+
+.img-panel  .panel-success{
+	border:0px;
+}
+
+.img-panel .panel-heading{
+    background: url("img/grid-bg.png" ) repeat;
+    border-bottom:0px;
+}
+
+.img-panel .panel-body{
+	background: #727272;
+	border-radius: 2px;
+}
+
+.img-panel .panel-body .row{
+	margin: 0px;
+}
+
+.img-panel-toolbox .divider{
+    height: 1px;
+    margin: 2px 0;
+    overflow: hidden;
+    background-color: #727272;
+}
+
+.img-panel-toolbox .pull-left {
+	margin: -10px 0 0 -15px;
+	color:#fff;
+}
+
+.img-panel-toolbox .glyphicon {
+	top:0px;
+	left:1px;
+	cursor: pointer;
+}
+
+.img-panel-toolbox ul{
+	padding:0 ;
+	font-size: 20px;
+}
+
+.img-panel-toolbox ul:FIRST-CHILD {
+	padding-top:0px ;
+}
+
+.img-panel-toolbox .panel-body{
+	padding:5px 0px;
+}
+
+.img-panel-toolbox .panel-body b{
+	font-size:15px;
+}
+
+.img-panel-toolbox .panel-body b.left{
+	margin-left: -1px;
+}
+
+.img-panel-toolbox .panel-body b.right{
+	margin-left: -10px;
+}
+
+.img-panel-toolbox .panel-body b.bottom{
+	margin: 5px 0px 0px -3px;
+    left: 16px;
+    top: -1px;
+    position: absolute;
+}
+
+.img-panel-toolbox .panel-body b.top{
+    position: absolute;
+    top: -2px;
+    left: 13px;
+}
+
+.img-panel-toolbox .panel-body b.colorful{
+    background-image: url("img/colorful.png");
+    padding: 0px 10px 1px 9px;
+}
+
+
+.img-panel-toolbox .panel-body .img-tool a{
+	text-decoration: none;
+	color:#333;
+}
+
+.img-panel-toolbox .logv{
+	background-image: url("img/logv.png");
+	width: 25px;
+	height:153px;
+	bottom:5px;
+	margin-left: 4px;
+    position: absolute;
+}
+
+#markingPanel aside:last{
+	
+}
+
+.point-panel-container{
+    padding-left: 1px;
+	padding-right: 2px;
+}
+
+.point-panel {
+	color: #fff;
+	height:100%;
+	padding-top:15px;
+}
+
+
+.point-panel .section-title .control-label {
+	text-align: left;
+}
+
+.point-panel-marking .panel-title{
+	height: 1px;
+	border-bottom: 1px dashed #fff;
+	height:100%;
+}
+
+.point-panel-marking,.point-panel-marking>.panel-heading,.point-panel-marking> .panel-footer{
+	background: #727272;
+	border: 0px;
+}
+
+.point-panel-marking{
+	
+}
+
+.point-input{
+	color:#FF4351;
+	font-weight: bold;
+	margin-left: 2px;
+}
+
+.point-panel .panel-body .form-group {
+	margin-right:0px;
+}
+
+.point-panel .panel-body .form-group .button-small{
+	padding:0 10px;
+	font-size:14px;
+	background-color: #489da0;
+}
+
+.point-panel .panel-body .form-group .input-group-btn .row {
+	margin-right:5px;
+	margin-left:-5px;
+	margin-top: 10px;
+	text-align: center;
+}
+
+.point-panel .panel-body .form-group .input-group-btn .divider{
+	background-color:#fff;
+}
+
+.nine-grid  {
+	padding: 10px 15px;
+}
+
+
+.monitor-panel-container{
+	padding-top:15px;
+	padding-left:60px;
+	padding-right:0px;
+}
+
+@media screen and (max-width:768px){
+	.monitor-panel-container{
+		padding-left:15px;
+	}
+}
+
+#monitorPanel .container-fluid .monitor-panel-container{
+	height:100%;
+}
+
+#monitorPanel .sidebar-menu-container{
+	padding-left:0px;
+	padding-top:30px;
+	padding-right:0px;
+}
+
+.sidebar-menu{
+	text-align: center;
+	padding:0px;
+	margin:0px;
+}
+
+.sidebar-menu li {
+	padding:5px 0px 5px 0px;
+	margin-bottom: 15px;
+}
+
+.sidebar-menu li a{
+	display:block;
+	width:100%;
+    border-radius: 4px 0px 0px 4px;
+    background-color: #a2a2a2;
+    margin: 0px 0px 0px 10px;
+}
+
+.sidebar-menu li:HOVER,.sidebar-menu li.actived{
+	background:#c7c7c7;
+	border-left: 1px solid #f0f0f0;
+}
+
+ .sidebar-menu a{
+    color: #fff;
+    font-size: 14pt;
+    text-decoration: none;
+ }
+
+.team-monitor-panel{
+	
+	height:100%;
+}
+
+.team-monitor-chart{
+	padding:15px;
+}
+
+.status-bar {
+	width: 100%;
+	color: #fff;
+	background: #9b9b9b;
+	margin-right:15px;
+	height: 31px;
+    padding: 5px 0;
+}
+
+.status-bar li {
+	float: left;
+	padding-right: 15px;
+}
+
+.top-arrow{
+	top: 0px;
+    margin: 30px 0 0 0;
+    color: #FFF;
+    position: absolute;
+    font-size: 20px;
+    z-index: 9999;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;	
+}
+
+.bottom-arrow{
+	bottom: 0px;
+    margin: 0 0 20px 0;
+    color: #FFF;
+    position: absolute;
+    font-size: 20px;
+    z-index: 9999;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+}
