@@ -95,5 +95,4 @@ public class Area implements ValueObject<Area> {
 	public void setHeight(int height) {
 		this.height = height;
 	}	
-
 }
