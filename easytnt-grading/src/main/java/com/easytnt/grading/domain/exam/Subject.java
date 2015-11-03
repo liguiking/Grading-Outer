@@ -29,7 +29,6 @@ public class Subject implements ValueObject<Subject> {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private int subject_id;
 	
 	private String name;
 
@@ -81,14 +80,6 @@ public class Subject implements ValueObject<Subject> {
 
 	public void setCode(int code) {
 		this.code = code;
-	}
-
-	public int getSubject_id() {
-		return subject_id;
-	}
-
-	public void setSubject_id(int subject_id) {
-		this.subject_id = subject_id;
 	}
 
 	public Set<Subject> getComposings() {
