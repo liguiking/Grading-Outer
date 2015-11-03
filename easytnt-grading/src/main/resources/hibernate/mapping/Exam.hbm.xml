@@ -8,8 +8,5 @@
             <column name="OID" />
             <generator class="identity" />
         </id>
-        <many-to-one name="desc" class="com.easytnt.grading.domain.exam.ExamDesc" fetch="join">
-            <column name="DESC" />
-        </many-to-one>
     </class>
 </hibernate-mapping>

@@ -4,7 +4,7 @@
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-	<class name="com.easytnt.grading.domain.paper.PropertiesDict" table="properties_dict">
+	<class name="com.easytnt.grading.domain.paper.PaperType" table="properties_dict">
 		<id name="prodictId" type="java.lang.Long">
 			<column name="prodict_id" />
 			<generator class="identity" />
@@ -12,10 +12,10 @@
 		<property name="prodictCatagory" type="java.lang.String">
 			<column name="prodict_catagory" />
 		</property>
-		<property name="prodictCode" type="java.lang.String">
+		<property name="typeValue" type="java.lang.String">
 			<column name="prodict_code" />
 		</property>
-		<property name="prodictName" type="java.lang.String">
+		<property name="typeName" type="java.lang.String">
 			<column name="prodict_name" />
 		</property>
 	</class>

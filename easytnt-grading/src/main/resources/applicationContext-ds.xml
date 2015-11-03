@@ -88,13 +88,11 @@
 			<list>
 				 <value>hibernate/mapping/Subject.hbm.xml</value>
 				 <value>hibernate/mapping/Exam.hbm.xml</value>
-				 <value>hibernate/mapping/Block.hbm.xml</value>
-				 <value>hibernate/mapping/ExamDesc.hbm.xml</value>
-				 <value>hibernate/paper/PaperInfo.hbm.xml</value>
-				 <value>hibernate/paper/PaperItemInfo.hbm.xml</value>
-				 <value>hibernate/paper/PaperSectionInfo.hbm.xml</value>
-				 <value>hibernate/paper/PropertiesDict.hbm.xml</value>
-				 <value>hibernate/paper/Test.hbm.xml</value>
+				 <value>hibernate/mapping/paper/ExamPaper.hbm.xml</value>
+				 <value>hibernate/mapping/paper/item.hbm.xml</value>
+				 <value>hibernate/mapping/paper/Section.hbm.xml</value>
+				 <value>hibernate/mapping/paper/PaperType.hbm.xml</value>
+				 <value>hibernate/mapping/exam/SubjectExam.hbm.xml</value>
 				<!--<value>hibernate/mapping/Block.hbm.xml</value> -->
 			</list>
 		</property>

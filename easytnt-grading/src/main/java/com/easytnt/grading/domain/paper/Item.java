@@ -21,33 +21,22 @@ import com.easytnt.grading.domain.share.Area;
  * @author 李贵庆2015年10月14日
  * @version 1.0
  **/
-public class PaperItemInfo implements ValueObject<PaperItemInfo> {
-	private Long itemId;
-	
-	private PaperSectionInfo section;
+public class Item implements ValueObject<Item> {
+
+	private String title;
 	
 	private Long itemOid;
-	
-	private String itemName;
 
-	private String itemCaption;
+	private String caption;
 
-	private Integer  left;
-	
-	private Integer top;
-	
-	private Integer width;
-	
-	private Integer height;
-	
+	private Area answerArea;
+
 	private Float fullScore;
-	
-	private Float validscoredot;
 	
 	private Float[] validValues;
 	
-	public PaperItemInfo(String title,Float fullScore) {
-		this.itemName = title;
+	public Item(String title,Float fullScore) {
+		this.title = title;
 		this.fullScore = fullScore;
 	}
 
@@ -90,40 +79,40 @@ public class PaperItemInfo implements ValueObject<PaperItemInfo> {
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder()
-				.append(this.itemName).append(this.fullScore).toHashCode();
+				.append(this.title).append(this.fullScore).toHashCode();
 	}
 
 	@Override
 	public boolean equals(Object o) {
-		if (!(o instanceof PaperItemInfo))
+		if (!(o instanceof Item))
 			return false;
 		
-		PaperItemInfo other = (PaperItemInfo) o;
-		return new EqualsBuilder().append(this.itemName, other.itemName)
+		Item other = (Item) o;
+		return new EqualsBuilder().append(this.title, other.title)
 				.append(this.fullScore, other.fullScore).isEquals();
 	}
 
 	@Override
 	public String toString() {
 		return new ToStringBuilder(this)
-				.append(this.itemName).append(this.fullScore).build();
+				.append(this.title).append(this.fullScore).build();
 	}
 
 	@Override
-	public boolean sameValueAs(PaperItemInfo other) {
+	public boolean sameValueAs(Item other) {
 		return this.equals(other);
 	}
 	
 	public static class Builder{
-		private PaperItemInfo item;
+		private Item item;
 		
-		public Builder(String itemName) {
-			this.item = new PaperItemInfo();
-			this.item.itemName = itemName;
+		public Builder(String title) {
+			this.item = new Item();
+			this.item.title = title;
 		}
 		
-		public Builder itemCaption(String itemCaption) {
-			this.item.itemCaption = itemCaption;
+		public Builder caption(String caption) {
+			this.item.caption = caption;
 			return this;
 		}
 		
@@ -137,85 +126,64 @@ public class PaperItemInfo implements ValueObject<PaperItemInfo> {
 			return this;
 		}
 		
-		public PaperItemInfo create() {
+		public Builder answerArea(Area answerArea) {
+			this.item.answerArea = answerArea;
+			return this;
+		}
+		
+		public Item create() {
 			return this.item;
 		}
 	}
 
 	//以下功能为ORM或者自动构造使用，非此慎用
-	public PaperItemInfo() {
+	public Item() {
 		
 	}
-
+	
+	private Long itemId;
+	
 	public Long getItemId() {
 		return itemId;
 	}
+
 
 	public void setItemId(Long itemId) {
 		this.itemId = itemId;
 	}
 
-	public PaperSectionInfo getSection() {
-		return section;
+
+	public String getTitle() {
+		return title;
 	}
 
-	public void setSection(PaperSectionInfo section) {
-		this.section = section;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
-	public Long getItemOid() {
-		return itemOid;
+	public String getCaption() {
+		return caption;
 	}
 
-	public void setItemOid(Long itemOid) {
-		this.itemOid = itemOid;
+	public void setCaption(String caption) {
+		this.caption = caption;
+	}
+	
+	public Float[] getValidValues() {
+		return validValues;
 	}
 
-	public String getItemName() {
-		return itemName;
+	public void setValidValues(Float[] validValues) {
+		this.validValues = validValues;
 	}
 
-	public void setItemName(String itemName) {
-		this.itemName = itemName;
+
+	public Area getAnswerArea() {
+		return answerArea;
 	}
 
-	public String getItemCaption() {
-		return itemCaption;
-	}
-
-	public void setItemCaption(String itemCaption) {
-		this.itemCaption = itemCaption;
-	}
-	public Integer getLeft() {
-		return left;
-	}
-
-	public void setLeft(Integer left) {
-		this.left = left;
-	}
-
-	public Integer getTop() {
-		return top;
-	}
-
-	public void setTop(Integer top) {
-		this.top = top;
-	}
-
-	public Integer getWidth() {
-		return width;
-	}
-
-	public void setWidth(Integer width) {
-		this.width = width;
-	}
-
-	public Integer getHeight() {
-		return height;
-	}
-
-	public void setHeight(Integer height) {
-		this.height = height;
+	public void setAnswerArea(Area answerArea) {
+		this.answerArea = answerArea;
 	}
 
 	public Float getFullScore() {
@@ -226,21 +194,12 @@ public class PaperItemInfo implements ValueObject<PaperItemInfo> {
 		this.fullScore = fullScore;
 	}
 
-	public Float getValidscoredot() {
-		return validscoredot;
+	public Long getItemOid() {
+		return itemOid;
 	}
 
-	public void setValidscoredot(Float validscoredot) {
-		this.validscoredot = validscoredot;
+	public void setItemOid(Long itemOid) {
+		this.itemOid = itemOid;
 	}
-
-	public Float[] getValidValues() {
-		return validValues;
-	}
-
-	public void setValidValues(Float[] validValues) {
-		this.validValues = validValues;
-	}
-	
 	
 }

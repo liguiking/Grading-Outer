@@ -4,7 +4,7 @@
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-	<class name="com.easytnt.grading.domain.paper.PaperInfo" table="paper_info">
+	<class name="com.easytnt.grading.domain.paper.ExamPaper" table="paper_info">
 		<id name="paperId" type="java.lang.Long">
 			<column name="paper_id" />
 			<generator class="identity" />
@@ -13,18 +13,18 @@
 			<column name="paper_oid" />
 		</property>
 		
-		<property name="paperName" type="java.lang.String">
+		<property name="name" type="java.lang.String">
 			<column name="paper_name" />
 		</property>
 		
 		<set name="sections" inverse="true" cascade="all">
             <key column="section_id" ></key>
-            <one-to-many class="com.easytnt.grading.domain.paper.PaperSectionInfo"/>
+            <one-to-many class="com.easytnt.grading.domain.paper.Section"/>
         </set>
         
-		<set name="tests" table="test_used_paper" inverse="true" cascade="none">
+		<set name="subjectExam" table="test_used_paper" inverse="true" cascade="none">
             <key column="paper_id"></key>
-            <many-to-many class="com.easytnt.grading.domain.paper.Test" column="test_id"></many-to-many>
+            <many-to-many class="com.easytnt.grading.domain.exam.SubjectExam" column="test_id"></many-to-many>
         </set>
 		<property name="fullScore" type="java.lang.Float">
 			<column name="full_score" />

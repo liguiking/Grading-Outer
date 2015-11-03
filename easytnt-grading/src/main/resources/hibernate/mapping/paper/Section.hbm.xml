@@ -4,24 +4,26 @@
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-	<class name="com.easytnt.grading.domain.paper.PaperSectionInfo" table="paper_section_info">
+	<class name="com.easytnt.grading.domain.paper.Section" table="paper_section_info">
 		<id name="sectionId" type="java.lang.Long">
 			<column name="section_id" />
 			<generator class="identity" />
 		</id>
-		<many-to-one name="paper" class="com.easytnt.grading.domain.paper.PaperInfo" 
+		<many-to-one name="paper" class="com.easytnt.grading.domain.paper.ExamPaper" 
                      column="paper_id" cascade="save-update">
-        </many-to-one>
+         </many-to-one>
          
          <property name="sectionOid" type="java.lang.Long">
 			<column name="section_oid" />
 		</property>
          
-		<property name="sectionName" type="java.lang.String">
+        <one-to-one name="subject" class="com.easytnt.grading.domain.exam.Subject" cascade="all" />
+         
+		<property name="title" type="java.lang.String">
 			<column name="section_name" />
 		</property>
 		
-		<property name="sectionCaption" type="java.lang.Long">
+		<property name="caption" type="java.lang.Long">
 			<column name="section_caption" />
 		</property>
 		
@@ -29,33 +31,24 @@
 			<column name="max_pinci" />
 		</property>
 		
-		<property name="left" type="java.lang.Integer">
-			<column name="left" />
-		</property>
-		
-		<property name="top" type="java.lang.Integer">
-			<column name="top" />
-		</property>
-		
-		<property name="width" type="java.lang.Integer">
-			<column name="width" />
-		</property>
-		
-		<property name="height" type="java.lang.Integer">
-			<column name="height" />
-		</property>
-		
 		<property name="fullScore" type="java.lang.Float">
 			<column name="full_score" />
 		</property>
-		
-		<property name="maxerror" type="java.lang.Float">
+		 
+		 <property name="maxerror" type="java.lang.Float">
 			<column name="maxerror" />
 		</property>
 		 
+		 <component name="area" class="com.easytnt.grading.domain.share.Area" lazy="true">
+            <property name="left" column="left" type="java.lang.Integer"/>
+            <property name="top" column="top" type="java.lang.Integer"/>
+            <property name="width" column="width" type="java.lang.Integer"/>
+            <property name="height" column="height" type="java.lang.Integer"/>
+        </component>
+        
 		 <set name="items" inverse="true" cascade="all">
             <key column="item_id" ></key>
-            <one-to-many class="com.easytnt.grading.domain.paper.PaperItemInfo"/>
+            <one-to-many class="com.easytnt.grading.domain.paper.Item"/>
         </set>
 	</class>
 </hibernate-mapping>

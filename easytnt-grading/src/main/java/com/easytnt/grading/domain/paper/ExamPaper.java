@@ -12,6 +12,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.easytnt.commons.entity.share.Entity;
+import com.easytnt.grading.domain.exam.SubjectExam;
 
 /** 
  * <pre>
@@ -21,23 +22,24 @@ import com.easytnt.commons.entity.share.Entity;
  * @author 李贵庆2015年10月14日
  * @version 1.0
  **/
-public class PaperInfo implements Entity<PaperInfo> {
+public class ExamPaper implements Entity<ExamPaper> {
+
+	private String name;
+	
+	private String paperType;
+	
 	private Long paperId;
 	
 	private Long paperOid;
 	
-	private String paperName;
+	private List<Section> sections;
 	
-	private String  paperType;
-	
-	private List<PaperSectionInfo> sections;
-	
-	private List<Test> tests;
+	private List<SubjectExam> subjectExam;
 	
 	private Float fullScore;
 	
-	public PaperInfo(String name,Float fullScore) {
-		this.paperName = name;
+	public ExamPaper(String name,Float fullScore) {
+		this.name = name;
 		this.fullScore = fullScore;
 	}
 
@@ -48,25 +50,33 @@ public class PaperInfo implements Entity<PaperInfo> {
 	
     @Override
 	public boolean equals(Object o) {
-		if(!(o instanceof PaperInfo))
+		if(!(o instanceof ExamPaper))
 			return false;
-		PaperInfo other = (PaperInfo)o;
+		ExamPaper other = (ExamPaper)o;
 		
 		return new EqualsBuilder().append(this.paperId,other.paperId).isEquals();
 	}
 	
     @Override
 	public String toString() {
-		return new ToStringBuilder(this).append(this.paperName).append(this.paperId).build();
+		return new ToStringBuilder(this).append(this.name).append(this.paperId).build();
 	}
     
 	@Override
-	public boolean sameIdentityAs(PaperInfo other) {
+	public boolean sameIdentityAs(ExamPaper other) {
 		return this.equals(other);
 	}
 	
 	//以下功能为ORM或者自动构造使用，非此慎用
-	public PaperInfo() {}
+	public ExamPaper() {}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public Long getPaperId() {
 		return paperId;
@@ -76,38 +86,11 @@ public class PaperInfo implements Entity<PaperInfo> {
 		this.paperId = paperId;
 	}
 
-	
-	public Long getPaperOid() {
-		return paperOid;
-	}
-
-	public void setPaperOid(Long paperOid) {
-		this.paperOid = paperOid;
-	}
-
-	public String getPaperName() {
-		return paperName;
-	}
-
-	public void setPaperName(String paperName) {
-		this.paperName = paperName;
-	}
-
-	
-
-	public String getPaperType() {
-		return paperType;
-	}
-
-	public void setPaperType(String paperType) {
-		this.paperType = paperType;
-	}
-
-	public List<PaperSectionInfo> getSections() {
+	public List<Section> getSections() {
 		return sections;
 	}
 
-	public void setSections(List<PaperSectionInfo> sections) {
+	public void setSections(List<Section> sections) {
 		this.sections = sections;
 	}
 
@@ -119,12 +102,28 @@ public class PaperInfo implements Entity<PaperInfo> {
 		this.fullScore = fullScore;
 	}
 
-	public List<Test> getTests() {
-		return tests;
+	public String getPaperType() {
+		return paperType;
 	}
 
-	public void setTests(List<Test> tests) {
-		this.tests = tests;
+	public void setPaperType(String paperType) {
+		this.paperType = paperType;
+	}
+
+	public Long getPaperOid() {
+		return paperOid;
+	}
+
+	public void setPaperOid(Long paperOid) {
+		this.paperOid = paperOid;
+	}
+
+	public List<SubjectExam> getSubjectExam() {
+		return subjectExam;
+	}
+
+	public void setSubjectExam(List<SubjectExam> subjectExam) {
+		this.subjectExam = subjectExam;
 	}
 	
 }
