@@ -25,13 +25,15 @@ import com.easytnt.commons.entity.share.ValueObject;
 public class Subject implements ValueObject<Subject> {
 
 	/**
-	 * 
+	 * @author钟水林20151103
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
+	private int subject_id;
+	
 	private String name;
 
-	private String code;
+	private int code;
 
 	private Set<Subject> composings;
 
@@ -73,12 +75,20 @@ public class Subject implements ValueObject<Subject> {
 		this.name = name;
 	}
 
-	public String getCode() {
+	public int getCode() {
 		return code;
 	}
 
-	public void setCode(String code) {
+	public void setCode(int code) {
 		this.code = code;
+	}
+
+	public int getSubject_id() {
+		return subject_id;
+	}
+
+	public void setSubject_id(int subject_id) {
+		this.subject_id = subject_id;
 	}
 
 	public Set<Subject> getComposings() {
