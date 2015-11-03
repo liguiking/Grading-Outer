@@ -10,7 +10,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.easytnt.commons.entity.share.Entity;
-import com.easytnt.grading.domain.paper.ExamPaper;
+import com.easytnt.grading.domain.paper.PaperInfo;
 
 /** 
  * <pre>
@@ -32,7 +32,7 @@ public class SubjectExam implements Entity<SubjectExam>{
     
     private Exam belongTo;
     
-    private ExamPaper usedPaper;
+    private PaperInfo usedPaper;
     
     public SubjectExam(ExamDesc desc,Subject subject ,Long oid) {
 		this.desc = desc;
@@ -40,7 +40,7 @@ public class SubjectExam implements Entity<SubjectExam>{
 		this.oid = oid;
 	}
     
-    public static SubjectExam createBy(ExamPaper usedPaper,ExamDesc desc,Subject subject) {
+    public static SubjectExam createBy(PaperInfo usedPaper,ExamDesc desc,Subject subject) {
     	SubjectExam se = new SubjectExam();
     	se.usedPaper = usedPaper;
     	se.desc = desc;
@@ -109,11 +109,11 @@ public class SubjectExam implements Entity<SubjectExam>{
 		this.belongTo = belongTo;
 	}
 
-	public ExamPaper getUsedPaper() {
+	public PaperInfo getUsedPaper() {
 		return usedPaper;
 	}
 
-	public void setUsedPaper(ExamPaper usedPaper) {
+	public void setUsedPaper(PaperInfo usedPaper) {
 		this.usedPaper = usedPaper;
 	}
 	

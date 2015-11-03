@@ -90,6 +90,11 @@
 				 <value>hibernate/mapping/Exam.hbm.xml</value>
 				 <value>hibernate/mapping/Block.hbm.xml</value>
 				 <value>hibernate/mapping/ExamDesc.hbm.xml</value>
+				 <value>hibernate/paper/PaperInfo.hbm.xml</value>
+				 <value>hibernate/paper/PaperItemInfo.hbm.xml</value>
+				 <value>hibernate/paper/PaperSectionInfo.hbm.xml</value>
+				 <value>hibernate/paper/PropertiesDict.hbm.xml</value>
+				 <value>hibernate/paper/Test.hbm.xml</value>
 				<!--<value>hibernate/mapping/Block.hbm.xml</value> -->
 			</list>
 		</property>
