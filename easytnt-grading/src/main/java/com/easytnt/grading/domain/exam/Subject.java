@@ -24,6 +24,11 @@ import com.easytnt.commons.entity.share.ValueObject;
  **/
 public class Subject implements ValueObject<Subject> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private String name;
 
 	private String code;

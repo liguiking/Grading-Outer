@@ -86,8 +86,11 @@
 		</property>
 		<property name="mappingResources">
 			<list>
-				<!-- <value>hibernate/mapping/Exam.hbm.xml</value>
-				<value>hibernate/mapping/Block.hbm.xml</value> -->
+				 <value>hibernate/mapping/Subject.hbm.xml</value>
+				 <value>hibernate/mapping/Exam.hbm.xml</value>
+				 <value>hibernate/mapping/Block.hbm.xml</value>
+				 <value>hibernate/mapping/ExamDesc.hbm.xml</value>
+				<!--<value>hibernate/mapping/Block.hbm.xml</value> -->
 			</list>
 		</property>
 	</bean>
