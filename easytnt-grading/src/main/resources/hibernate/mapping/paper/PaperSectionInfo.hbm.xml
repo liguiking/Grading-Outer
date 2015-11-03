@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.easytnt.grading.domain.paper.PaperSectionInfo" table="paper_section_info">
+		<id name="sectionId" type="java.lang.Long">
+			<column name="section_id" />
+			<generator class="identity" />
+		</id>
+		<many-to-one name="paper" class="com.easytnt.grading.domain.paper.PaperInfo" 
+                     column="paper_id" cascade="save-update">
+        </many-to-one>
+         
+         <property name="sectionOid" type="java.lang.Long">
+			<column name="section_oid" />
+		</property>
+         
+		<property name="sectionName" type="java.lang.String">
+			<column name="section_name" />
+		</property>
+		
+		<property name="sectionCaption" type="java.lang.Long">
+			<column name="section_caption" />
+		</property>
+		
+		<property name="maxPinci" type="java.lang.String">
+			<column name="max_pinci" />
+		</property>
+		
+		<property name="left" type="java.lang.Integer">
+			<column name="left" />
+		</property>
+		
+		<property name="top" type="java.lang.Integer">
+			<column name="top" />
+		</property>
+		
+		<property name="width" type="java.lang.Integer">
+			<column name="width" />
+		</property>
+		
+		<property name="height" type="java.lang.Integer">
+			<column name="height" />
+		</property>
+		
+		<property name="fullScore" type="java.lang.Float">
+			<column name="full_score" />
+		</property>
+		
+		<property name="maxerror" type="java.lang.Float">
+			<column name="maxerror" />
+		</property>
+		 
+		 <set name="items" inverse="true" cascade="all">
+            <key column="item_id" ></key>
+            <one-to-many class="com.easytnt.grading.domain.paper.PaperItemInfo"/>
+        </set>
+	</class>
+</hibernate-mapping>

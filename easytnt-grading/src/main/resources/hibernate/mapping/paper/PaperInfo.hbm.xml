@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.easytnt.grading.domain.paper.PaperInfo" table="paper_info">
+		<id name="paperId" type="java.lang.Long">
+			<column name="paper_id" />
+			<generator class="identity" />
+		</id>
+		<property name="paperOid" type="java.lang.Long">
+			<column name="paper_oid" />
+		</property>
+		
+		<property name="paperName" type="java.lang.String">
+			<column name="paper_name" />
+		</property>
+		
+		<set name="sections" inverse="true" cascade="all">
+            <key column="section_id" ></key>
+            <one-to-many class="com.easytnt.grading.domain.paper.PaperSectionInfo"/>
+        </set>
+        
+		<set name="tests" table="test_used_paper" inverse="true" cascade="none">
+            <key column="paper_id"></key>
+            <many-to-many class="com.easytnt.grading.domain.paper.Test" column="test_id"></many-to-many>
+        </set>
+		<property name="fullScore" type="java.lang.Float">
+			<column name="full_score" />
+		</property>
+		
+	</class>
+</hibernate-mapping>

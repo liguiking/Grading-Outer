@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.easytnt.grading.domain.paper.PaperItemInfo" table="paper_item_info">
+		<id name="itemId" type="java.lang.Long">
+			<column name="item_id" />
+			<generator class="identity" />
+		</id>
+		<many-to-one name="section" class="com.easytnt.grading.domain.paper.PaperSectionInfo" 
+                     column="section_id" cascade="save-update">
+         </many-to-one>
+		<property name="itemOid" type="java.lang.Long">
+			<column name="item_oid" />
+		</property>
+		<property name="itemName" type="java.lang.String">
+			<column name="item_name" />
+		</property>
+		<property name="itemCaption" type="java.lang.String">
+			<column name="item_caption" />
+		</property>
+		<property name="left" type="java.lang.Integr">
+			<column name="left" />
+		</property>
+		<property name="top" type="java.lang.Integr">
+			<column name="top" />
+		</property>
+		<property name="width" type="java.lang.Integr">
+			<column name="width" />
+		</property>
+		<property name="height" type="java.lang.Integr">
+			<column name="height" />
+		</property>
+		<property name="fullScore" type="java.lang.Float">
+			<column name="full_score" />
+		</property>
+		<property name="validscoredot" type="java.lang.Float">
+			<column name="validscoredot" />
+		</property>
+		
+	</class>
+</hibernate-mapping>
