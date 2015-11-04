@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-11-3 13:21:23 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.easytnt.grading.domain.exam.ExamDesc" table="EXAMDESC">
+        <id name="id" type="java.lang.Long">
+            <column name="ID" />
+            <generator class="identity" />
+        </id>
+        <property name="name" type="java.lang.String">
+            <column name="NAME" />
+        </property>
+        <property name="from" type="java.util.Date">
+            <column name="FROM" />
+        </property>
+        <property name="to" type="java.util.Date">
+            <column name="TO" />
+        </property>
+    </class>
+</hibernate-mapping>
