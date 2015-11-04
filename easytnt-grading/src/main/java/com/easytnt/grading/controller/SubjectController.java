@@ -14,7 +14,7 @@ import com.easytnt.grading.service.SubjectService;
 
 @Controller
 @RequestMapping(value = "/subject")
-public class SubjectController extends BaseAction{
+public class SubjectController{
 	private static Logger logger = LoggerFactory.getLogger(SubjectController.class);
 
 	private SubjectService subjectservice;
