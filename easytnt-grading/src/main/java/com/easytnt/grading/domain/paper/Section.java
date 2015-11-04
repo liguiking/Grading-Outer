@@ -15,6 +15,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.easytnt.commons.entity.share.ValueObject;
 import com.easytnt.grading.domain.exam.Subject;
+import com.easytnt.grading.domain.share.Area;
 
 /**
  * <pre>
@@ -43,6 +44,8 @@ public class Section implements ValueObject<Section>{
 
 	private ExamPaper paper;
 
+	private Long sectionOid;
+	
 	private Section parentSection;
 
 	private List<Section> subSection;
@@ -53,9 +56,15 @@ public class Section implements ValueObject<Section>{
 
 	private String caption;
 	
+	private String maxPinci;
+	
 	private Float fullScore;
 
 	private List<Item> items;
+	
+	private Float maxerror;
+	
+	private Area area;
 
 	public void addItem(Item item) {
 		init();
@@ -181,6 +190,38 @@ public class Section implements ValueObject<Section>{
 
 	public void setSubject(Subject subject) {
 		this.subject = subject;
+	}
+
+	public Long getSectionOid() {
+		return sectionOid;
+	}
+
+	public void setSectionOid(Long sectionOid) {
+		this.sectionOid = sectionOid;
+	}
+
+	public String getMaxPinci() {
+		return maxPinci;
+	}
+
+	public void setMaxPinci(String maxPinci) {
+		this.maxPinci = maxPinci;
+	}
+
+	public Float getMaxerror() {
+		return maxerror;
+	}
+
+	public void setMaxerror(Float maxerror) {
+		this.maxerror = maxerror;
+	}
+
+	public Area getArea() {
+		return area;
+	}
+
+	public void setArea(Area area) {
+		this.area = area;
 	}
 	
 }

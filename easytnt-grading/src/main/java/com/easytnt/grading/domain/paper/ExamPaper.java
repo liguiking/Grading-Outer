@@ -12,6 +12,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.easytnt.commons.entity.share.Entity;
+import com.easytnt.grading.domain.exam.SubjectExam;
 
 /** 
  * <pre>
@@ -25,11 +26,15 @@ public class ExamPaper implements Entity<ExamPaper> {
 
 	private String name;
 	
-	private PaperType paperType;
+	private String paperType;
 	
 	private Long paperId;
 	
+	private Long paperOid;
+	
 	private List<Section> sections;
+	
+	private List<SubjectExam> subjectExam;
 	
 	private Float fullScore;
 	
@@ -97,12 +102,28 @@ public class ExamPaper implements Entity<ExamPaper> {
 		this.fullScore = fullScore;
 	}
 
-	public PaperType getPaperType() {
+	public String getPaperType() {
 		return paperType;
 	}
 
-	public void setPaperType(PaperType paperType) {
+	public void setPaperType(String paperType) {
 		this.paperType = paperType;
+	}
+
+	public Long getPaperOid() {
+		return paperOid;
+	}
+
+	public void setPaperOid(Long paperOid) {
+		this.paperOid = paperOid;
+	}
+
+	public List<SubjectExam> getSubjectExam() {
+		return subjectExam;
+	}
+
+	public void setSubjectExam(List<SubjectExam> subjectExam) {
+		this.subjectExam = subjectExam;
 	}
 	
 }

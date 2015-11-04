@@ -1,3 +1,4 @@
+//test
 ({
 	appDir:'./src/main/webapp',
 	baseUrl:'./script',

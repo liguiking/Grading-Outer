@@ -24,6 +24,8 @@ import com.easytnt.grading.domain.share.Area;
 public class Item implements ValueObject<Item> {
 
 	private String title;
+	
+	private Long itemOid;
 
 	private String caption;
 
@@ -192,4 +194,12 @@ public class Item implements ValueObject<Item> {
 		this.fullScore = fullScore;
 	}
 
+	public Long getItemOid() {
+		return itemOid;
+	}
+
+	public void setItemOid(Long itemOid) {
+		this.itemOid = itemOid;
+	}
+	
 }

@@ -19,8 +19,11 @@ import com.easytnt.commons.entity.share.ValueObject;
  * @version 1.0
  **/
 public class PaperType implements ValueObject<PaperType>{
-
-	private int typeValue;
+	private Long prodictId;
+	
+	private String prodictCatagory;
+	
+	private String typeValue;
 	
 	private String typeName;
 	
@@ -56,11 +59,11 @@ public class PaperType implements ValueObject<PaperType>{
 		
 	}
 
-	public int getTypeValue() {
+	public String getTypeValue() {
 		return typeValue;
 	}
 
-	public void setTypeValue(int typeValue) {
+	public void setTypeValue(String typeValue) {
 		this.typeValue = typeValue;
 	}
 
@@ -72,6 +75,22 @@ public class PaperType implements ValueObject<PaperType>{
 		this.typeName = typeName;
 	}
 
+	public Long getProdictId() {
+		return prodictId;
+	}
+
+	public void setProdictId(Long prodictId) {
+		this.prodictId = prodictId;
+	}
+
+	public String getProdictCatagory() {
+		return prodictCatagory;
+	}
+
+	public void setProdictCatagory(String prodictCatagory) {
+		this.prodictCatagory = prodictCatagory;
+	}
+	
 }
 
 
