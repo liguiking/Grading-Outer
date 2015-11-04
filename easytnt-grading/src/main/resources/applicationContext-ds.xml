@@ -86,7 +86,7 @@
 		</property>
 		<property name="mappingResources">
 			<list>
-				 <value>hibernate/mapping/Subject.hbm.xml</value>
+				 <value>hibernate/mapping/exam/Subject.hbm.xml</value>
 				 <value>hibernate/mapping/Exam.hbm.xml</value>
 				 <value>hibernate/mapping/paper/ExamPaper.hbm.xml</value>
 				 <value>hibernate/mapping/paper/item.hbm.xml</value>
