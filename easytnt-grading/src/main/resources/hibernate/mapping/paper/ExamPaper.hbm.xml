@@ -22,10 +22,6 @@
             <one-to-many class="com.easytnt.grading.domain.paper.Section"/>
         </set>
         
-		<set name="subjectExam" table="test_used_paper" inverse="true" cascade="none">
-            <key column="paper_id"></key>
-            <many-to-many class="com.easytnt.grading.domain.exam.SubjectExam" column="test_id"></many-to-many>
-        </set>
 		<property name="fullScore" type="java.lang.Float">
 			<column name="full_score" />
 		</property>

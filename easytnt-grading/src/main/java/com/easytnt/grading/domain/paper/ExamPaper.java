@@ -34,7 +34,6 @@ public class ExamPaper implements Entity<ExamPaper> {
 	
 	private List<Section> sections;
 	
-	private List<SubjectExam> subjectExam;
 	
 	private Float fullScore;
 	
@@ -117,14 +116,5 @@ public class ExamPaper implements Entity<ExamPaper> {
 	public void setPaperOid(Long paperOid) {
 		this.paperOid = paperOid;
 	}
-
-	public List<SubjectExam> getSubjectExam() {
-		return subjectExam;
-	}
-
-	public void setSubjectExam(List<SubjectExam> subjectExam) {
-		this.subjectExam = subjectExam;
-	}
-	
 }
 
