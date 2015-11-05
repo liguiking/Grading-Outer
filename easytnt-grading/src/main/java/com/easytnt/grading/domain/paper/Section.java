@@ -72,6 +72,10 @@ public class Section implements ValueObject<Section>{
 		init();
 		if(this.sectionOid!=null)
 			item.setItemOid(this.sectionOid+this.items.size()+1);
+		if (item.getFullScore() == null
+				|| item.getFullScore() > this.fullScore) {
+			throw new UnsupportedOperationException();
+		}
 		this.items.add(item);
 	}
 	private void init() {

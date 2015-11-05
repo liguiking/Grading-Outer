@@ -7,6 +7,7 @@ package com.easytnt.grading.domain.paper;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -55,6 +56,10 @@ public class ExamPaper implements Entity<ExamPaper> {
 		init();
 		if(this.paperOid!=null)
 			section.setSectionOid(this.paperOid+this.sections.size()+1);
+		if (section.getFullScore() == null
+				|| section.getFullScore() > this.fullScore) {
+			throw new UnsupportedOperationException();
+		}
 		this.sections.add(section);
 	}
 	public void updateSections(Section section){
@@ -70,6 +75,25 @@ public class ExamPaper implements Entity<ExamPaper> {
 	public void clearSections(){
 		init();
 		this.sections.clear();
+	}
+	public void finish(){
+		Iterator<Section> iterSection =  sections.iterator();
+		while(iterSection.hasNext()){
+			Section section = iterSection.next();
+			if (section.getFullScore() == null
+					|| section.getFullScore() > this.fullScore) {
+				throw new UnsupportedOperationException();
+			}
+			Iterator<Item> iterItem =  section.getItems().iterator();
+			while(iterItem.hasNext()){
+				Item item = iterItem.next();
+				if (item.getFullScore() == null
+						|| item.getFullScore() > section.getFullScore()) {
+					throw new UnsupportedOperationException();
+				}
+				
+			}
+		}
 	}
 	@Override
 	public int hashCode() {
