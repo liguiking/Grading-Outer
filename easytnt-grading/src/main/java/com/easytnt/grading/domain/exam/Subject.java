@@ -30,15 +30,13 @@ public class Subject implements ValueObject<Subject> {
 	private static final long serialVersionUID = 1L;
 	
 	
-	private String name;
+	private String subject_name;
 
-	private int code;
-
-	private Set<Subject> composings;
+	private int subject_code;
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(this.name).append(this.code).append(this.composings).toHashCode();
+		return new HashCodeBuilder().append(this.subject_name).append(this.subject_code).toHashCode();
 	}
 
 	@Override
@@ -47,12 +45,12 @@ public class Subject implements ValueObject<Subject> {
 			return false;
 		Subject other = (Subject) o;
 
-		return new EqualsBuilder().append(this.name, other.name).append(this.code, other.code).append(this.code, other.code).isEquals();
+		return new EqualsBuilder().append(this.subject_name, other.subject_name).append(this.subject_code, other.subject_code).append(this.subject_code, other.subject_code).isEquals();
 	}
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this).append(this.name).append(this.code).build();
+		return new ToStringBuilder(this).append(this.subject_name).append(this.subject_code).build();
 	}
 
 	@Override
@@ -64,38 +62,30 @@ public class Subject implements ValueObject<Subject> {
 	public Subject() {
 	}
 	
-	private Long id;
+	private Long subject_id;
 
-	public String getName() {
-		return name;
+	public String getSubject_name() {
+		return subject_name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setSubject_name(String subject_name) {
+		this.subject_name = subject_name;
 	}
 
-	public int getCode() {
-		return code;
+	public int getSubject_code() {
+		return subject_code;
 	}
 
-	public void setCode(int code) {
-		this.code = code;
+	public void setSubject_code(int subject_code) {
+		this.subject_code = subject_code;
 	}
 
-	public Set<Subject> getComposings() {
-		return composings;
+	public Long getSubject_id() {
+		return subject_id;
 	}
 
-	public void setComposings(Set<Subject> composings) {
-		this.composings = composings;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
+	public void setSubject_id(Long subject_id) {
+		this.subject_id = subject_id;
 	}
 
 }

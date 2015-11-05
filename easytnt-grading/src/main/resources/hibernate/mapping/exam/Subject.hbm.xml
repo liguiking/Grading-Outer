@@ -4,14 +4,14 @@
 <!-- Generated 2015-11-3 17:01:59 by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
     <class name="com.easytnt.grading.domain.exam.Subject" table="SUBJECT">
-        <id name="id" type="java.lang.Long">
+        <id name="subject_id" type="java.lang.Long">
             <column name="subject_id" />
             <generator class="identity" />
         </id>
-        <property name="name" type="java.lang.String">
+        <property name="subject_name" type="java.lang.String">
             <column name="subject_name" />
         </property>
-        <property name="code" type="int">
+        <property name="subject_code" type="int">
             <column name="subject_code" />
         </property>
     </class>

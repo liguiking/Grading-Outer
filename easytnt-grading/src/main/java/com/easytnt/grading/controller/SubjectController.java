@@ -31,15 +31,15 @@ public class SubjectController {
 					throws Exception {
 		logger.debug("URL /sub Method POST ", sub);
 		subjectService.create(sub);
-		return ModelAndViewFactory.newModelAndViewFor("/editSub").build();
+		return ModelAndViewFactory.newModelAndViewFor("/subject/editSubjectPaper").build();
 	}
 	//根据id查询科目
 	@RequestMapping(value = "/{subId}", method = RequestMethod.GET)
-	public ModelAndView onViewSubject(@PathVariable Long id)
+	public ModelAndView onViewSubject(@PathVariable Long subId)
 					throws Exception {
-		logger.debug("URL /id/{} Method Get ", id);
-		Subject subject = subjectService.load(id);
-		return ModelAndViewFactory.newModelAndViewFor("/load").with("subject",subject).build();
+		logger.debug("URL /subId/{} Method Get ", subId);
+		Subject subject = subjectService.load(subId);
+		return ModelAndViewFactory.newModelAndViewFor("/subject/editSubjectPaper").with("subject",subject).build();
 	}
 	
 	//更新科目
@@ -48,7 +48,7 @@ public class SubjectController {
 					throws Exception {
 		logger.debug("URL /subject Method PUT ", sub);
 		subjectService.update(sub);
-		return ModelAndViewFactory.newModelAndViewFor("/updateSub").build();
+		return ModelAndViewFactory.newModelAndViewFor("/subject/editSubjectPaper").build();
 	}
 	//删除科目
 	@RequestMapping(method = RequestMethod.DELETE)
@@ -65,7 +65,7 @@ public class SubjectController {
 		logger.debug("URL /subject/query/{}/{} Method GET ", page,size);
         Query<Subject> query = new QueryBuilder().newQuery(page,size,request.getParameterMap());
         subjectService.query(query);
-		return ModelAndViewFactory.newModelAndViewFor("/listSub").with("result",query.getResults())
+		return ModelAndViewFactory.newModelAndViewFor("/subject/listSubjectPaper").with("result",query.getResults())
 				.with("totalPage",query.getTotalPage()).build();
 	}
 }
