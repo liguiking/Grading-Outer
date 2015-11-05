@@ -1,23 +1,14 @@
 package com.easytnt.grading.domain.paper;
 
-import static org.junit.Assert.*;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
-import org.hibernate.SQLQuery;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.easytnt.grading.domain.exam.Subject;
-import com.easytnt.grading.domain.paper.ExamPaper;
-import com.easytnt.grading.domain.paper.Item;
-import com.easytnt.grading.domain.paper.PaperType;
-import com.easytnt.grading.domain.paper.Section;
 import com.easytnt.grading.domain.share.Area;
-import com.easytnt.test.repository.AbstractHibernateTest;
 
-public class ExamPaperTest extends AbstractHibernateTest{
+public class ExamPaperTest {
 
 	
 
