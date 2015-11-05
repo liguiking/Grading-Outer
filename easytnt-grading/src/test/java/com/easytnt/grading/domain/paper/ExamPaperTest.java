@@ -1,6 +1,6 @@
 package com.easytnt.grading.domain.paper;
 
-
+import static org.junit.Assert.*;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -58,5 +58,20 @@ public class ExamPaperTest extends AbstractHibernateTest{
 		item1.setValidValues(new Float[]{1f,2f});
 		section1.addItem(item1);
 		
+	}
+	
+	@Test
+	public void testAddSection()throws Exception{
+		ExamPaper examPaper = new ExamPaper();
+		examPaper.setName("考卷1");
+		examPaper.setPaperOid(1000l);
+		examPaper.setFullScore(10f);
+		
+		Section section1 = new Section();
+		section1.setFullScore(5f);
+		examPaper.addSections(section1);
+		assertNotNull(examPaper.getSections());
+		assertTrue(section1.getPaper().equals(examPaper));
+		assertTrue(section1.getSectionOid()==100001l);
 	}
 }
