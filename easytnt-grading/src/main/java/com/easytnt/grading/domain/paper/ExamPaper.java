@@ -54,18 +54,28 @@ public class ExamPaper implements Entity<ExamPaper> {
 	}
 	public void addSections(Section section){
 		init();
+		if(section.getFullScore()==null){
+			throw new UnsupportedOperationException("试题分数为空");
+		}
 		if(this.paperOid!=null)
-			section.setSectionOid(this.paperOid+this.sections.size()+1);
-		if (section.getFullScore() == null
-				|| section.getFullScore() > this.fullScore) {
+			section.setSectionOid(this.paperOid*100+this.sections.size()+1);
+		section.setPaper(this);
+		this.sections.add(section);
+		Iterator<Section> iterSection =  sections.iterator();
+		float fullScores = 0;
+		while(iterSection.hasNext()){
+			Section temp = iterSection.next();
+			fullScores+=temp.getFullScore();
+		}
+		if(fullScores>this.fullScore){
 			throw new UnsupportedOperationException("试题分数大于试卷分数");
 		}
-		this.sections.add(section);
+		
 	}
 	public void updateSections(Section section){
 		init();
 		this.sections.remove(section);
-		this.sections.add(section);
+		addSections(section);
 	}
 	public void removeSections(Section section){
 		init();
@@ -78,21 +88,22 @@ public class ExamPaper implements Entity<ExamPaper> {
 	}
 	public void finish(){
 		Iterator<Section> iterSection =  sections.iterator();
+		float sectionFullScores=0;
 		while(iterSection.hasNext()){
 			Section section = iterSection.next();
-			if (section.getFullScore() == null
-					|| section.getFullScore() > this.fullScore) {
-				throw new UnsupportedOperationException();
-			}
+			sectionFullScores+=section.getFullScore();
 			Iterator<Item> iterItem =  section.getItems().iterator();
+			float itemFullScores=0;
 			while(iterItem.hasNext()){
 				Item item = iterItem.next();
-				if (item.getFullScore() == null
-						|| item.getFullScore() > section.getFullScore()) {
-					throw new UnsupportedOperationException();
-				}
-				
+				itemFullScores+=item.getFullScore();
 			}
+			if(itemFullScores>section.getFullScore()){
+				throw new UnsupportedOperationException("给分点大于试题分数");
+			}
+		}
+		if(sectionFullScores>this.fullScore){
+			throw new UnsupportedOperationException("试题分数大于试卷分数");
 		}
 	}
 	@Override

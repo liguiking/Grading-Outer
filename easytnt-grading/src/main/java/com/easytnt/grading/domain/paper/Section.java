@@ -8,6 +8,7 @@ package com.easytnt.grading.domain.paper;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -70,13 +71,23 @@ public class Section implements ValueObject<Section>{
 
 	public void addItem(Item item) {
 		init();
-		if(this.sectionOid!=null)
-			item.setItemOid(this.sectionOid+this.items.size()+1);
-		if (item.getFullScore() == null
-				|| item.getFullScore() > this.fullScore) {
-			throw new UnsupportedOperationException();
+		if (item.getFullScore() == null) {
+			throw new UnsupportedOperationException("给分点为空");
 		}
+		if(this.sectionOid!=null)
+			item.setItemOid(this.sectionOid*1000+this.items.size()+1);
+		item.setSection(this);
 		this.items.add(item);
+		Iterator<Item> iterItem =  items.iterator();
+		float fullScores = 0;
+		while(iterItem.hasNext()){
+			Item temp = iterItem.next();
+			fullScores+=temp.getFullScore();
+		}
+		if(fullScores>this.fullScore){
+			throw new UnsupportedOperationException("给分点大于试题分数");
+		}
+		
 	}
 	private void init() {
 		if (this.items == null) {
