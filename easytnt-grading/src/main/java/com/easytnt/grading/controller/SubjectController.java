@@ -1,39 +1,71 @@
 package com.easytnt.grading.controller;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.easytnt.commons.entity.cqrs.Query;
+import com.easytnt.commons.entity.cqrs.QueryBuilder;
+import com.easytnt.commons.web.view.ModelAndViewFactory;
 import com.easytnt.grading.domain.exam.Subject;
 import com.easytnt.grading.service.SubjectService;
 
 @Controller
 @RequestMapping(value = "/subject")
-public class SubjectController{
+public class SubjectController {
 	private static Logger logger = LoggerFactory.getLogger(SubjectController.class);
 
-	private SubjectService subjectservice;
-
-	public SubjectService getSubjectservice() {
-		return subjectservice;
-	}
-	//将服务层注入控制器中
-	@Autowired
-	public void setSubjectservice(SubjectService subjectservice) {
-		this.subjectservice = subjectservice;
-	}
-
-	@SuppressWarnings("unused")
-	private List<Subject> Sublist = new ArrayList<Subject>();
+	@Autowired(required = false)
+	private SubjectService subjectService;
 	
-	public String getSub() {
-		logger.info("获取科目");
-		Sublist = subjectservice.getSubser();
-		return null;
+	@RequestMapping(method = RequestMethod.POST)
+	public ModelAndView onCreateSubject(@RequestBody Subject sub)
+					throws Exception {
+		logger.debug("URL /sub Method POST ", sub);
+		subjectService.create(sub);
+		return ModelAndViewFactory.newModelAndViewFor("/editSub").build();
+	}
+	//根据id查询科目
+	@RequestMapping(value = "/{subId}", method = RequestMethod.GET)
+	public ModelAndView onViewSubject(@PathVariable Long id)
+					throws Exception {
+		logger.debug("URL /id/{} Method Get ", id);
+		Subject subject = subjectService.load(id);
+		return ModelAndViewFactory.newModelAndViewFor("/load").with("subject",subject).build();
+	}
+	
+	//更新科目
+	@RequestMapping(method = RequestMethod.PUT)
+	public ModelAndView onUpdateSubject(@RequestBody Subject sub)
+					throws Exception {
+		logger.debug("URL /subject Method PUT ", sub);
+		subjectService.update(sub);
+		return ModelAndViewFactory.newModelAndViewFor("/updateSub").build();
+	}
+	//删除科目
+	@RequestMapping(method = RequestMethod.DELETE)
+	public ModelAndView onDeleteSubject(@RequestBody Subject sub)
+					throws Exception {
+		logger.debug("URL /subject Method DELETE ", sub);
+		subjectService.delete(sub);
+		return ModelAndViewFactory.newModelAndViewFor().build();
+	}
+	//分页获取科目
+	@RequestMapping(value="/query/{page}/{size}",method = RequestMethod.GET)
+	public ModelAndView onDeleteSubject(@PathVariable int page,@PathVariable int size,HttpServletRequest request)
+					throws Exception {
+		logger.debug("URL /subject/query/{}/{} Method GET ", page,size);
+        Query<Subject> query = new QueryBuilder().newQuery(page,size,request.getParameterMap());
+        subjectService.query(query);
+		return ModelAndViewFactory.newModelAndViewFor("/listSub").with("result",query.getResults())
+				.with("totalPage",query.getTotalPage()).build();
 	}
 }

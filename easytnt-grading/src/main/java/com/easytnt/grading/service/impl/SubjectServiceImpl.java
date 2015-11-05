@@ -1,12 +1,14 @@
 package com.easytnt.grading.service.impl;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.easytnt.commons.entity.cqrs.Query;
+import com.easytnt.commons.entity.service.AbstractEntityService;
+import com.easytnt.grading.domain.exam.Exam;
 import com.easytnt.grading.domain.exam.Subject;
+import com.easytnt.grading.repository.ExamRepository;
 import com.easytnt.grading.repository.SubjectRepository;
 import com.easytnt.grading.service.SubjectService;
 /**
@@ -16,83 +18,31 @@ import com.easytnt.grading.service.SubjectService;
  *
  */
 @Service
-public class SubjectServiceImpl implements SubjectService {
-
-	private SubjectRepository subjectrepository;
+public class SubjectServiceImpl  extends AbstractEntityService<Subject, Long> implements SubjectService {
+	@SuppressWarnings("unused")
+	private SubjectRepository subjectRepository;
 	
-	public SubjectRepository getSubjectrepository() {
-		return subjectrepository;
+	public SubjectServiceImpl() {
+		
 	}
-
-	//将dao层注入服务层
+	
 	@Autowired
-	public void setSubjectrepository(SubjectRepository subjectrepository) {
-		this.subjectrepository = subjectrepository;
+	public void setRepository(SubjectRepository  repository) {
+		this.subjectRepository = repository;
+		super.setRepository(repository);
 	}
-
-	/***************************** 定义接口实现 **************************************/
-	// 科目新增
-	@Override
-	public void insertSubser() {
-		// TODO Auto-generated method stub
-
-	}
-
-	// 科目删除
-	@Override
-	public void deleteSubser() {
-		// TODO Auto-generated method stub
-
-	}
-
-	// 科目修改
-	@Override
-	public void updateSubser() {
-		// TODO Auto-generated method stub
-
-	}
-
-	// 获取科目
-	@Override
-	public List<Subject> getSubser() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/************************* 系统生成方法 ***********************************/
+	
 	@Override
 	public Subject load(Long pk) {
-		// TODO Auto-generated method stub
-		return null;
+		Subject subject =  new Subject();
+		//subject.setName("subject");
+		return subject;
 	}
 
-	@Override
-	public void create(Subject t) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void update(Subject t) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void delete(Subject t) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public List<Subject> list() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	@Transactional(readOnly=true)
 	@Override
 	public void query(Query<Subject> query) {
 		// TODO Auto-generated method stub
-
 	}
+
 }
