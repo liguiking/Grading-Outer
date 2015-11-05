@@ -58,7 +58,7 @@ public class ExamPaper implements Entity<ExamPaper> {
 			section.setSectionOid(this.paperOid+this.sections.size()+1);
 		if (section.getFullScore() == null
 				|| section.getFullScore() > this.fullScore) {
-			throw new UnsupportedOperationException();
+			throw new UnsupportedOperationException("试题分数大于试卷分数");
 		}
 		this.sections.add(section);
 	}
