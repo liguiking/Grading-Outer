@@ -26,13 +26,15 @@ public class ExamPaper implements Entity<ExamPaper> {
 
 	private String name;
 	
-	private String paperType;
+	private PaperType paperType;
 	
 	private Long paperId;
 	
 	private Long paperOid;
 	
 	private List<Section> sections;
+	
+	private List<SubjectExam> subjectExam;
 	
 	
 	private Float fullScore;
@@ -101,11 +103,11 @@ public class ExamPaper implements Entity<ExamPaper> {
 		this.fullScore = fullScore;
 	}
 
-	public String getPaperType() {
+	public PaperType getPaperType() {
 		return paperType;
 	}
 
-	public void setPaperType(String paperType) {
+	public void setPaperType(PaperType paperType) {
 		this.paperType = paperType;
 	}
 
@@ -116,5 +118,14 @@ public class ExamPaper implements Entity<ExamPaper> {
 	public void setPaperOid(Long paperOid) {
 		this.paperOid = paperOid;
 	}
+
+	public List<SubjectExam> getSubjectExam() {
+		return subjectExam;
+	}
+
+	public void setSubjectExam(List<SubjectExam> subjectExam) {
+		this.subjectExam = subjectExam;
+	}
+	
 }
 

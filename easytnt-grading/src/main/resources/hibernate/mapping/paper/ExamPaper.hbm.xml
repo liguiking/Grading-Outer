@@ -17,11 +17,17 @@
 			<column name="paper_name" />
 		</property>
 		
+		<one-to-one name="paperType" class="com.easytnt.grading.domain.paper.PaperType"
+				fetch="select" cascade="none" constrained="true"></one-to-one>
+		
 		<set name="sections" inverse="true" cascade="all">
             <key column="section_id" ></key>
             <one-to-many class="com.easytnt.grading.domain.paper.Section"/>
         </set>
-        
+        <set name="subjectExam" table="test_used_paper" inverse="true" cascade="none">
+            <key column="paper_id"></key>
+            <many-to-many class="com.easytnt.grading.domain.exam.SubjectExam" column="test_id"></many-to-many>
+        </set>
 		<property name="fullScore" type="java.lang.Float">
 			<column name="full_score" />
 		</property>
