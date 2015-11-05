@@ -37,7 +37,6 @@ public class Item implements ValueObject<Item> {
 	
 	private Float[] validValues;
 	
-	private String validscoredot;
 	
 	public Item(String title,Float fullScore) {
 		this.title = title;
@@ -64,15 +63,16 @@ public class Item implements ValueObject<Item> {
 			this.validValues = scores;
 		}
 	}
-	public void genValidscoredot(Float[] validValues) {
+	public String genValidscoredot(Float[] validValues) {
 		if(validValues.length > 0) {
 			StringBuffer sb = new StringBuffer();
 			for(Float value:validValues) {
 				sb.append(value).append(",");
 			}
 			sb.deleteCharAt(sb.length()-1);
-			this.validscoredot = sb.toString();
+			return sb.toString();
 		}
+		return null;
 	}
 
 	public Float getMinPoint() {
@@ -91,8 +91,7 @@ public class Item implements ValueObject<Item> {
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder()
-				.append(this.title).append(this.fullScore).toHashCode();
+		return new HashCodeBuilder().append(this.itemOid).toHashCode();
 	}
 
 	@Override
@@ -101,8 +100,8 @@ public class Item implements ValueObject<Item> {
 			return false;
 		
 		Item other = (Item) o;
-		return new EqualsBuilder().append(this.title, other.title)
-				.append(this.fullScore, other.fullScore).isEquals();
+		return new EqualsBuilder()
+				.append(this.itemOid, other.itemOid).isEquals();
 	}
 
 	@Override
@@ -131,14 +130,6 @@ public class Item implements ValueObject<Item> {
 		
 		public Builder validValues(Float[] validValues) {
 			this.item.validValues = validValues;
-			if(validValues.length > 0) {
-				StringBuffer sb = new StringBuffer();
-				for(Float value:validValues) {
-					sb.append(value).append(",");
-				}
-				sb.deleteCharAt(sb.length()-1);
-				this.item.validscoredot = sb.toString();
-			}
 			return this;
 		}
 		
@@ -225,12 +216,11 @@ public class Item implements ValueObject<Item> {
 	}
 
 	public String getValidscoredot() {
-		return validscoredot;
+		return genValidscoredot(this.validValues);
 	}
 
 	public void setValidscoredot(String validscoredot) {
 		genValidValues(validscoredot);
-		this.validscoredot = validscoredot;
 	}
 
 	public Section getSection() {

@@ -21,7 +21,7 @@ import com.easytnt.grading.domain.paper.Section;
 import com.easytnt.grading.service.ExamPaperService;
 
 @Controller
-@RequestMapping(value = "/testPaper")
+@RequestMapping(value = "/examPaper")
 public class ExamPaperController {
 	private static Logger logger = LoggerFactory.getLogger(ExamPaperController.class);
 
@@ -29,49 +29,49 @@ public class ExamPaperController {
 	private ExamPaperService examPaperService;
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public ModelAndView onCreateExam(@RequestBody ExamPaper examPaper)
+	public ModelAndView onCreateExamPaper(@RequestBody ExamPaper examPaper)
 					throws Exception {
-		logger.debug("URL /testPaper Method POST ", examPaper);
+		logger.debug("URL /examPaper Method POST ", examPaper);
 		examPaperService.create(examPaper);
 		return ModelAndViewFactory.newModelAndViewFor("/examPaper/editExamPaper").build();
 	}
 	
 	@RequestMapping(value = "/{examPaperId}", method = RequestMethod.GET)
-	public ModelAndView onViewExam(@PathVariable Long examPaperId)
+	public ModelAndView onViewExamPaper(@PathVariable Long examPaperId)
 					throws Exception {
-		logger.debug("URL /testPaperId/{} Method Get ", examPaperId);
+		logger.debug("URL /examPaperId/{} Method Get ", examPaperId);
 		ExamPaper examPaper = examPaperService.load(examPaperId);
 		return ModelAndViewFactory.newModelAndViewFor("/examPaper/editExamPaper").with("examPaper",examPaper).build();
 	}
 	
 	@RequestMapping(method = RequestMethod.PUT)
-	public ModelAndView onUpdateExam(@RequestBody ExamPaper examPaper)
+	public ModelAndView onUpdateExamPaper(@RequestBody ExamPaper examPaper)
 					throws Exception {
-		logger.debug("URL /testPaper Method PUT ", examPaper);
+		logger.debug("URL /examPaper Method PUT ", examPaper);
 		examPaperService.update(examPaper);
 		return ModelAndViewFactory.newModelAndViewFor("/examPaper/editExamPaper").build();
 	}
 	
 	@RequestMapping(method = RequestMethod.DELETE)
-	public ModelAndView onDeleteExam(@RequestBody ExamPaper examPaper)
+	public ModelAndView onDeleteExamPaper(@RequestBody ExamPaper examPaper)
 					throws Exception {
-		logger.debug("URL /testPaper Method DELETE ", examPaper);
+		logger.debug("URL /examPaper Method DELETE ", examPaper);
 		examPaperService.delete(examPaper);
 		return ModelAndViewFactory.newModelAndViewFor().build();
 	}
 	
-	@RequestMapping(value="/{paperId}/section",method = RequestMethod.POST)
+	@RequestMapping(value="/{examPaperId}/section",method = RequestMethod.POST)
 	public ModelAndView onAddSection(@PathVariable Long paperId,@RequestBody Section section)
 					throws Exception {
-		logger.debug("URL /testPaper Method DELETE ", section);
+		logger.debug("URL /examPaper Method DELETE ", section);
 		examPaperService.addSectionFor(paperId,section);
 		return ModelAndViewFactory.newModelAndViewFor().build();
 	}
 	
-	@RequestMapping(value="/{paperId}/section",method = RequestMethod.PUT)
+	@RequestMapping(value="/{examPaperId}/section",method = RequestMethod.PUT)
 	public ModelAndView onUpdateSection(@PathVariable Long paperId,@RequestBody Section section)
 					throws Exception {
-		logger.debug("URL /testPaper Method U ", section);
+		logger.debug("URL /examPaper Method U ", section);
 		examPaperService.updateSectionFor(paperId,section);
 		return ModelAndViewFactory.newModelAndViewFor().build();
 	}
@@ -79,15 +79,15 @@ public class ExamPaperController {
 	@RequestMapping(value="/{paperId}/section",method = RequestMethod.DELETE)
 	public ModelAndView onRemoveSection(@PathVariable Long paperId,@RequestBody Section section)
 					throws Exception {
-		logger.debug("URL /testPaper Method U ", section);
+		logger.debug("URL /examPaper Method U ", section);
 		examPaperService.deleteSectionFor(paperId,section);
 		return ModelAndViewFactory.newModelAndViewFor().build();
 	}
 	
 	@RequestMapping(value="/query/{page}/{size}",method = RequestMethod.GET)
-	public ModelAndView onDeleteExam(@PathVariable int page,@PathVariable int size,HttpServletRequest request)
+	public ModelAndView onDeleteExamPaper(@PathVariable int page,@PathVariable int size,HttpServletRequest request)
 					throws Exception {
-		logger.debug("URL /testPaper/query/{}/{} Method GET ", page,size);
+		logger.debug("URL /examPaper/query/{}/{} Method GET ", page,size);
         Query<ExamPaper> query = new QueryBuilder().newQuery(page,size,request.getParameterMap());
         examPaperService.query(query);
 		return ModelAndViewFactory.newModelAndViewFor("/examPaper/listExamPaper").with("result",query.getResults())

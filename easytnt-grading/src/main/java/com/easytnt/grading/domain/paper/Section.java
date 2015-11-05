@@ -70,25 +70,33 @@ public class Section implements ValueObject<Section>{
 
 	public void addItem(Item item) {
 		init();
+		if(this.sectionOid!=null)
+			item.setItemOid(this.sectionOid+this.items.size()+1);
 		this.items.add(item);
 	}
-	
-	public void addAllItems(Collection<Item> items) {
-		init();
-		this.items.addAll(items);
-	}
-	
 	private void init() {
 		if (this.items == null) {
 			this.items = new HashSet<Item>();
 		}
 	}
-
+	public void updateItems(Item item){
+		init();
+		this.items.remove(item);
+		this.items.add(item);
+	}
+	public void removeItems(Item item){
+		init();
+		item.setSection(null);
+		this.items.remove(item);
+	}
+	public void clearItems(){
+		init();
+		this.items.clear();
+	}
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(this.title)
-				.append(this.paper)
-				.append(this.parentSection)
+		return new HashCodeBuilder()
+				.append(this.sectionOid)
 				.toHashCode();
 	}
 
@@ -98,9 +106,8 @@ public class Section implements ValueObject<Section>{
 			return false;
 		Section other = (Section) o;
 
-		return new EqualsBuilder().append(this.title, other.title)
-				.append(this.paper,other.paper)
-				.append(this.parentSection, other.parentSection)
+		return new EqualsBuilder()
+				.append(this.sectionOid, other.sectionOid)
 				.isEquals();
 	}
 

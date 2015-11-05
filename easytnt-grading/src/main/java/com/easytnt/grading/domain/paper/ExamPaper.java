@@ -5,6 +5,8 @@
 
 package com.easytnt.grading.domain.paper;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -44,10 +46,34 @@ public class ExamPaper implements Entity<ExamPaper> {
 		this.name = name;
 		this.fullScore = fullScore;
 	}
-
+	private void init() {
+		if (this.sections == null) {
+			this.sections = new HashSet<Section>();
+		}
+	}
+	public void addSections(Section section){
+		init();
+		if(this.paperOid!=null)
+			section.setSectionOid(this.paperOid+this.sections.size()+1);
+		this.sections.add(section);
+	}
+	public void updateSections(Section section){
+		init();
+		this.sections.remove(section);
+		this.sections.add(section);
+	}
+	public void removeSections(Section section){
+		init();
+		section.setPaper(null);
+		this.sections.remove(section);
+	}
+	public void clearSections(){
+		init();
+		this.sections.clear();
+	}
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(this.paperId).toHashCode();
+		return new HashCodeBuilder().append(this.paperOid).toHashCode();
 	}
 	
     @Override
@@ -56,7 +82,7 @@ public class ExamPaper implements Entity<ExamPaper> {
 			return false;
 		ExamPaper other = (ExamPaper)o;
 		
-		return new EqualsBuilder().append(this.paperId,other.paperId).isEquals();
+		return new EqualsBuilder().append(this.paperOid,other.paperOid).isEquals();
 	}
 	
     @Override
