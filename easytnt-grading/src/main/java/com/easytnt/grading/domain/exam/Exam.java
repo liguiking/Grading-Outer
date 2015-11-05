@@ -20,6 +20,7 @@ import com.easytnt.commons.entity.share.Entity;
  * @version 1.0
  **/
 public class Exam implements Entity<Exam> {
+	private Long id;
 	
     private Long oid;
     
@@ -31,6 +32,10 @@ public class Exam implements Entity<Exam> {
 		this.oid = oid;
 	}
 
+	public void genOid(){
+		this.oid = System.currentTimeMillis();
+	}
+	
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder().append(this.oid).toHashCode();
@@ -76,6 +81,13 @@ public class Exam implements Entity<Exam> {
 		this.desc = desc;
 	}
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 	
 }
 
