@@ -15,6 +15,7 @@
 	http://www.springframework.org/schema/context/spring-context.xsd">
     
     <context:annotation-config />
+	 <context:component-scan base-package="com.easytnt.grading.controller"/>
 
     <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
 
@@ -52,7 +53,7 @@
 	</bean>
 	
     <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
-        <property name="templateLoaderPath" value="file:D:/github/Grading-outer/easytnt-grading-webapp/src/main/webapp/WEB-INF/ftl" />
+        <property name="templateLoaderPath" value="file:D:/workspace/Grading-Outer/easytnt-grading-webapp/src/main/webapp/WEB-INF/ftl" />
         <property name="freemarkerSettings" ref="freemarkerConfiguration" />
         <property name="freemarkerVariables">
             <map>

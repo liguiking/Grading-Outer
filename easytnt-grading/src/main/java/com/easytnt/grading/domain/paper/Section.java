@@ -7,7 +7,9 @@ package com.easytnt.grading.domain.paper;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -48,7 +50,7 @@ public class Section implements ValueObject<Section>{
 	
 	private Section parentSection;
 
-	private List<Section> subSection;
+	private Set<Section> subSection;
 	
 	private Subject subject;
 
@@ -60,7 +62,7 @@ public class Section implements ValueObject<Section>{
 	
 	private Float fullScore;
 
-	private List<Item> items;
+	private Set<Item> items;
 	
 	private Float maxerror;
 	
@@ -78,7 +80,7 @@ public class Section implements ValueObject<Section>{
 	
 	private void init() {
 		if (this.items == null) {
-			this.items = new ArrayList<>();
+			this.items = new HashSet<Item>();
 		}
 	}
 
@@ -144,11 +146,11 @@ public class Section implements ValueObject<Section>{
 		this.parentSection = parentSection;
 	}
 
-	public List<Section> getSubSection() {
+	public Set<Section> getSubSection() {
 		return subSection;
 	}
 
-	public void setSubSection(List<Section> subSection) {
+	public void setSubSection(Set<Section> subSection) {
 		this.subSection = subSection;
 	}
 
@@ -168,11 +170,11 @@ public class Section implements ValueObject<Section>{
 		this.caption = caption;
 	}
 
-	public List<Item> getItems() {
+	public Set<Item> getItems() {
 		return items;
 	}
 
-	public void setItems(List<Item> items) {
+	public void setItems(Set<Item> items) {
 		this.items = items;
 	}
 

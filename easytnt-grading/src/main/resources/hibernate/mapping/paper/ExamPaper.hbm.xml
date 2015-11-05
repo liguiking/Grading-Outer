@@ -10,15 +10,15 @@
 			<generator class="identity" />
 		</id>
 		<property name="paperOid" type="java.lang.Long">
-			<column name="paper_oid" />
+			<column name="taper_oid" />
 		</property>
 		
 		<property name="name" type="java.lang.String">
 			<column name="paper_name" />
 		</property>
-		
-		<one-to-one name="paperType" class="com.easytnt.grading.domain.paper.PaperType"
-				fetch="select" cascade="none" constrained="true"></one-to-one>
+		<component name="paperType" class="com.easytnt.grading.domain.paper.PaperType" lazy="true">
+            <property name="typeName" column="paper_type" type="java.lang.String"/>
+        </component>
 		
 		<set name="sections" inverse="true" cascade="all">
             <key column="section_id" ></key>

@@ -5,20 +5,14 @@
 <hibernate-mapping>
     <class name="com.easytnt.grading.domain.exam.Subject" table="SUBJECT">
         <id name="id" type="java.lang.Long">
-            <column name="id" />
+            <column name="subject_id" />
             <generator class="identity" />
         </id>
         <property name="name" type="java.lang.String">
-            <column name="name" />
+            <column name="subject_name" />
         </property>
         <property name="code" type="int">
-            <column name="code" />
+            <column name="subject_code" />
         </property>
-        <set name="composings" table="SUBJECT" inverse="false" lazy="true">
-            <key>
-                <column name="id" />
-            </key>
-            <one-to-many class="com.easytnt.grading.domain.exam.Subject" />
-        </set>
     </class>
 </hibernate-mapping>

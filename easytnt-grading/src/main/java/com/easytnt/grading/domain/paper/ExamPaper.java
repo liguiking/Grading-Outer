@@ -6,6 +6,7 @@
 package com.easytnt.grading.domain.paper;
 
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -32,9 +33,9 @@ public class ExamPaper implements Entity<ExamPaper> {
 	
 	private Long paperOid;
 	
-	private List<Section> sections;
+	private Set<Section> sections;
 	
-	private List<SubjectExam> subjectExam;
+	private Set<SubjectExam> subjectExam;
 	
 	
 	private Float fullScore;
@@ -87,11 +88,11 @@ public class ExamPaper implements Entity<ExamPaper> {
 		this.paperId = paperId;
 	}
 
-	public List<Section> getSections() {
+	public Set<Section> getSections() {
 		return sections;
 	}
 
-	public void setSections(List<Section> sections) {
+	public void setSections(Set<Section> sections) {
 		this.sections = sections;
 	}
 
@@ -119,11 +120,11 @@ public class ExamPaper implements Entity<ExamPaper> {
 		this.paperOid = paperOid;
 	}
 
-	public List<SubjectExam> getSubjectExam() {
+	public Set<SubjectExam> getSubjectExam() {
 		return subjectExam;
 	}
 
-	public void setSubjectExam(List<SubjectExam> subjectExam) {
+	public void setSubjectExam(Set<SubjectExam> subjectExam) {
 		this.subjectExam = subjectExam;
 	}
 	

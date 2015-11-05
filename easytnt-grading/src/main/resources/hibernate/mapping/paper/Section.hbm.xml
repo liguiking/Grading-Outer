@@ -23,7 +23,7 @@
 			<column name="section_name" />
 		</property>
 		
-		<property name="caption" type="java.lang.Long">
+		<property name="caption" type="java.lang.String">
 			<column name="section_caption" />
 		</property>
 		
@@ -40,7 +40,7 @@
 		</property>
 		 
 		 <component name="area" class="com.easytnt.grading.domain.share.Area" lazy="true">
-            <property name="left" column="left" type="java.lang.Integer"/>
+            <property name="left" column="[left]" type="java.lang.Integer"/>
             <property name="top" column="top" type="java.lang.Integer"/>
             <property name="width" column="width" type="java.lang.Integer"/>
             <property name="height" column="height" type="java.lang.Integer"/>

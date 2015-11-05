@@ -34,7 +34,7 @@ public class Area implements ValueObject<Area> {
 		this.width = width;
 		this.height = height;
 	}
-
+	public Area(){}
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder().append(this.left).append(this.top)

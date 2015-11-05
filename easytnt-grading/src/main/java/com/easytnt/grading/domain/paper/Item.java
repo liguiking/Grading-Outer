@@ -25,6 +25,8 @@ public class Item implements ValueObject<Item> {
 
 	private String title;
 	
+	private Section section;
+	
 	private Long itemOid;
 
 	private String caption;
@@ -34,6 +36,8 @@ public class Item implements ValueObject<Item> {
 	private Float fullScore;
 	
 	private Float[] validValues;
+	
+	private String validscoredot;
 	
 	public Item(String title,Float fullScore) {
 		this.title = title;
@@ -59,7 +63,16 @@ public class Item implements ValueObject<Item> {
 			
 			this.validValues = scores;
 		}
-		
+	}
+	public void genValidscoredot(Float[] validValues) {
+		if(validValues.length > 0) {
+			StringBuffer sb = new StringBuffer();
+			for(Float value:validValues) {
+				sb.append(value).append(",");
+			}
+			sb.deleteCharAt(sb.length()-1);
+			this.validscoredot = sb.toString();
+		}
 	}
 
 	public Float getMinPoint() {
@@ -118,6 +131,14 @@ public class Item implements ValueObject<Item> {
 		
 		public Builder validValues(Float[] validValues) {
 			this.item.validValues = validValues;
+			if(validValues.length > 0) {
+				StringBuffer sb = new StringBuffer();
+				for(Float value:validValues) {
+					sb.append(value).append(",");
+				}
+				sb.deleteCharAt(sb.length()-1);
+				this.item.validscoredot = sb.toString();
+			}
 			return this;
 		}
 		
@@ -174,6 +195,7 @@ public class Item implements ValueObject<Item> {
 	}
 
 	public void setValidValues(Float[] validValues) {
+		genValidscoredot(validValues);
 		this.validValues = validValues;
 	}
 
@@ -201,5 +223,23 @@ public class Item implements ValueObject<Item> {
 	public void setItemOid(Long itemOid) {
 		this.itemOid = itemOid;
 	}
+
+	public String getValidscoredot() {
+		return validscoredot;
+	}
+
+	public void setValidscoredot(String validscoredot) {
+		genValidValues(validscoredot);
+		this.validscoredot = validscoredot;
+	}
+
+	public Section getSection() {
+		return section;
+	}
+
+	public void setSection(Section section) {
+		this.section = section;
+	}
+	
 	
 }
