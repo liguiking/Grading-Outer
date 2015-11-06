@@ -69,25 +69,26 @@ public class Section implements ValueObject<Section>{
 	
 	private Area area;
 
+	public Section(ExamPaper examPaper){
+		this.paper = examPaper;
+		setOid();
+	}
+	public Section(ExamPaper examPaper,Float fullScore,String caption,String title){
+		this.paper = examPaper;
+		setOid();
+		this.fullScore = fullScore;
+		this.caption = caption;
+		this.title = title;
+	}
+	
 	public void addItem(Item item) {
 		init();
 		if (item.getFullScore() == null) {
 			throw new UnsupportedOperationException("给分点为空");
 		}
-		if(this.sectionOid!=null)
-			item.setItemOid(this.sectionOid*1000+this.items.size()+1);
 		item.setSection(this);
 		this.items.add(item);
-		Iterator<Item> iterItem =  items.iterator();
-		float fullScores = 0;
-		while(iterItem.hasNext()){
-			Item temp = iterItem.next();
-			fullScores+=temp.getFullScore();
-		}
-		if(fullScores>this.fullScore){
-			throw new UnsupportedOperationException("给分点大于试题分数");
-		}
-		
+		finish();
 	}
 	private void init() {
 		if (this.items == null) {
@@ -97,7 +98,7 @@ public class Section implements ValueObject<Section>{
 	public void updateItems(Item item){
 		init();
 		this.items.remove(item);
-		this.items.add(item);
+		addItem(item);
 	}
 	public void removeItems(Item item){
 		init();
@@ -107,6 +108,17 @@ public class Section implements ValueObject<Section>{
 	public void clearItems(){
 		init();
 		this.items.clear();
+	}
+	public void finish(){
+		Iterator<Item> iterItem =  items.iterator();
+		float itemFullScores=0;
+		while(iterItem.hasNext()){
+			Item item = iterItem.next();
+			itemFullScores+=item.getFullScore();
+		}
+		if(itemFullScores>this.getFullScore()){
+			throw new UnsupportedOperationException("给分点大于试题分数");
+		}
 	}
 	@Override
 	public int hashCode() {
@@ -136,7 +148,16 @@ public class Section implements ValueObject<Section>{
 	public boolean sameValueAs(Section other) {
 		return this.equals(other);
 	}
-
+	private void setOid(){
+		if(paper!=null &&paper.getPaperOid()!=null){
+			if(paper.getSections()==null){
+				this.sectionOid = paper.getPaperOid()*100+1;
+			}else{
+				this.sectionOid = paper.getPaperOid()*100+paper.getSections().size()+1;
+			}
+		}
+			
+	}
 	//以下功能为ORM或者自动构造使用，非此慎用
 	public Section() {
 		
@@ -158,6 +179,7 @@ public class Section implements ValueObject<Section>{
 
 	public void setPaper(ExamPaper paper) {
 		this.paper = paper;
+		setOid();
 	}
 
 	public Section getParentSection() {
@@ -198,6 +220,7 @@ public class Section implements ValueObject<Section>{
 
 	public void setItems(Set<Item> items) {
 		this.items = items;
+		finish();
 	}
 
 	public Float getFullScore() {

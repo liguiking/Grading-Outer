@@ -76,7 +76,6 @@ public class SectionTest {
 	@Test
 	public void testAddSectionWithUnsupportedOperationException()throws Exception{
 		ExamPaper examPaper = new ExamPaper();
-		//如果加上这个值，则测试顺利通过，否则通不过
 		examPaper.setPaperOid(1000l);
 		
 		examPaper.setFullScore(10f);
