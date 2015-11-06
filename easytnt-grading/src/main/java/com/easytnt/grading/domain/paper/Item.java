@@ -39,12 +39,10 @@ public class Item implements ValueObject<Item> {
 	
 	public Item(Section section) {
 		this.section = section;
-		setOid();
 	}
 	
 	public Item(Section section,Float fullScore,String title,String caption) {
 		this.section = section;
-		setOid();
 		this.fullScore = fullScore;
 		this.title = title;
 		this.caption = caption;
@@ -121,14 +119,12 @@ public class Item implements ValueObject<Item> {
 	public boolean sameValueAs(Item other) {
 		return this.equals(other);
 	}
-	private void setOid(){
-		if(section!=null &&section.getSectionOid()!=null){
-			if(section.getItems()==null){
-				this.itemOid = section.getSectionOid()*1000+1;
-			}else{
-				this.itemOid = section.getSectionOid()*1000+section.getItems().size()+1;
-			}
-		}
+	public void setSection(Section section,Integer index) {
+		this.section = section;
+		setOid(index);
+	}
+	private void setOid(Integer index){
+		this.itemOid = section.getSectionOid()*1000+index;
 	}
 	public static class Builder{
 		private Item item;
@@ -160,7 +156,6 @@ public class Item implements ValueObject<Item> {
 		
 		public Builder createForSection(Section section) {
 			this.item.section = section;
-			this.item.setOid();
 			return this;
 		}
 		

@@ -5,8 +5,7 @@
 
 package com.easytnt.grading.domain.paper;
 
-import java.util.Collection;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -53,19 +52,56 @@ public class ExamPaper implements Entity<ExamPaper> {
 			this.sections = new LinkedHashSet<Section>();
 		}
 	}
+	private Integer index=1;
 	public void addSections(Section section){
 		init();
 		if(section.getFullScore()==null){
 			throw new UnsupportedOperationException("试题分数为空");
 		}
-		section.setPaper(this);
+		section.setPaper(this,index);
 		this.sections.add(section);
-		finish();
+		validate();
+		index++;
 	}
-	public void updateSections(Section section){
+	public void addSections(Integer position,Section section){
 		init();
-		this.sections.remove(section);
-		addSections(section);
+		if(section.getFullScore()==null){
+			throw new UnsupportedOperationException("试题分数为空");
+		}
+		List<Section> sectionList = new ArrayList<Section>();
+		sectionList.addAll(sections);
+		if((sectionList.get(position).getSectionOid()%10)==(position+1)){
+			section.setSectionOid(sectionList.get(position).getSectionOid());
+			sectionList.set(position, section);
+		}else{
+			section.setPaper(this,position+1);
+			sectionList.add(position, section);
+		}
+		this.sections.clear();
+		this.sections.addAll(sectionList);
+		validate();
+	}
+	public void updateSection(Section oldSection,Section newSection){
+		init();
+		if(newSection.getFullScore()==null){
+			throw new UnsupportedOperationException("试题分数为空");
+		}
+		newSection.setSectionOid(oldSection.getSectionOid());
+		List<Section> sectionList = new ArrayList<Section>();
+		sectionList.addAll(sections);
+		sectionList.set(sectionList.indexOf(oldSection), newSection);
+		sections.clear();
+		sections.addAll(sectionList);
+		validate();
+	}
+	public void removeSections(Integer position){
+		init();
+		List<Section> sectionList = new ArrayList<Section>();
+		sectionList.addAll(sections);
+		sectionList.remove(index);
+		sections.clear();
+		sections.addAll(sectionList);
+		validate();
 	}
 	public void removeSections(Section section){
 		init();
@@ -76,15 +112,15 @@ public class ExamPaper implements Entity<ExamPaper> {
 		init();
 		this.sections.clear();
 	}
-	public void finish(){
+	private void validate(){
+		if(this.fullScore==null){
+			throw new UnsupportedOperationException("试卷分数为空");
+		}
 		Iterator<Section> iterSection =  sections.iterator();
 		float sectionFullScores=0;
 		while(iterSection.hasNext()){
 			Section section = iterSection.next();
 			sectionFullScores+=section.getFullScore();
-		}
-		if(this.fullScore==null){
-			throw new UnsupportedOperationException("试卷分数为空");
 		}
 		if(sectionFullScores>this.fullScore){
 			throw new UnsupportedOperationException("试题分数大于试卷分数");

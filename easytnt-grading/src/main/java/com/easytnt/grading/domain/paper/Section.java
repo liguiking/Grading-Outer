@@ -5,8 +5,10 @@
 
 package com.easytnt.grading.domain.paper;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -68,34 +70,67 @@ public class Section implements ValueObject<Section>{
 
 	public Section(ExamPaper examPaper){
 		this.paper = examPaper;
-		setOid();
 	}
 	public Section(ExamPaper examPaper,Float fullScore,String caption,String title){
 		this.paper = examPaper;
-		setOid();
 		this.fullScore = fullScore;
 		this.caption = caption;
 		this.title = title;
-	}
-	
-	public void addItem(Item item) {
-		init();
-		if (item.getFullScore() == null) {
-			throw new UnsupportedOperationException("给分点为空");
-		}
-		item.setSection(this);
-		this.items.add(item);
-		finish();
 	}
 	private void init() {
 		if (this.items == null) {
 			this.items = new LinkedHashSet<Item>();
 		}
 	}
-	public void updateItems(Item item){
+	private Integer index=1;
+	public void addItem(Item item) {
 		init();
-		this.items.remove(item);
-		addItem(item);
+		if (item.getFullScore() == null) {
+			throw new UnsupportedOperationException("给分点为空");
+		}
+		item.setSection(this,index);
+		this.items.add(item);
+		validate();
+		index++;
+	}
+	public void addItem(Integer position,Item item) {
+		init();
+		if (item.getFullScore() == null) {
+			throw new UnsupportedOperationException("给分点为空");
+		}
+		List<Item> itemList = new ArrayList<Item>();
+		itemList.addAll(items);
+		if((itemList.get(position).getItemOid()%10)==(position+1)){
+			item.setItemOid(itemList.get(position).getItemOid());
+			itemList.set(position, item);
+		}else{
+			item.setSection(this,position+1);
+			itemList.add(position, item);
+		}
+		itemList.set(position, item);
+		this.items.clear();
+		this.items.addAll(itemList);
+		validate();
+	}
+	public void updateItem(Item oldItem,Item newItem){
+		init();
+		if (newItem.getFullScore() == null) {
+			throw new UnsupportedOperationException("给分点为空");
+		}
+		List<Item> itemList = new ArrayList<Item>();
+		itemList.addAll(items);
+		itemList.set(itemList.indexOf(oldItem), newItem);
+		this.items.clear();
+		this.items.addAll(itemList);
+		validate();
+	}
+	public void removeItems(Integer position){
+		init();
+		List<Item> itemList = new ArrayList<Item>();
+		itemList.addAll(items);
+		itemList.remove(position);
+		this.items.clear();
+		this.items.addAll(itemList);
 	}
 	public void removeItems(Item item){
 		init();
@@ -106,7 +141,7 @@ public class Section implements ValueObject<Section>{
 		init();
 		this.items.clear();
 	}
-	public void finish(){
+	public void validate(){
 		Iterator<Item> iterItem =  items.iterator();
 		float itemFullScores=0;
 		while(iterItem.hasNext()){
@@ -148,13 +183,13 @@ public class Section implements ValueObject<Section>{
 	public boolean sameValueAs(Section other) {
 		return this.equals(other);
 	}
-	private void setOid(){
+	public void setPaper(ExamPaper paper,Integer index) {
+		this.paper = paper;
+		setOid(index);
+	}
+	private void setOid(Integer index){
 		if(paper!=null &&paper.getPaperOid()!=null){
-			if(paper.getSections()==null){
-				this.sectionOid = paper.getPaperOid()*100+1;
-			}else{
-				this.sectionOid = paper.getPaperOid()*100+paper.getSections().size()+1;
-			}
+			this.sectionOid = paper.getPaperOid()*100+index;
 		}
 			
 	}
@@ -219,7 +254,6 @@ public class Section implements ValueObject<Section>{
 
 	public void setItems(Set<Item> items) {
 		this.items = items;
-		finish();
 	}
 
 	public Float getFullScore() {

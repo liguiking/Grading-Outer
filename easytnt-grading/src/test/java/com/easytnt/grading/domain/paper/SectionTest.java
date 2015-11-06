@@ -3,6 +3,8 @@ package com.easytnt.grading.domain.paper;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Set;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -53,7 +55,63 @@ public class SectionTest {
 		section1.addItem(item1);
 		
 	}
-	
+	@Test
+	public void testRemoveAndAddItem()throws Exception{
+		ExamPaper examPaper = new ExamPaper("语文考卷",100f);
+		examPaper.setPaperOid(100l);
+		Section section1 = new Section(examPaper,50f,"内容1","题目1");
+		examPaper.addSections(section1);
+		
+		Item item1 = new Item(section1, 5f, "得分标题1", "得分内容1");
+		Item item2 = new Item(section1, 5f, "得分标题2", "得分内容2");
+		Item item3 = new Item(section1, 5f, "得分标题3", "得分内容3");
+		Item item4 = new Item(section1, 5f, "得分标题4", "得分内容4");
+		Item item5 = new Item(section1, 5f, "得分标题5", "得分内容5");
+		
+		section1.addItem(item1);
+		section1.addItem(item2);
+		section1.addItem(item3);
+		section1.addItem(item4);
+		section1.addItem(item5);
+		println(section1.getItems());
+		
+		section1.removeItems(2);
+		
+		Item item6 = new Item(section1, 5f, "得分标题6", "得分内容6");
+		section1.addItem(2, item6);
+		println(section1.getItems());
+		
+		section1.removeItems(1);
+		section1.removeItems(3);
+		
+		Item item7 = new Item(section1, 5f, "得分标题7", "得分内容7");
+		section1.addItem(1, item7);
+		Item item8 = new Item(section1, 5f, "得分标题8", "得分内容8");
+		section1.addItem(3, item8);
+		println(section1.getItems());
+		
+		section1.removeItems(0);
+		
+		Item item9 = new Item(section1, 5f, "得分标题9", "得分内容9");
+		section1.addItem(0, item9);
+		println(section1.getItems());
+		
+		section1.removeItems(4);
+		
+		Item item10 = new Item(section1, 5f, "得分标题10", "得分内容10");
+		section1.addItem(4, item10);
+		println(section1.getItems());
+		
+		Item item11 = new Item(section1, 5f, "得分标题11", "得分内容11");
+		section1.addItem(4, item11);
+		println(section1.getItems());
+		
+	}
+	public void println(Set<Item> sets){
+		for(Item i:sets){
+			System.out.println(i.getTitle()+"=>"+i.getItemOid());
+		}
+	}
 	@Test
 	public void testAddItem()throws Exception{
 		ExamPaper examPaper = new ExamPaper();

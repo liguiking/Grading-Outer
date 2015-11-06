@@ -1,15 +1,12 @@
 package com.easytnt.grading.repository.impl;
 
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import org.hibernate.SQLQuery;
+import org.hibernate.Query;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.easytnt.grading.domain.exam.Subject;
 import com.easytnt.grading.domain.paper.ExamPaper;
 import com.easytnt.grading.domain.paper.Item;
 import com.easytnt.grading.domain.paper.PaperType;
@@ -28,6 +25,21 @@ public class ExamPaperRepositoryHibernateImplTest extends AbstractHibernateTest{
 		initHibernate("hibernate/mapping/paper/ExamPaper.hbm.xml","hibernate/mapping/paper/item.hbm.xml","hibernate/mapping/paper/PaperType.hbm.xml","hibernate/mapping/paper/Section.hbm.xml","hibernate/mapping/exam/Subject.hbm.xml","hibernate/mapping/exam/SubjectExam.hbm.xml");
 		repository =  new ExamPaperRepositoryHibernateImpl();
 		repository.setSessionFactory01(sessionFactory);
+	}
+	@Test
+	public void testSelect()throws Exception{
+		this.sessionFactory.openSession();
+		Query q =  this.getSession().createQuery(" from ExamPaper");
+		List<ExamPaper> examList = q.list();
+		System.out.println(1);
+		for(ExamPaper ep:examList){
+			System.out.println(ep.getPaperOid());
+			System.out.println(ep.getSections().size());
+			for(Section sec:ep.getSections()){
+				System.out.println(sec.getSectionOid());
+			}
+		}
+		this.sessionFactory.close();
 	}
 	
 	@Test
@@ -240,7 +252,7 @@ public class ExamPaperRepositoryHibernateImplTest extends AbstractHibernateTest{
 		
 		section5.setTitle("修改大题 5");
 		section5.setCaption("修改内容5");
-		examPaper.updateSections(section5);
+//		examPaper.updateSections(section5);
 		
 		saveOrUpdate(examPaper);
 		this.commit();
