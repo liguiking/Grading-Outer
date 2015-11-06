@@ -68,11 +68,11 @@ public class ExamPaperController {
 		return ModelAndViewFactory.newModelAndViewFor().build();
 	}
 	
-	@RequestMapping(value="/{examPaperId}/section",method = RequestMethod.PUT)
-	public ModelAndView onUpdateSection(@PathVariable Long paperId,@RequestBody Section section)
+	@RequestMapping(value="/{examPaperId}/section/{position}",method = RequestMethod.PUT)
+	public ModelAndView onUpdateSection(@PathVariable Long paperId,@RequestBody Section section,@PathVariable Integer position)
 					throws Exception {
 		logger.debug("URL /examPaper Method U ", section);
-		examPaperService.updateSectionFor(paperId,section);
+		examPaperService.updateSectionFor(paperId,section,position);
 		return ModelAndViewFactory.newModelAndViewFor().build();
 	}
 	

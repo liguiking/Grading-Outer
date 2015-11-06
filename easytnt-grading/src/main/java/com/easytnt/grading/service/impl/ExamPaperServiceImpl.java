@@ -13,7 +13,7 @@ import com.easytnt.grading.service.ExamPaperService;
 
 @Service
 public class ExamPaperServiceImpl extends AbstractEntityService<ExamPaper, Long>implements ExamPaperService {
-
+	@Autowired(required = false)
 	private ExamPaperRepository examPaperRepository;
 	
 	public ExamPaperServiceImpl() {
@@ -29,8 +29,7 @@ public class ExamPaperServiceImpl extends AbstractEntityService<ExamPaper, Long>
 	@Transactional(readOnly=true)
 	@Override
 	public ExamPaper load(Long pk) {
-		ExamPaper examPaper =  new ExamPaper();
-		//exam.setName("Exam");
+		ExamPaper examPaper =  examPaperRepository.load(pk);
 		return examPaper;
 	}
 
@@ -43,22 +42,25 @@ public class ExamPaperServiceImpl extends AbstractEntityService<ExamPaper, Long>
 	@Transactional
 	@Override
 	public void deleteSectionFor(Long paperId, Section section) {
-		// TODO Auto-generated method stub
-		
+		ExamPaper examPaper = load(paperId);
+		examPaper.removeSections(section);
+		examPaperRepository.save(examPaper);
 	}
 
 	@Transactional
 	@Override
-	public void updateSectionFor(Long paperId, Section section) {
-		// TODO Auto-generated method stub
-		
+	public void updateSectionFor(Long paperId, Section section,Integer position) {
+		ExamPaper examPaper = load(paperId);
+		examPaper.addSections(position, section);
+		examPaperRepository.save(examPaper);
 	}
 
 	@Transactional
 	@Override
 	public void addSectionFor(Long paperId, Section section) {
-		// TODO Auto-generated method stub
-		
+		ExamPaper examPaper = load(paperId);
+		examPaper.addSections(section);
+		examPaperRepository.save(examPaper);
 	}
 
 }

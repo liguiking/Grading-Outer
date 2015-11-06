@@ -8,7 +8,7 @@ public interface ExamPaperService extends EntityService<ExamPaper, Long> {
 
 	void deleteSectionFor(Long paperId, Section section);
 
-	void updateSectionFor(Long paperId, Section section);
+	void updateSectionFor(Long paperId, Section section,Integer position);
 
 	void addSectionFor(Long paperId, Section section);
 	
