@@ -102,7 +102,15 @@
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjweaver</artifactId>
-		</dependency>	
+		</dependency>
+		<!-- 钟水林20151103 -->
+		<!-- fastJson依赖包 -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.1.24</version>
+		</dependency>
+	
 	</dependencies>
 	<build>
 		<finalName>easytnt-grading</finalName>

@@ -65,6 +65,42 @@ public abstract class AbstractHibernateTest extends AbstractRepositoryTest {
 		
 		ServiceRegistry serviceRegistry = new ServiceRegistryBuilder().applySettings(conf.getProperties()).buildServiceRegistry();
 		sessionFactory = conf.buildSessionFactory(serviceRegistry);
-		session = sessionFactory.getCurrentSession();
+		session = sessionFactory.openSession();
+//		/session = sessionFactory.getCurrentSession();
+	}
+	
+	protected void release()throws Exception{
+		session.clear();
+		session.close();
+	}
+	
+	protected Session getSession(){
+		if(this.session == null || !this.session.isOpen()){
+			this.session = this.sessionFactory.openSession();
+		}
+		return this.session;
+	}
+	
+	protected void beginTransaction(){
+		this.getSession().beginTransaction();
+	}
+	
+	protected void commit(){
+		this.session.getTransaction().commit();
+	}
+	
+	protected void rollback(){
+		this.session.getTransaction().rollback();
+	}
+	
+	protected void saveOrUpdate(Object o){
+		this.session.save(o);
+	}
+	
+	protected void clear(Object o){
+		//this.session = this.sessionFactory.openSession();
+		this.session.getTransaction().begin();
+		this.session.delete(o);
+		this.session.getTransaction().commit();
 	}
 }

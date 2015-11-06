@@ -31,10 +31,10 @@ public abstract class AbstractRepositoryTest {
 	protected static Properties properties = new Properties();
 	
 	public AbstractRepositoryTest() {
-		init("/conf.properties");
+		this.loadConf("/conf.properties");
 	}
 	
-	protected void init(String propertiesFileName) {
+	protected void loadConf(String propertiesFileName) {
 		try {
 			properties.load(getClass().getResourceAsStream(propertiesFileName));
 		}catch(Exception e) {

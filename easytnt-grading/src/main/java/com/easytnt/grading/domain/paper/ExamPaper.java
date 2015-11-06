@@ -5,13 +5,18 @@
 
 package com.easytnt.grading.domain.paper;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.easytnt.commons.entity.share.Entity;
+import com.easytnt.grading.domain.exam.SubjectExam;
 
 /** 
  * <pre>
@@ -29,7 +34,12 @@ public class ExamPaper implements Entity<ExamPaper> {
 	
 	private Long paperId;
 	
-	private List<Section> sections;
+	private Long paperOid;
+	
+	private Set<Section> sections;
+	
+	private Set<SubjectExam> subjectExam;
+	
 	
 	private Float fullScore;
 	
@@ -37,10 +47,88 @@ public class ExamPaper implements Entity<ExamPaper> {
 		this.name = name;
 		this.fullScore = fullScore;
 	}
-
+	private void init() {
+		if (this.sections == null) {
+			this.sections = new LinkedHashSet<Section>();
+		}
+	}
+	private Integer index=1;
+	public void addSections(Section section){
+		init();
+		if(section.getFullScore()==null){
+			throw new UnsupportedOperationException("试题分数为空");
+		}
+		section.setPaper(this,index);
+		this.sections.add(section);
+		validate();
+		index++;
+	}
+	public void addSections(Integer position,Section section){
+		init();
+		if(section.getFullScore()==null){
+			throw new UnsupportedOperationException("试题分数为空");
+		}
+		List<Section> sectionList = new ArrayList<Section>();
+		sectionList.addAll(sections);
+		if((sectionList.get(position).getSectionOid()%10)==(position+1)){
+			section.setSectionOid(sectionList.get(position).getSectionOid());
+			sectionList.set(position, section);
+		}else{
+			section.setPaper(this,position+1);
+			sectionList.add(position, section);
+		}
+		this.sections.clear();
+		this.sections.addAll(sectionList);
+		validate();
+	}
+	public void updateSection(Section oldSection,Section newSection){
+		init();
+		if(newSection.getFullScore()==null){
+			throw new UnsupportedOperationException("试题分数为空");
+		}
+		newSection.setSectionOid(oldSection.getSectionOid());
+		List<Section> sectionList = new ArrayList<Section>();
+		sectionList.addAll(sections);
+		sectionList.set(sectionList.indexOf(oldSection), newSection);
+		sections.clear();
+		sections.addAll(sectionList);
+		validate();
+	}
+	public void removeSections(Integer position){
+		init();
+		List<Section> sectionList = new ArrayList<Section>();
+		sectionList.addAll(sections);
+		sectionList.remove(index);
+		sections.clear();
+		sections.addAll(sectionList);
+		validate();
+	}
+	public void removeSections(Section section){
+		init();
+		section.setPaper(null);
+		this.sections.remove(section);
+	}
+	public void clearSections(){
+		init();
+		this.sections.clear();
+	}
+	private void validate(){
+		if(this.fullScore==null){
+			throw new UnsupportedOperationException("试卷分数为空");
+		}
+		Iterator<Section> iterSection =  sections.iterator();
+		float sectionFullScores=0;
+		while(iterSection.hasNext()){
+			Section section = iterSection.next();
+			sectionFullScores+=section.getFullScore();
+		}
+		if(sectionFullScores>this.fullScore){
+			throw new UnsupportedOperationException("试题分数大于试卷分数");
+		}
+	}
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(this.paperId).toHashCode();
+		return new HashCodeBuilder().append(this.paperOid).toHashCode();
 	}
 	
     @Override
@@ -49,7 +137,7 @@ public class ExamPaper implements Entity<ExamPaper> {
 			return false;
 		ExamPaper other = (ExamPaper)o;
 		
-		return new EqualsBuilder().append(this.paperId,other.paperId).isEquals();
+		return new EqualsBuilder().append(this.paperOid,other.paperOid).isEquals();
 	}
 	
     @Override
@@ -81,11 +169,11 @@ public class ExamPaper implements Entity<ExamPaper> {
 		this.paperId = paperId;
 	}
 
-	public List<Section> getSections() {
+	public Set<Section> getSections() {
 		return sections;
 	}
 
-	public void setSections(List<Section> sections) {
+	public void setSections(Set<Section> sections) {
 		this.sections = sections;
 	}
 
@@ -103,6 +191,22 @@ public class ExamPaper implements Entity<ExamPaper> {
 
 	public void setPaperType(PaperType paperType) {
 		this.paperType = paperType;
+	}
+
+	public Long getPaperOid() {
+		return paperOid;
+	}
+
+	public void setPaperOid(Long paperOid) {
+		this.paperOid = paperOid;
+	}
+
+	public Set<SubjectExam> getSubjectExam() {
+		return subjectExam;
+	}
+
+	public void setSubjectExam(Set<SubjectExam> subjectExam) {
+		this.subjectExam = subjectExam;
 	}
 	
 }
