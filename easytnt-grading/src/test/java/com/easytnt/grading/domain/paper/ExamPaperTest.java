@@ -3,6 +3,8 @@ package com.easytnt.grading.domain.paper;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.Before;
@@ -77,44 +79,54 @@ public class ExamPaperTest {
 		examPaper.addSections(section3);
 		examPaper.addSections(section4);
 		examPaper.addSections(section5);
-		println(examPaper.getSections());
 		
 		examPaper.removeSections(2);
 		
 		Section section6 = new Section(examPaper,5f,"内容6","题目6");
 		examPaper.addSections(2, section6);
-		println(examPaper.getSections());
+		assertTrue(section6.getSectionOid().equals(section3.getSectionOid()));
 		
 		examPaper.removeSections(1);
 		examPaper.removeSections(3);
 		
 		Section section7 = new Section(examPaper,5f,"内容7","题目7");
 		examPaper.addSections(1, section7);
+		
+		assertTrue(section7.getSectionOid().equals(section2.getSectionOid()));
+		println(examPaper.getSections());
+		
 		Section section8 = new Section(examPaper,5f,"内容8","题目8");
 		examPaper.addSections(3, section8);
+		assertTrue(section8.getSectionOid().equals(section4.getSectionOid()));
 		println(examPaper.getSections());
 		
 		examPaper.removeSections(0);
 		
 		Section section9 = new Section(examPaper,5f,"内容9","题目9");
 		examPaper.addSections(0, section9);
+		assertTrue(section9.getSectionOid().equals(section1.getSectionOid()));
 		println(examPaper.getSections());
 		
 		examPaper.removeSections(4);
 		
 		Section section10 = new Section(examPaper,5f,"内容10","题目10");
 		examPaper.addSections(4, section10);
+		assertTrue(section10.getSectionOid().equals(section5.getSectionOid()));
 		println(examPaper.getSections());
-		
 		
 		Section section11 = new Section(examPaper,5f,"内容11","题目11");
 		examPaper.addSections(4, section11);
+		assertTrue(section10.getSectionOid().equals(section11.getSectionOid()));
 		println(examPaper.getSections());
 	}
 	public void println(Set<Section> sets){
-		for(Section s:sets){
-			System.out.println(s.getTitle()+"=>"+s.getSectionOid());
-		}
+		List<Section> secList = new ArrayList<Section>();
+		secList.addAll(sets);
+		assertTrue(secList.get(0).getSectionOid().equals(10001l));
+		assertTrue(secList.get(1).getSectionOid().equals(10002l));
+		assertTrue(secList.get(2).getSectionOid().equals(10003l));
+		assertTrue(secList.get(3).getSectionOid().equals(10004l));
+		assertTrue(secList.get(4).getSectionOid().equals(10005l));
 	}
 	@Test
 	public void testAddSectionWithUnsupportedOperationException()throws Exception{

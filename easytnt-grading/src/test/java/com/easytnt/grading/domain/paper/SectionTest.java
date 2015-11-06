@@ -3,6 +3,8 @@ package com.easytnt.grading.domain.paper;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.Before;
@@ -79,6 +81,7 @@ public class SectionTest {
 		
 		Item item6 = new Item(section1, 5f, "得分标题6", "得分内容6");
 		section1.addItem(2, item6);
+		assertTrue(item6.getItemOid().equals(item3.getItemOid()));
 		println(section1.getItems());
 		
 		section1.removeItems(1);
@@ -86,31 +89,41 @@ public class SectionTest {
 		
 		Item item7 = new Item(section1, 5f, "得分标题7", "得分内容7");
 		section1.addItem(1, item7);
+		assertTrue(item7.getItemOid().equals(item2.getItemOid()));
+		
 		Item item8 = new Item(section1, 5f, "得分标题8", "得分内容8");
 		section1.addItem(3, item8);
+		assertTrue(item8.getItemOid().equals(item4.getItemOid()));
 		println(section1.getItems());
 		
 		section1.removeItems(0);
 		
 		Item item9 = new Item(section1, 5f, "得分标题9", "得分内容9");
 		section1.addItem(0, item9);
+		assertTrue(item9.getItemOid().equals(item1.getItemOid()));
 		println(section1.getItems());
 		
 		section1.removeItems(4);
 		
 		Item item10 = new Item(section1, 5f, "得分标题10", "得分内容10");
 		section1.addItem(4, item10);
+		assertTrue(item10.getItemOid().equals(item5.getItemOid()));
 		println(section1.getItems());
 		
 		Item item11 = new Item(section1, 5f, "得分标题11", "得分内容11");
 		section1.addItem(4, item11);
+		assertTrue(item11.getItemOid().equals(item10.getItemOid()));
 		println(section1.getItems());
 		
 	}
 	public void println(Set<Item> sets){
-		for(Item i:sets){
-			System.out.println(i.getTitle()+"=>"+i.getItemOid());
-		}
+		List<Item> itemList = new ArrayList<Item>();
+		itemList.addAll(sets);
+		assertTrue(itemList.get(0).getItemOid().equals(10001001l));
+		assertTrue(itemList.get(1).getItemOid().equals(10001002l));
+		assertTrue(itemList.get(2).getItemOid().equals(10001003l));
+		assertTrue(itemList.get(3).getItemOid().equals(10001004l));
+		assertTrue(itemList.get(4).getItemOid().equals(10001005l));
 	}
 	@Test
 	public void testAddItem()throws Exception{
