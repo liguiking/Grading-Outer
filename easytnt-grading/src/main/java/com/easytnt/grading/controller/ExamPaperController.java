@@ -85,7 +85,7 @@ public class ExamPaperController {
 	}
 	
 	@RequestMapping(value="/query/{page}/{size}",method = RequestMethod.GET)
-	public ModelAndView onDeleteExamPaper(@PathVariable int page,@PathVariable int size,HttpServletRequest request)
+	public ModelAndView onQueryExamPaper(@PathVariable int page,@PathVariable int size,HttpServletRequest request)
 					throws Exception {
 		logger.debug("URL /examPaper/query/{}/{} Method GET ", page,size);
         Query<ExamPaper> query = new QueryBuilder().newQuery(page,size,request.getParameterMap());
