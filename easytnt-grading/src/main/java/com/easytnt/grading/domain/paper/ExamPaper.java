@@ -8,6 +8,7 @@ package com.easytnt.grading.domain.paper;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -49,7 +50,7 @@ public class ExamPaper implements Entity<ExamPaper> {
 	}
 	private void init() {
 		if (this.sections == null) {
-			this.sections = new HashSet<Section>();
+			this.sections = new LinkedHashSet<Section>();
 		}
 	}
 	public void addSections(Section section){

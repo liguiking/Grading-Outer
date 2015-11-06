@@ -5,11 +5,8 @@
 
 package com.easytnt.grading.domain.paper;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -92,7 +89,7 @@ public class Section implements ValueObject<Section>{
 	}
 	private void init() {
 		if (this.items == null) {
-			this.items = new HashSet<Item>();
+			this.items = new LinkedHashSet<Item>();
 		}
 	}
 	public void updateItems(Item item){
