@@ -23,7 +23,7 @@
             <property name="typeName" column="paper_type" type="java.lang.String"/>
         </component>
 		
-		<set name="sections" inverse="true" cascade="all"   >
+		<set name="sections" inverse="true" cascade="all-delete-orphan"   >
             <key column="paper_id" ></key>
             <one-to-many class="com.easytnt.grading.domain.paper.Section"/>
         </set>

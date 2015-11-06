@@ -43,7 +43,7 @@
             <property name="height" column="height" type="java.lang.Integer"/>
         </component>
         
-		 <set name="items" inverse="true" cascade="all">
+		 <set name="items" inverse="true" cascade="all-delete-orphan">
             <key column="section_id" ></key>
             <one-to-many class="com.easytnt.grading.domain.paper.Item"/>
         </set>
