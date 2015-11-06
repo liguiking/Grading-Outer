@@ -250,7 +250,6 @@ public class Item implements ValueObject<Item> {
 
 	public void setSection(Section section) {
 		this.section = section;
-		setOid();
 	}
 	
 	

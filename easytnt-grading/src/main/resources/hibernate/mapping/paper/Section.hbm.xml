@@ -9,15 +9,16 @@
 			<column name="section_id" />
 			<generator class="identity" />
 		</id>
+		<property name="fullScore" type="java.lang.Float">
+			<column name="full_score" />
+		</property>
 		<many-to-one name="paper" class="com.easytnt.grading.domain.paper.ExamPaper" 
-                     column="paper_id" cascade="save-update">
+                     column="paper_id" cascade="save-update"  >
          </many-to-one>
          
          <property name="sectionOid" type="java.lang.Long">
 			<column name="section_oid" />
 		</property>
-         
-        <one-to-one name="subject" class="com.easytnt.grading.domain.exam.Subject" cascade="all" />
          
 		<property name="title" type="java.lang.String">
 			<column name="section_name" />
@@ -31,10 +32,6 @@
 			<column name="max_pinci" />
 		</property>
 		
-		<property name="fullScore" type="java.lang.Float">
-			<column name="full_score" />
-		</property>
-		 
 		 <property name="maxerror" type="java.lang.Float">
 			<column name="maxerror" />
 		</property>
@@ -47,7 +44,7 @@
         </component>
         
 		 <set name="items" inverse="true" cascade="all">
-            <key column="item_id" ></key>
+            <key column="section_id" ></key>
             <one-to-many class="com.easytnt.grading.domain.paper.Item"/>
         </set>
 	</class>

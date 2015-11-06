@@ -83,6 +83,9 @@ public class ExamPaper implements Entity<ExamPaper> {
 			Section section = iterSection.next();
 			sectionFullScores+=section.getFullScore();
 		}
+		if(this.fullScore==null){
+			throw new UnsupportedOperationException("试卷分数为空");
+		}
 		if(sectionFullScores>this.fullScore){
 			throw new UnsupportedOperationException("试题分数大于试卷分数");
 		}
@@ -136,7 +139,6 @@ public class ExamPaper implements Entity<ExamPaper> {
 
 	public void setSections(Set<Section> sections) {
 		this.sections = sections;
-		finish();
 	}
 
 	public Float getFullScore() {

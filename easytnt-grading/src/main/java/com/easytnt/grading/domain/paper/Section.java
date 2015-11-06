@@ -113,7 +113,10 @@ public class Section implements ValueObject<Section>{
 			Item item = iterItem.next();
 			itemFullScores+=item.getFullScore();
 		}
-		if(itemFullScores>this.getFullScore()){
+		if(this.fullScore==null){
+			throw new UnsupportedOperationException("试题分数为空");
+		}
+		if(itemFullScores>this.fullScore){
 			throw new UnsupportedOperationException("给分点大于试题分数");
 		}
 	}
@@ -176,7 +179,6 @@ public class Section implements ValueObject<Section>{
 
 	public void setPaper(ExamPaper paper) {
 		this.paper = paper;
-		setOid();
 	}
 
 	public Section getParentSection() {
