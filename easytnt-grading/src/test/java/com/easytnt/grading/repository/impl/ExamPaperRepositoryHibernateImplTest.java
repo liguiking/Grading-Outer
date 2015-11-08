@@ -1,6 +1,8 @@
 package com.easytnt.grading.repository.impl;
 
 
+import static org.junit.Assert.*;
+
 import java.util.List;
 
 import org.hibernate.Query;
@@ -22,25 +24,11 @@ public class ExamPaperRepositoryHibernateImplTest extends AbstractHibernateTest{
 	
 	@Before
 	public void before()throws Exception{
-		initHibernate("hibernate/mapping/paper/ExamPaper.hbm.xml","hibernate/mapping/paper/item.hbm.xml","hibernate/mapping/paper/PaperType.hbm.xml","hibernate/mapping/paper/Section.hbm.xml","hibernate/mapping/exam/Subject.hbm.xml","hibernate/mapping/exam/SubjectExam.hbm.xml");
+		initHibernate("hibernate/mapping/paper/ExamPaper.hbm.xml","hibernate/mapping/paper/Item.hbm.xml","hibernate/mapping/paper/PaperType.hbm.xml","hibernate/mapping/paper/Section.hbm.xml","hibernate/mapping/exam/Subject.hbm.xml","hibernate/mapping/exam/SubjectExam.hbm.xml");
 		repository =  new ExamPaperRepositoryHibernateImpl();
 		repository.setSessionFactory01(sessionFactory);
 	}
-	@Test
-	public void testSelect()throws Exception{
-		this.sessionFactory.openSession();
-		Query q =  this.getSession().createQuery(" from ExamPaper");
-		List<ExamPaper> examList = q.list();
-		System.out.println(1);
-		for(ExamPaper ep:examList){
-			System.out.println(ep.getPaperOid());
-			System.out.println(ep.getSections().size());
-			for(Section sec:ep.getSections()){
-				System.out.println(sec.getSectionOid());
-			}
-		}
-		this.sessionFactory.close();
-	}
+
 	
 	@Test
 	public void testSave()throws Exception{
@@ -60,7 +48,7 @@ public class ExamPaperRepositoryHibernateImplTest extends AbstractHibernateTest{
 		section1.setArea(area);
 		section1.setTitle("大题 1");
 		section1.setCaption("内容1");
-		section1.setMaxPinci("5");
+		section1.setMaxPinci(5);
 		section1.setFullScore(5f);
 		section1.setMaxerror(5f);
 		examPaper.addSections(section1);
@@ -70,7 +58,7 @@ public class ExamPaperRepositoryHibernateImplTest extends AbstractHibernateTest{
 		section2.setArea(area);
 		section2.setTitle("大题 2");
 		section2.setCaption("内容2");
-		section2.setMaxPinci("5");
+		section2.setMaxPinci(5);
 		section2.setFullScore(5f);
 		section2.setMaxerror(5f);
 		examPaper.addSections(section2);
@@ -80,7 +68,7 @@ public class ExamPaperRepositoryHibernateImplTest extends AbstractHibernateTest{
 		section3.setArea(area);
 		section3.setTitle("大题 3");
 		section3.setCaption("内容3");
-		section3.setMaxPinci("5");
+		section3.setMaxPinci(5);
 		section3.setFullScore(5f);
 		section3.setMaxerror(5f);
 		examPaper.addSections(section3);
@@ -90,7 +78,7 @@ public class ExamPaperRepositoryHibernateImplTest extends AbstractHibernateTest{
 		section4.setArea(area);
 		section4.setTitle("大题 4");
 		section4.setCaption("内容4");
-		section4.setMaxPinci("5");
+		section4.setMaxPinci(5);
 		section4.setFullScore(5f);
 		section4.setMaxerror(5f);
 		examPaper.addSections(section4);
@@ -99,11 +87,15 @@ public class ExamPaperRepositoryHibernateImplTest extends AbstractHibernateTest{
 		this.beginTransaction();
 		saveOrUpdate(examPaper);
 		this.commit();
+		ExamPaper paper = (ExamPaper)session.load(ExamPaper.class, examPaper.getPaperId());
+		
+		assertEquals(paper,examPaper);
+		
 		this.beginTransaction();
 		section4.setTitle("修改大题 4");
 		examPaper.removeSections(section4);
 		saveOrUpdate(examPaper);
 		this.commit();
-//		clear(examPaper);
+		clear(examPaper);
 	}
 }

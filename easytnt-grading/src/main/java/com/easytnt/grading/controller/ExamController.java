@@ -59,7 +59,7 @@ public class ExamController {
 	}
 	
 	@RequestMapping(value="/query/{page}/{size}",method = RequestMethod.GET)
-	public ModelAndView onDeleteExam(@PathVariable int page,@PathVariable int size,HttpServletRequest request)
+	public ModelAndView onQueryExam(@PathVariable int page,@PathVariable int size,HttpServletRequest request)
 					throws Exception {
 		logger.debug("URL /exam/query/{}/{} Method GET ", page,size);
         Query<Exam> query = new QueryBuilder().newQuery(page,size,request.getParameterMap());

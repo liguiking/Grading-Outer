@@ -28,7 +28,7 @@
 			<column name="section_caption" />
 		</property>
 		
-		<property name="maxPinci" type="java.lang.String">
+		<property name="maxPinci" type="java.lang.Integer">
 			<column name="max_pinci" />
 		</property>
 		

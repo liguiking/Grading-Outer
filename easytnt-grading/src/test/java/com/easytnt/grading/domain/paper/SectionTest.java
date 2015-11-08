@@ -42,7 +42,7 @@ public class SectionTest {
 		section1.setArea(area);
 		section1.setTitle("大题 1");
 		section1.setCaption("内容1");
-		section1.setMaxPinci("5");
+		section1.setMaxPinci(5);
 		section1.setFullScore(5f);
 		section1.setMaxerror(5f);
 		examPaper.addSections(section1);

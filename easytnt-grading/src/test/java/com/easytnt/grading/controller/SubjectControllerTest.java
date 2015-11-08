@@ -87,7 +87,7 @@ public class SubjectControllerTest extends AbstractControllerTest {
 	public void testOnDelete()throws Exception{
 		assertNotNull(this.controller);
 		Subject subject = new Subject();
-		subject.setSubject_id(1l);
+		subject.setId(1l);
 		ObjectMapper mapper = new ObjectMapper();
 		doNothing().when(SubjectService).delete(subject);
 		String content = mapper.writeValueAsString(subject);

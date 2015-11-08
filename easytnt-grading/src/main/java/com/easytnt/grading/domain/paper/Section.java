@@ -58,7 +58,7 @@ public class Section implements ValueObject<Section>{
 
 	private String caption;
 	
-	private String maxPinci;
+	private int maxPinci;
 	
 	private Float fullScore;
 
@@ -280,11 +280,11 @@ public class Section implements ValueObject<Section>{
 		this.sectionOid = sectionOid;
 	}
 
-	public String getMaxPinci() {
+	public int getMaxPinci() {
 		return maxPinci;
 	}
 
-	public void setMaxPinci(String maxPinci) {
+	public void setMaxPinci(int maxPinci) {
 		this.maxPinci = maxPinci;
 	}
 

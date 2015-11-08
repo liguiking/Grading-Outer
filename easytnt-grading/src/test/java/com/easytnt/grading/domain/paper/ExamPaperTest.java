@@ -39,7 +39,7 @@ public class ExamPaperTest {
 		
 		Section section1 = new Section(examPaper,5f,"大题 1","内容1");
 		section1.setArea(area);
-		section1.setMaxPinci("5");
+		section1.setMaxPinci(5);
 		section1.setMaxerror(5f);
 		examPaper.addSections(section1);
 		

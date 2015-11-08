@@ -23,20 +23,19 @@ import com.easytnt.commons.entity.share.ValueObject;
  * @version 1.0
  **/
 public class Subject implements ValueObject<Subject> {
-
-	/**
-	 * @author钟水林20151103
-	 */
-	private static final long serialVersionUID = 1L;
 	
-	
-	private String subject_name;
+	private String name;
 
-	private int subject_code;
+	private int subjectCode;
+	
+	public Subject(String name,int subjectCode) {
+		this.name  = name;
+		this.subjectCode = subjectCode;
+	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(this.subject_name).append(this.subject_code).toHashCode();
+		return new HashCodeBuilder().append(this.subjectCode).toHashCode();
 	}
 
 	@Override
@@ -45,12 +44,12 @@ public class Subject implements ValueObject<Subject> {
 			return false;
 		Subject other = (Subject) o;
 
-		return new EqualsBuilder().append(this.subject_name, other.subject_name).append(this.subject_code, other.subject_code).append(this.subject_code, other.subject_code).isEquals();
+		return new EqualsBuilder().append(this.subjectCode, other.subjectCode).isEquals();
 	}
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this).append(this.subject_name).append(this.subject_code).build();
+		return new ToStringBuilder(this).append(this.name).append(this.subjectCode).build();
 	}
 
 	@Override
@@ -62,30 +61,31 @@ public class Subject implements ValueObject<Subject> {
 	public Subject() {
 	}
 	
-	private Long subject_id;
+	private Long id;
 
-	public String getSubject_name() {
-		return subject_name;
+	public String getName() {
+		return name;
 	}
 
-	public void setSubject_name(String subject_name) {
-		this.subject_name = subject_name;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public int getSubject_code() {
-		return subject_code;
+	public int getSubjectCode() {
+		return subjectCode;
 	}
 
-	public void setSubject_code(int subject_code) {
-		this.subject_code = subject_code;
+	public void setSubjectCode(int subjectCode) {
+		this.subjectCode = subjectCode;
 	}
 
-	public Long getSubject_id() {
-		return subject_id;
+	public Long getId() {
+		return id;
 	}
 
-	public void setSubject_id(Long subject_id) {
-		this.subject_id = subject_id;
+	public void setId(Long id) {
+		this.id = id;
 	}
+	
 
 }

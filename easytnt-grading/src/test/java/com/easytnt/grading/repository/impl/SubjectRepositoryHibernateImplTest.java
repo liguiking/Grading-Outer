@@ -1,6 +1,8 @@
 package com.easytnt.grading.repository.impl;
 
 
+import static org.junit.Assert.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,31 +27,14 @@ public class SubjectRepositoryHibernateImplTest extends AbstractHibernateTest{
 	
 	@Test
 	public void testSave()throws Exception{
-		Subject subject = new Subject();
-		//科目新增
-		subject.setSubject_id(8l);
-		subject.setSubject_name("十年级语文");
-		subject.setSubject_code(8);
-		
-		//科目删除
-		//clear(subject);
-		
-		//科目修改
-		Query q = getSession().createQuery(" from Subject where subject_id ="+9);
-		ArrayList<Subject> su = (ArrayList<Subject>) q.list();
-		for(Subject ssu : su){
-			subject = ssu;
-			subject.setSubject_name("修改成功");
-		}
-		
-		//科目分页
-		Query q1 = getSession().createQuery(" from Subject where 1=1").setFirstResult(2).setMaxResults(3);
-		q1.list();
-		System.out.println(q1.list());
-		
+		Subject subject = new Subject("语文",100);
 		this.beginTransaction();
-		saveOrUpdate(subject);
+		this.saveOrUpdate(subject);
 		this.commit();
-		//clear(subject);
+		
+		Subject s = (Subject) this.getSession().load(Subject.class, subject.getId());
+		assertEquals(s,subject);
+
+		clear(subject);
 	}
 }

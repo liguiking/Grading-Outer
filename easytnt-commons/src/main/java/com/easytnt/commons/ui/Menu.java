@@ -1,5 +1,3 @@
-
-
 package com.easytnt.commons.ui;
 /** 
  * <pre>
@@ -14,9 +12,25 @@ public class Menu {
 	
 	private String url;
 	
+	private boolean actived = Boolean.FALSE;
+	
 	public Menu(String name,String url) {
 		this.name = name;
 		this.url = url;
+	}
+	
+	public Menu(String name,String url,boolean actived) {
+		this.name = name;
+		this.url = url;
+		this.actived = actived;
+	}
+	
+	public void active() {
+		this.actived = Boolean.TRUE;
+	}
+	
+	public void inactived() {
+		this.actived = Boolean.FALSE;
 	}
 	
 	public Menu() {
@@ -38,6 +52,12 @@ public class Menu {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	
-}
 
+	public boolean isActived() {
+		return actived;
+	}
+
+	public void setActived(boolean actived) {
+		this.actived = actived;
+	}
+}
