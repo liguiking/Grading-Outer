@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.easytnt.commons.entity.cqrs.Query;
 import com.easytnt.commons.entity.cqrs.QueryBuilder;
+import com.easytnt.commons.ui.MenuGroup;
 import com.easytnt.commons.web.view.ModelAndViewFactory;
 import com.easytnt.grading.domain.grade.Teacher;
 import com.easytnt.grading.service.TeacherService;
@@ -25,6 +26,23 @@ public class TeacherController {
 
 	@Autowired(required = false)
 	private TeacherService teacherService;
+	
+	
+	@RequestMapping(method = RequestMethod.GET)
+	public ModelAndView onList()
+					throws Exception {
+		logger.debug("URL /teacher Method GET ");
+		MenuGroup topRightMenuGroup = MenuGroupFactory.getInstance().getConfigMenuGroup();
+		MenuGroup rightMenuGroup = MenuGroupFactory.getInstance().getRightMenuGroup();
+		MenuGroup configMenuGroup = MenuGroupFactory.getInstance().getConfigMenuGroup();
+		configMenuGroup.activedMenuByIndex(3);
+		rightMenuGroup.activedMenuByIndex(3);
+		return ModelAndViewFactory.newModelAndViewFor("/config")
+				.with("menus2", topRightMenuGroup.getMenus())
+				.with("rightSideMenu", rightMenuGroup.getMenus())
+				.with("menus3", configMenuGroup.getMenus())
+				.with("page","worker").build();
+	}
 	
 	@RequestMapping(method = RequestMethod.POST)
 	public ModelAndView onCreateTeacher(@RequestBody Teacher teacher)

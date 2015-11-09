@@ -1,6 +1,6 @@
 (function(){
 	"use strict";
-	define(['jquery','ajaxwrapper','Json'],function($,ajaxWrapper){
+	define(['jquery','ajaxwrapper'],function($,ajaxWrapper){
 		var Teacher = function(){
 			this.teacherName = '';
 			this.teacherAccount = '';
@@ -12,14 +12,14 @@
 		};
 		
 		var editorForm = function(editorForm){
-			this.subject = undefined,
+			this.Teacher = undefined,
 			//获取表单的各个参数
 			this.show = function(Teacher){
-				for(var o in Teacher){
-					editorForm.find('#'+o).val(Teacher[o]);
-				}
-				editorForm.find(':text:first').focus();
-				this.Teacher = Teacher;
+				editorForm.find('#teacherName').val(Teacher.o.teacherName);
+				editorForm.find('#teacherAccount').val(Teacher.o.teacherAccount);
+				editorForm.find('#teacherName').focus();
+				$('#subject').val(Teacher.o.subject.id);
+				this.Teacher = Teacher.o;
 			};
 			
 			this.validate = function(){
@@ -64,23 +64,9 @@
 				}
 			}
 			
-			this.remove = function(){
-				if(this.validate()){
-					//调用removeJson
-				}
-			}
-			
-			//给表单赋值 
-			this.setData = function(){
-				this.Teacher.teacherName = editorForm.find("#teacherName").val();
-				this.Teacher.subject.name = editorForm.find("#subjectId").val();
-				
-			}
-			
-			
 			var self = this;
 			editorForm.submit(function(){
-				self.setData();
+				//self.setData();
 				self.save();
 				return false;
 			});
@@ -89,41 +75,38 @@
 		var o = function(){
 			var myTable = $('div.subject-container>table');
 			var myForm = new editorForm($('div.subject-container>.subject-editor>form'));
-			var currentSubject = {
+			var currentTeacher = {
 				isNew:false,
 				row:undefined,
+				o:undefined,
 				show:function(){
-					var t = new Teacher();
+					this.o = new Teacher();
 					if(!this.isNew){
 						var sd = this.row.find('td:first a[data-rr-name="subjectName"]');
 						//获取文本值
-						t.subject.name = sd.text();	
+						this.o.subject.name = sd.text();	
 						//获取id
-						t.subject.id = sd.attr('data-rr-value');
+						this.o.subject.id = sd.attr('data-rr-value');
 						//获取显示科目id和科目
-						$('#subjectId option:selected').text("Id："+sd.attr('data-rr-value')+" "+"值："+t.subject.name);  
+						//$('#subjectId option:selected').text("Id："+sd.attr('data-rr-value')+" "+"值："+t.subject.name);  
 						
-						t.teacherName = this.row.find('td:eq(1)').text();
-						t.teacherAccount = this.row.find('td:eq(2)').text();
+						this.o.teacherName = this.row.find('td:eq(1)').text();
+						this.o.teacherAccount = this.row.find('td:eq(2)').text();
 					}
-					myForm.show(t);
+					myForm.show(this);
 				}
 			};
 			
-			var initSubject = function(isNew){
-				currentSubject.isNew = isNew;
-				currentSubject.row = $(this).parent().parent();
-				currentSubject.show();
-			}
-
-			//默认新增
-			initSubject(true);
 			
 			//点击+号新增
 			myTable.on('click','tbody #newTeacher',function(e){
-				initSubject(true);
+				currentTeacher.isNew = true;
+				currentTeacher.row = $(this).parent().parent();
+				currentTeacher.show();
 			}).on('click','tbody a[data-rr-name="subjectName"]',function(e){
-				initSubject(false);
+				currentTeacher.isNew = false;
+				currentTeacher.row = $(this).parent().parent();
+				currentTeacher.show();
 			});
 		};
 
