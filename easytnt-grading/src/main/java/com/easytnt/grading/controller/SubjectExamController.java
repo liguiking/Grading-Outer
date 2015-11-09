@@ -13,6 +13,7 @@ import com.easytnt.commons.web.view.ModelAndViewFactory;
 import com.easytnt.grading.domain.exam.SubjectExam;
 import com.easytnt.grading.domain.paper.ExamPaper;
 import com.easytnt.grading.service.SubjectExamService;
+import com.easytnt.grading.service.SubjectService;
 
 @Controller
 @RequestMapping(value = "/subjectExam")
@@ -22,10 +23,14 @@ public class SubjectExamController {
 	@Autowired(required = false)
 	private SubjectExamService subjectExamService;
 	
+	@Autowired(required = false)
+	private SubjectService subjectService;
+	
 	@RequestMapping(value = "/onCreateSubjectExam",method = RequestMethod.POST)
 	public ModelAndView onCreateSubjectExam(@RequestBody SubjectExam subjectExam)
 					throws Exception {
 		logger.debug("URL /subjectExam Method POST ", subjectExam);
+		subjectExam.getSubject().setSubjectCode(subjectService.getMaxCode());
 		for(ExamPaper ep:subjectExam.getUsedPaper()){
 			ep.addSubjectExams(subjectExam);
 			subjectExam.addExamPapers(ep);

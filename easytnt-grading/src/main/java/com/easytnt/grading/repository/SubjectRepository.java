@@ -10,5 +10,5 @@ import com.easytnt.grading.domain.exam.Subject;
  *
  */
 public interface SubjectRepository extends Repository<Subject, Long> {
-	
+	public int getMaxCode();
 }

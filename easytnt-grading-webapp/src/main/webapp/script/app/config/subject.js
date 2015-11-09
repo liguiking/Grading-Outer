@@ -49,9 +49,7 @@
 			
 			this.save = function(){
 				if(this.validate()){
-					//TODO save
-					alert("保存前");
-					ajaxWrapper.postJson("subjectExam/onCreateSubjectExam",this.subjectExam,
+					ajaxWrapper.postJson("subjectExam/onCreateSubjectExam",setInfo.setValue(),
 							{beforeMsg:{tipText:".",show:false},
 							sucessMsg:{tipText:"计分成功",show:true}},
 							function(m){
@@ -59,14 +57,6 @@
 									alert("保存成功");
 								}
 							});
-//					ajaxWrapper.putJson(url,examPaper,
-//					{beforeMsg:{tipText;".",show:false},
-//					sucessMsg:{tipText:"科目保存成功",show:true}},
-//					function(m){
-//						if(m.status.success){
-//							
-//						}
-//					});
 				}
 
 			};
@@ -75,8 +65,24 @@
 				self.save();
 				return false;
 			});
+			
 		};
-		
+		var setInfo = {
+				setValue:function(){
+					var myForm = $('div.subject-container>.subject-editor>form');
+					var e = new examPaper();
+					var s = new subject();
+					var se = new subjectExam();
+					e.name = myForm.find('#name').val();
+					s.name = myForm.find('#name').val();
+					e.fullScore = myForm.find('#fullScore').val();
+					e.objectivityScore = myForm.find('#objectivityScore').val();
+					e.subjectivityScore = myForm.find('#subjectivityScore').val();
+					se.subject = s;
+					se.usedPaper = [e];
+					return se;
+				}
+			};
 		var o = function(){
 			var myTable = $('div.subject-container>table');
 			var myForm = new editorForm($('div.subject-container>.subject-editor>form'));
