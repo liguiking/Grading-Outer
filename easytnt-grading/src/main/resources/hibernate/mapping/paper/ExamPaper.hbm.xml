@@ -12,6 +12,12 @@
 		<property name="fullScore" type="java.lang.Float">
 			<column name="full_score" />
 		</property>
+		<property name="subjectivityScore" type="java.lang.Float">
+			<column name="subjectivity_score" />
+		</property>
+		<property name="objectivityScore" type="java.lang.Float">
+			<column name="bjectivity_score" />
+		</property>				
 		<property name="paperOid" type="java.lang.Long">
 			<column name="taper_oid" />
 		</property>

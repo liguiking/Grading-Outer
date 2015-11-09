@@ -43,6 +43,10 @@ public class ExamPaper implements Entity<ExamPaper> {
 	
 	private Float fullScore;
 	
+	private Float objectivityScore; //客观题满分
+	
+	private Float subjectivityScore; //主观题满分
+	
 	public ExamPaper(String name,Float fullScore) {
 		this.name = name;
 		this.fullScore = fullScore;
@@ -207,6 +211,18 @@ public class ExamPaper implements Entity<ExamPaper> {
 
 	public void setSubjectExam(Set<SubjectExam> subjectExam) {
 		this.subjectExam = subjectExam;
+	}
+	public Float getObjectivityScore() {
+		return objectivityScore;
+	}
+	public void setObjectivityScore(Float objectivityScore) {
+		this.objectivityScore = objectivityScore;
+	}
+	public Float getSubjectivityScore() {
+		return subjectivityScore;
+	}
+	public void setSubjectivityScore(Float subjectivityScore) {
+		this.subjectivityScore = subjectivityScore;
 	}
 	
 }
