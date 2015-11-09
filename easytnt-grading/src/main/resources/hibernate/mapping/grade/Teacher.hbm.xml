@@ -3,13 +3,12 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated 2015-11-9 10:57:59 by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
-    <class name="com.easytnt.grading.domain.grade.Teacher" table="TEACHER">
+    <class name="com.easytnt.grading.domain.grade.Teacher" table="teacher_info">
         <id name="teacherId" type="java.lang.Long">
             <column name="teacher_id" />
             <generator class="identity" />
         </id>
-        <many-to-one name="subject" class="com.easytnt.grading.domain.exam.Subject" access="field" fetch="join">
-            <column name="subject_id" />
+        <many-to-one name="subject"  column="subject_id"   class="com.easytnt.grading.domain.exam.Subject" cascade="save-update" >
         </many-to-one>
         <property name="teacherAccount" type="java.lang.String">
             <column name="teacher_account" />

@@ -9,4 +9,6 @@ import com.easytnt.grading.domain.exam.Subject;
  *
  */
 public interface SubjectService extends EntityService<Subject, Long> {
+	
+	public int getMaxCode();
 }

@@ -45,4 +45,9 @@ public class SubjectServiceImpl  extends AbstractEntityService<Subject, Long> im
 		// TODO Auto-generated method stub
 	}
 
+	@Override
+	public int getMaxCode() {
+		return subjectRepository.getMaxCode();
+	}
+
 }
