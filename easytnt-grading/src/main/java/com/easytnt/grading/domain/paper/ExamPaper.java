@@ -55,6 +55,9 @@ public class ExamPaper implements Entity<ExamPaper> {
 		if (this.sections == null) {
 			this.sections = new LinkedHashSet<Section>();
 		}
+		if (this.subjectExam == null) {
+			this.subjectExam = new LinkedHashSet<SubjectExam>();
+		}
 	}
 	private Integer index=1;
 	public void addSections(Section section){
@@ -66,6 +69,10 @@ public class ExamPaper implements Entity<ExamPaper> {
 		this.sections.add(section);
 		validate();
 		index++;
+	}
+	public void addSubjectExams(SubjectExam subjectExam){
+		init();
+		this.subjectExam.add(subjectExam);
 	}
 	public void addSections(Integer position,Section section){
 		init();

@@ -28,7 +28,7 @@ public class ExamPaperController {
 	@Autowired(required = false)
 	private ExamPaperService examPaperService;
 	
-	@RequestMapping(method = RequestMethod.POST)
+	@RequestMapping(value = "/onCreateExamPaper",method = RequestMethod.POST)
 	public ModelAndView onCreateExamPaper(@RequestBody ExamPaper examPaper)
 					throws Exception {
 		logger.debug("URL /examPaper Method POST ", examPaper);

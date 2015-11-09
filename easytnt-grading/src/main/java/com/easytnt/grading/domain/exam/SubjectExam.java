@@ -5,7 +5,10 @@
 
 package com.easytnt.grading.domain.exam;
 
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -25,10 +28,14 @@ import com.easytnt.grading.domain.paper.ExamPaper;
  * @version 1.0
  **/
 public class SubjectExam implements Entity<SubjectExam>{
-    
+	private static SimpleDateFormat sdf;
+    static{
+    	sdf=new SimpleDateFormat("yyyyMMdd");
+    }
+	
 	private Long testId;
 	
-    private Long oid;
+    private Long oid=(long) Integer.parseInt(sdf.format(new Date()));
     
     private ExamDesc desc;
     
@@ -36,7 +43,7 @@ public class SubjectExam implements Entity<SubjectExam>{
     
     private Exam belongTo;
     
-    private List<ExamPaper> usedPaper;
+    private Set<ExamPaper> usedPaper;
     
     private Integer testYear;
     private Integer testMonth;
@@ -48,7 +55,19 @@ public class SubjectExam implements Entity<SubjectExam>{
 		this.oid = oid;
 	}
     
-    public static SubjectExam createBy(List<ExamPaper> usedPaper,ExamDesc desc,Subject subject) {
+    private void init() {
+		if (this.usedPaper == null) {
+			this.usedPaper = new LinkedHashSet<ExamPaper>();
+		}
+	}
+    private int index=1;
+    public void addExamPapers(ExamPaper examPaper){
+    	init();
+    	examPaper.setPaperOid(this.oid*10+index);
+    	this.usedPaper.add(examPaper);
+    	this.index++;
+    }
+    public static SubjectExam createBy(Set<ExamPaper> usedPaper,ExamDesc desc,Subject subject) {
     	SubjectExam se = new SubjectExam();
     	se.usedPaper = usedPaper;
     	se.desc = desc;
@@ -117,11 +136,11 @@ public class SubjectExam implements Entity<SubjectExam>{
 		this.belongTo = belongTo;
 	}
 
-	public List<ExamPaper> getUsedPaper() {
+	public Set<ExamPaper> getUsedPaper() {
 		return usedPaper;
 	}
 
-	public void setUsedPaper(List<ExamPaper> usedPaper) {
+	public void setUsedPaper(Set<ExamPaper> usedPaper) {
 		this.usedPaper = usedPaper;
 	}
 

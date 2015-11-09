@@ -16,7 +16,7 @@
 			<column name="subjectivity_score" />
 		</property>
 		<property name="objectivityScore" type="java.lang.Float">
-			<column name="bjectivity_score" />
+			<column name="objectivity_score" />
 		</property>				
 		<property name="paperOid" type="java.lang.Long">
 			<column name="taper_oid" />
@@ -33,7 +33,7 @@
             <key column="paper_id" ></key>
             <one-to-many class="com.easytnt.grading.domain.paper.Section"/>
         </set>
-        <set name="subjectExam" table="test_used_paper" inverse="true" cascade="none">
+        <set name="subjectExam" table="test_used_paper"  lazy="false" cascade="all">
             <key column="paper_id"></key>
             <many-to-many class="com.easytnt.grading.domain.exam.SubjectExam" column="test_id"></many-to-many>
         </set>

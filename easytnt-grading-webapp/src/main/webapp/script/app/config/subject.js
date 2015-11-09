@@ -1,23 +1,31 @@
 (function(){
 	"use strict";
-	define(['jquery','ajax'],function($,ajax){
-		var subject = function(){
+	define(['jquery','ajaxwrapper'],function($,ajaxWrapper){
+		var subjectExam = function(){
+			this.subject = {};
+			this.usedPaper=[];
+		};
+		var examPaper = function(){
 			this.name = '';
-			this.oid = -1;
 			this.fullScore = 0;
 			this.objectivityScore = 0;
 			this.subjectivityScore = 0;
 		};
-		
+		var subject = function(){
+			this.name = '';
+			this.subjectCode = '';
+		};
 		var editorForm = function(editorForm){
 			
-			this.subject = undefined,
-			this.show = function(subject){
-				for(var o in subject){
-					editorForm.find('#'+o).val(subject[o]);
+			this.examPaper = undefined,
+			this.show = function(examPaper,subject,subjectExam){
+				for(var o in examPaper){
+					editorForm.find('#'+o).val(examPaper[o]);
 				}
 				editorForm.find(':text:first').focus();
+				this.examPaper = examPaper;
 				this.subject = subject;
+				this.subjectExam = subjectExam;
 			};
 			
 			this.validate = function(){
@@ -42,6 +50,23 @@
 			this.save = function(){
 				if(this.validate()){
 					//TODO save
+					alert("保存前");
+					ajaxWrapper.postJson("subjectExam/onCreateSubjectExam",this.subjectExam,
+							{beforeMsg:{tipText:".",show:false},
+							sucessMsg:{tipText:"计分成功",show:true}},
+							function(m){
+								if(m.status.success){
+									alert("保存成功");
+								}
+							});
+//					ajaxWrapper.putJson(url,examPaper,
+//					{beforeMsg:{tipText;".",show:false},
+//					sucessMsg:{tipText:"科目保存成功",show:true}},
+//					function(m){
+//						if(m.status.success){
+//							
+//						}
+//					});
 				}
 
 			};
@@ -60,16 +85,21 @@
 				isNew:false,
 				row:undefined,
 				show:function(){
+					var e = new examPaper();
 					var s = new subject();
+					var se = new subjectExam();
 					if(!this.isNew){
 						var sd = this.row.find('td:first a[data-rr-name="subjectName"]');
+						e.name = sd.text();
 						s.name = sd.text();
-						s.oid = sd.attr('data-rr-value');
-						s.fullScore = this.row.find('td:eq(3)').text();
-						s.objectivityScore = this.row.find('td:eq(4)').text();
-						s.subjectivityScore = this.row.find('td:eq(5)').text();
+						s.subjectCode = sd.attr('data-rr-value');;
+						e.fullScore = this.row.find('td:eq(3)').text();
+						e.objectivityScore = this.row.find('td:eq(4)').text();
+						e.subjectivityScore = this.row.find('td:eq(5)').text();
+						se.subject = s;
+						se.usedPaper = [e];
 					}
-					myForm.show(s);
+					myForm.show(e,s,se);
 				}
 			};
 
