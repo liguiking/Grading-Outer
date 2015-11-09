@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.easytnt.commons.entity.cqrs.Query;
 import com.easytnt.commons.entity.cqrs.QueryBuilder;
+import com.easytnt.commons.ui.MenuGroup;
 import com.easytnt.commons.web.view.ModelAndViewFactory;
 import com.easytnt.grading.domain.exam.Subject;
 import com.easytnt.grading.service.SubjectService;
@@ -25,6 +26,21 @@ public class SubjectController {
 
 	@Autowired(required = false)
 	private SubjectService subjectService;
+	
+	@RequestMapping(method = RequestMethod.GET)
+	public ModelAndView onGet()throws Exception {
+		logger.debug("URL /subject Method GET ");
+		MenuGroup topRightMenuGroup = MenuGroupFactory.getInstance().getConfigMenuGroup();
+		MenuGroup rightMenuGroup = MenuGroupFactory.getInstance().getRightMenuGroup();
+		MenuGroup configMenuGroup = MenuGroupFactory.getInstance().getConfigMenuGroup();
+		configMenuGroup.activedMenuByIndex(1);
+		rightMenuGroup.activedMenuByIndex(3);
+		return ModelAndViewFactory.newModelAndViewFor("/config")
+				.with("menus2", topRightMenuGroup.getMenus())
+				.with("rightSideMenu", rightMenuGroup.getMenus())
+				.with("menus3", configMenuGroup.getMenus())
+				.with("page","subject").build();
+	}
 	
 	@RequestMapping(method = RequestMethod.POST)
 	public ModelAndView onCreateSubject(@RequestBody Subject sub)
