@@ -1,0 +1,70 @@
+package com.easytnt.grading.controller;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.easytnt.commons.entity.cqrs.Query;
+import com.easytnt.commons.entity.cqrs.QueryBuilder;
+import com.easytnt.commons.web.view.ModelAndViewFactory;
+import com.easytnt.grading.domain.grade.Teacher;
+import com.easytnt.grading.service.TeacherService;
+
+@Controller
+@RequestMapping(value = "/teacher")
+public class TeacherController {
+	private static Logger logger = LoggerFactory.getLogger(TeacherController.class);
+
+	@Autowired(required = false)
+	private TeacherService teacherService;
+	
+	@RequestMapping(method = RequestMethod.POST)
+	public ModelAndView onCreateTeacher(@RequestBody Teacher teacher)
+					throws Exception {
+		logger.debug("URL /Teacher Method POST ", teacher);
+		teacherService.create(teacher);
+		return ModelAndViewFactory.newModelAndViewFor("/teacher/editteacher").build();
+	}
+	
+	@RequestMapping(value = "/{teacherId}", method = RequestMethod.GET)
+	public ModelAndView onViewTeacher(@PathVariable Long teacherId)
+					throws Exception {
+		logger.debug("URL /TeacherId/{} Method Get ", teacherId);
+		Teacher teacher = teacherService.load(teacherId);
+		return ModelAndViewFactory.newModelAndViewFor("/teacher/editTeacher").with("teacher",teacher).build();
+	}
+	
+	@RequestMapping(method = RequestMethod.PUT)
+	public ModelAndView onUpdateTeacher(@RequestBody Teacher teacher)
+					throws Exception {
+		logger.debug("URL /Teacher Method PUT ", teacher);
+		teacherService.update(teacher);
+		return ModelAndViewFactory.newModelAndViewFor("/teacher/editTeacher").build();
+	}
+	
+	@RequestMapping(method = RequestMethod.DELETE)
+	public ModelAndView onDeleteTeacher(@RequestBody Teacher teacher)
+					throws Exception {
+		logger.debug("URL /Teacher Method DELETE ", teacher);
+		teacherService.delete(teacher);
+		return ModelAndViewFactory.newModelAndViewFor().build();
+	}
+	
+	@RequestMapping(value="/query/{page}/{size}",method = RequestMethod.GET)
+	public ModelAndView onQueryTeacher(@PathVariable int page,@PathVariable int size,HttpServletRequest request)
+					throws Exception {
+		logger.debug("URL /Teacher/query/{}/{} Method GET ", page,size);
+        Query<Teacher> query = new QueryBuilder().newQuery(page,size,request.getParameterMap());
+        teacherService.query(query);
+		return ModelAndViewFactory.newModelAndViewFor("/teacher/listTeacher").with("result",query.getResults())
+				.with("totalPage",query.getTotalPage()).build();
+	}
+}
