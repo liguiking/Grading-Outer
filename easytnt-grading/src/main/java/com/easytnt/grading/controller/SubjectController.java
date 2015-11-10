@@ -34,7 +34,7 @@ public class SubjectController {
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView onGet()throws Exception {
 		logger.debug("URL /subject Method GET ");
-		MenuGroup topRightMenuGroup = MenuGroupFactory.getInstance().getConfigMenuGroup();
+		MenuGroup topRightMenuGroup = MenuGroupFactory.getInstance().getTopRightMenuGroup();
 		MenuGroup rightMenuGroup = MenuGroupFactory.getInstance().getRightMenuGroup();
 		MenuGroup configMenuGroup = MenuGroupFactory.getInstance().getConfigMenuGroup();
 		configMenuGroup.activedMenuByIndex(1);

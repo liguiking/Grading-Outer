@@ -48,7 +48,7 @@ public class MonitorController {
 	}
 	
 	private ModelAndView createModelAndView(int activedIndex,String page) {
-		MenuGroup topRightMenuGroup = MenuGroupFactory.getInstance().getConfigMenuGroup();
+		MenuGroup topRightMenuGroup = MenuGroupFactory.getInstance().getTopRightMenuGroup();
 		MenuGroup rightMenuGroup = MenuGroupFactory.getInstance().getRightMenuGroup();
 		MenuGroup monitorMenuGroup = MenuGroupFactory.getInstance().getMonitorMenuGroup();
 		monitorMenuGroup.activedMenuByIndex(activedIndex);
