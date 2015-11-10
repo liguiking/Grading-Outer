@@ -40,6 +40,7 @@ public class ExamPaper implements Entity<ExamPaper> {
 	
 	private Set<SubjectExam> subjectExam;
 	
+	private Set<PaperCard> paperCards;
 	
 	private Float fullScore;
 	
@@ -58,6 +59,19 @@ public class ExamPaper implements Entity<ExamPaper> {
 		if (this.subjectExam == null) {
 			this.subjectExam = new LinkedHashSet<SubjectExam>();
 		}
+		if (this.paperCards == null) {
+			this.paperCards = new LinkedHashSet<PaperCard>();
+		}
+	}
+	public void addPaperCard(PaperCard paperCard){
+		init();
+		paperCard.setPaper(this);
+		this.paperCards.add(paperCard);
+	}
+	public void removePaperCard(PaperCard paperCard){
+		init();
+		paperCard.setPaper(null);
+		this.paperCards.remove(paperCard);
 	}
 	private Integer index=1;
 	public void addSections(Section section){
@@ -231,6 +245,13 @@ public class ExamPaper implements Entity<ExamPaper> {
 	public void setSubjectivityScore(Float subjectivityScore) {
 		this.subjectivityScore = subjectivityScore;
 	}
+	public Set<PaperCard> getPaperCards() {
+		return paperCards;
+	}
+	public void setPaperCards(Set<PaperCard> paperCards) {
+		this.paperCards = paperCards;
+	}
+	
 	
 }
 

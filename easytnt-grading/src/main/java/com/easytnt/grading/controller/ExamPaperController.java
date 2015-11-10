@@ -15,8 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.easytnt.commons.entity.cqrs.Query;
 import com.easytnt.commons.entity.cqrs.QueryBuilder;
 import com.easytnt.commons.web.view.ModelAndViewFactory;
-import com.easytnt.grading.domain.exam.Exam;
 import com.easytnt.grading.domain.paper.ExamPaper;
+import com.easytnt.grading.domain.paper.PaperCard;
 import com.easytnt.grading.domain.paper.Section;
 import com.easytnt.grading.service.ExamPaperService;
 
@@ -61,26 +61,40 @@ public class ExamPaperController {
 	}
 	
 	@RequestMapping(value="/{examPaperId}/section",method = RequestMethod.POST)
-	public ModelAndView onAddSection(@PathVariable Long paperId,@RequestBody Section section)
+	public ModelAndView onAddSection(@PathVariable Long examPaperId,@RequestBody Section section)
 					throws Exception {
 		logger.debug("URL /examPaper Method DELETE ", section);
-		examPaperService.addSectionFor(paperId,section);
+		examPaperService.addSectionFor(examPaperId,section);
+		return ModelAndViewFactory.newModelAndViewFor().build();
+	}
+	@RequestMapping(value="/onAddPaperCard/{examPaperId}/paperCard",method = RequestMethod.POST)
+	public ModelAndView onAddPaperCard(@PathVariable Long examPaperId,@RequestBody PaperCard paperCard)
+					throws Exception {
+		logger.debug("URL /examPaper Method DELETE ", paperCard);
+		examPaperService.addPaperCardFor(examPaperId, paperCard);
 		return ModelAndViewFactory.newModelAndViewFor().build();
 	}
 	
 	@RequestMapping(value="/{examPaperId}/section/{position}",method = RequestMethod.PUT)
-	public ModelAndView onUpdateSection(@PathVariable Long paperId,@RequestBody Section section,@PathVariable Integer position)
+	public ModelAndView onUpdateSection(@PathVariable Long examPaperId,@RequestBody Section section,@PathVariable Integer position)
 					throws Exception {
 		logger.debug("URL /examPaper Method U ", section);
-		examPaperService.updateSectionFor(paperId,section,position);
+		examPaperService.updateSectionFor(examPaperId,section,position);
 		return ModelAndViewFactory.newModelAndViewFor().build();
 	}
 	
-	@RequestMapping(value="/{paperId}/section",method = RequestMethod.DELETE)
+	@RequestMapping(value="/onRemoveSection/{paperId}/section",method = RequestMethod.DELETE)
 	public ModelAndView onRemoveSection(@PathVariable Long paperId,@RequestBody Section section)
 					throws Exception {
 		logger.debug("URL /examPaper Method U ", section);
 		examPaperService.deleteSectionFor(paperId,section);
+		return ModelAndViewFactory.newModelAndViewFor().build();
+	}
+	@RequestMapping(value="/{paperId}/paperCard",method = RequestMethod.DELETE)
+	public ModelAndView onRemovePaperCard(@PathVariable Long paperId,@RequestBody PaperCard paperCard)
+					throws Exception {
+		logger.debug("URL /examPaper Method U ", paperCard);
+		examPaperService.removePaperCardFor(paperId, paperCard);
 		return ModelAndViewFactory.newModelAndViewFor().build();
 	}
 	

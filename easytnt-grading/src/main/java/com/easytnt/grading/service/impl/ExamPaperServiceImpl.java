@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.easytnt.commons.entity.cqrs.Query;
 import com.easytnt.commons.entity.service.AbstractEntityService;
 import com.easytnt.grading.domain.paper.ExamPaper;
+import com.easytnt.grading.domain.paper.PaperCard;
 import com.easytnt.grading.domain.paper.Section;
 import com.easytnt.grading.repository.ExamPaperRepository;
 import com.easytnt.grading.service.ExamPaperService;
@@ -62,5 +63,20 @@ public class ExamPaperServiceImpl extends AbstractEntityService<ExamPaper, Long>
 		examPaper.addSections(section);
 		examPaperRepository.save(examPaper);
 	}
+
+	@Override
+	public void addPaperCardFor(Long paperId, PaperCard paperCard) {
+		ExamPaper examPaper = load(paperId);
+		examPaper.addPaperCard(paperCard);
+		examPaperRepository.save(examPaper);
+	}
+
+	@Override
+	public void removePaperCardFor(Long paperId, PaperCard paperCard) {
+		ExamPaper examPaper = load(paperId);
+		examPaper.removePaperCard(paperCard);
+		examPaperRepository.save(examPaper);
+	}
+	
 
 }

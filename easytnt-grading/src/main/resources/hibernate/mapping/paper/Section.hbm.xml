@@ -13,7 +13,7 @@
 			<column name="full_score" />
 		</property>
 		<many-to-one name="paper" class="com.easytnt.grading.domain.paper.ExamPaper" 
-                     column="paper_id" cascade="save-update"  >
+                     column="paper_id" cascade="all"  >
          </many-to-one>
          
          <property name="sectionOid" type="java.lang.Long">

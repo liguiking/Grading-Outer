@@ -1,6 +1,6 @@
 (function(){
 	"use strict";
-	define(['jquery','ajaxwrapper'],function($,ajaxWrapper){
+	define(['jquery','app/marking/ImgToolbox','app/marking/PointPanel', 'app/marking/ImgView' ,'ajaxwrapper','ui'],function($,imgToolbox,point,imgViewer,ajaxWrapper,ui){
 		var subjectExam = function(){
 			this.testId=undefined;
 			this.subject = {};
@@ -64,6 +64,7 @@
 							function(m){
 								if(m.status.success){
 									alert("保存成功");
+									location.reload();
 								}
 							});
 				}
@@ -77,6 +78,7 @@
 							function(m){
 								if(m.status.success){
 									alert("保存成功");
+									location.reload();
 								}
 							});
 				}
@@ -128,9 +130,9 @@
 						s.name = sd.text();
 						s.subjectCode = sd.attr('data-rr-value');
 						se.testId = sd.attr('data-rr-testId');
-						e.fullScore = this.row.find('td:eq(3)').text();
-						e.objectivityScore = this.row.find('td:eq(4)').text();
-						e.subjectivityScore = this.row.find('td:eq(5)').text();
+						e.fullScore = this.row.find('td:eq(5)').text();
+						e.objectivityScore = this.row.find('td:eq(6)').text();
+						e.subjectivityScore = this.row.find('td:eq(7)').text();
 						se.subject = s;
 						se.usedPaper = [e];
 					}
@@ -142,23 +144,34 @@
 				currentSubject.isNew = true;
 				currentSubject.row = $(this).parent().parent();
 				currentSubject.show();
-			}).on('click','tbody a[data-rr-name="subjectName"]',function(e){
+			}).on('click','tbody #updateSubject',function(e){
 				currentSubject.isNew = false;
-				currentSubject.row = $(this).parent().parent();
+				currentSubject.row = $(this).parent().parent().parent().parent().parent();
 				currentSubject.show();
 			}).on('click','tbody #removeSubject',function(e){
 				var myTable = $('div.subject-container>table');
-				var sd = $(this).parent().parent().find('td:first a[data-rr-name="subjectName"]');
+				var sd = $(this).parent().parent().parent().parent().parent().find('td:first a[data-rr-name="subjectName"]');
 				var testId = sd.attr('data-rr-testId');
-				alert("我要删除"+testId);
 				ajaxWrapper.removeJson("subjectExam/onDeleteSubjectExam",{testId:testId},
 						{beforeMsg:{tipText:".",show:false},
 						sucessMsg:{tipText:"删除成功",show:true}},
 						function(m){
 							if(m.status.success){
 								alert("删除成功");
+								location.reload();
 							}
 						});
+			}).on('click','tbody #addImage',function(e){
+				var btns = [{text:'确定',clazz : 'btn-primary',callback:function(){
+					
+					$(this).trigger('close');
+				}},{text:'放弃',callback:function(){
+					$(this).trigger('close');
+				}}];
+				var message =  '<p>上传图片</p><div class="input-group"><span class="input-group-addon" id="error-reason">选择图片</span><input type="file" class="form-control" placeholder="选择图片"  accept="image/gif, image/jpeg,image/png" aria-describedby="error-reason"></div>';
+				
+				var modal = ui.modal('上传图片',message,'md',btns);
+				modal.find(':text').focus();
 			});
 		};
 

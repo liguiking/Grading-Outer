@@ -2,7 +2,7 @@
   <table class="table table-striped table-bordered ">
   	<thead class="bg-primary">
   	  <tr>
-  	    <th>科目</th><th>试卷量</th><th>切割块</th><th>满分</th><th>客观题满分</th><th>主观题满分</th><th>导入情况</th><th>删除</th>
+  	    <th>科目</th><th>试卷量</th><th>答题卡原图</th><th>操作</th><th>切割块</th><th>满分</th><th>客观题满分</th><th>主观题满分</th><th>导入情况</th><#--<th>删除</th>-->
   	  </tr>
   	</thead>
   	<tbody>
@@ -10,7 +10,19 @@
 	  	<#list resultList as result>
 	  	  <tr>
 	  	    <td><a href="#" data-rr-name="subjectName" data-rr-value="${result.subject.subjectCode}" data-rr-testId="${result.testId}">${result.subject.name}</a></td>
-	  	    <td>${result.usedPaper ?size}</td>
+	  	    <td>0</td>
+	  	    <td><a href="#" id="addImage"><i class="icon-plus"></i></a></td>
+	  	    <td>
+	  	    	<div class="btn-group">
+				  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				    操作<span class="caret"></span>
+				  </button>
+				  <ul class="dropdown-menu">
+				    <li><a href="#" id="updateSubject">更新</a></li>
+				    <li><a href="#" id="removeSubject">删除</a></li>
+				  </ul>
+				</div>
+	  	    </td>
 	  	    <#if result.usedPaper??>
 		  	    <#list result.usedPaper as usedPaper>
 		  	    	<#if usedPaper.sections ?size = 0>
@@ -25,8 +37,9 @@
 	  	    </#if>
 	  	    <td class="completed">
 	  	    <i class=" icon-ok"></i></td>
+	  	    <#--
 	  	    <td>
-	  	    <a href="#" id="removeSubject"><i class="icon-minus"></i></a></td>
+	  	    <a href="#" id="removeSubject"><i class="icon-minus"></i></a></td>-->
 	  	  </tr>
 	  	</#list>
   	</#if>	    	
