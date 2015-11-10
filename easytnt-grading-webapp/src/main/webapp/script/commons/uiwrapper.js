@@ -58,7 +58,6 @@
 					});
 					
 					fileHtml.find('.file-preview-input input[type=file]').change(function(e){
-						console.log('---');
 						var file = this.files[0];
 						
 						var reader = new FileReader();

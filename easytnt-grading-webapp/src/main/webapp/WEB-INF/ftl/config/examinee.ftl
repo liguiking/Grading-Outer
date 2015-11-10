@@ -21,29 +21,41 @@
   <table class="table table-striped table-bordered ">
   	<thead class="bg-primary">
   	  <tr>
-  	    <th>科目</th><th>姓名</th><th>账号</th><th>操作</th>
+  	    <th>科目</th><th>姓名</th><th>操作</th>
   	  </tr>
   	</thead>
   	<tbody>
   	  <tr >
-  	    <td><a href="#" data-rr-name="subjectName" data-rr-value="100">语文</a></td>
-  	    <td >小红</td>
-  	    <td><a href="#">100001</a></td>
-  	    <td><a href="#">修改密码</a>|<a href="#">分配任务</a></td>
+  	    <td>
+  	      <select name="s">
+  	        <option value="1">考点</option>
+  	        <option value="2">考场</option>
+  	        <option value="3">考生姓名</option>
+  	        <option value="4">准考证号</option>
+  	      </select>
+  	    </td>
+  	    <td>
+  	      <select name="s">
+  	        <option value="1">考点</option>
+  	        <option value="2">考场</option>
+  	        <option value="3">考生姓名</option>
+  	        <option value="4">准考证号</option>
+  	      </select>  	    
+  	    </td>
+  	    <td><a href="#"><i class="icon-plus"></i></a></td>
   	  </tr>
-  	  <tr >
-  	    <td><a href="#" data-rr-name="subjectName" data-rr-value="102">数学</a></td>
-  	    <td>小兰</td>
-  	    <td>100002</td>
-  	    <#--<i class=" icon-remove"></i>-->
-  	    <td><a href="#">修改密码</a>|<a href="#">分配任务</a></td>
-  	  </tr>  	    	
-  	  <tr class="bg-warning">
-  	    <td><a href="#" id="newTeacher"><i class="icon-plus"></i></a></td>
-  	    <td></td>
-  	    <td><a href="#"></a></td>
-  	    <td><a href="#"></td>
-  	  </tr>
+  	  
   	</tbody>
-  </table>	
+  </table>
+  <nav>
+    <ul class="pagination">
+      <li><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+      <li><a href="#">1</a></li>
+      <li><a href="#">2</a></li>
+      <li><a href="#">3</a></li>
+      <li><a href="#">4</a></li>
+      <li><a href="#">5</a></li>
+      <li><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+    </ul>
+  </nav>  
 </div>
