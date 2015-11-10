@@ -1,5 +1,7 @@
 package com.easytnt.grading.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -38,6 +40,7 @@ public class TeacherController {
 		configMenuGroup.activedMenuByIndex(3);
 		rightMenuGroup.activedMenuByIndex(3);
 		return ModelAndViewFactory.newModelAndViewFor("/config")
+				.with("result", teacherService.tlist())
 				.with("menus2", topRightMenuGroup.getMenus())
 				.with("rightSideMenu", rightMenuGroup.getMenus())
 				.with("menus3", configMenuGroup.getMenus())
@@ -48,6 +51,11 @@ public class TeacherController {
 	public ModelAndView onCreateTeacher(@RequestBody Teacher teacher)
 					throws Exception {
 		logger.debug("URL /Teacher Method POST ", teacher);
+		//账号生成机制  查询subject表中某字段 计算account = subjectCode*100+某字段
+		
+		
+		
+		
 		teacherService.create(teacher);
 		return ModelAndViewFactory.newModelAndViewFor("/teacher/editteacher").build();
 	}
@@ -67,6 +75,22 @@ public class TeacherController {
 		teacherService.update(teacher);
 		return ModelAndViewFactory.newModelAndViewFor("/teacher/editTeacher").build();
 	}
+	
+    /*//获取所有的teacher信息
+	public ModelAndView onGetTeacher(){
+		logger.debug("URL /Teacher Method GET");
+		List<Teacher> tlist = teacherService.tlist();
+		return ModelAndViewFactory.newModelAndViewFor("/teacher/editTeacher").with("teacher", tlist).build(); 
+	}
+	
+	//修改密码
+	@RequestMapping(value ="/updatePass", method = RequestMethod.PUT)
+	public ModelAndView onUpdatePass(@RequestBody Teacher teacher)
+					throws Exception {
+		logger.debug("URL /Teacher Method PUT ", teacher);
+		teacherService.update(teacher);
+		return ModelAndViewFactory.newModelAndViewFor("/teacher/editTeacher").build();
+	}*/
 	
 	@RequestMapping(method = RequestMethod.DELETE)
 	public ModelAndView onDeleteTeacher(@RequestBody Teacher teacher)

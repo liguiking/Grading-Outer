@@ -21,19 +21,22 @@ public class TeacherRepositoryHibernateImplTest extends AbstractHibernateTest{
 	
 	@Test
 	public void testSave()throws Exception{
-//		
+		//		
 		Subject su = new Subject();
-		su.setName("十年级大法");
+		su.setName("一年级大法");
+		//su.setId(61l);
 		su.setSubjectCode(10);
 		
 		Teacher teacher = new Teacher();
-		teacher.setTeacherName("小紫");
-		teacher.setTeacherPassord("22222");
+		//teacher.setTeacherId(86l);
+		teacher.setTeacherName("小紫22343");
+		teacher.setTeacherPassord("333");
 		teacher.setSubject(su);
 		
 		this.beginTransaction();
 		//this.saveOrUpdate(su);
 		this.saveOrUpdate(teacher);
+		
 		this.commit();
 
 		//clear(teacher);

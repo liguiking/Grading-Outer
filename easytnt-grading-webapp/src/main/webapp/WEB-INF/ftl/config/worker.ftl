@@ -6,19 +6,15 @@
   	  </tr>
   	</thead>
   	<tbody>
+  	 <#list result as t>
   	  <tr >
-  	    <td><a href="#" data-rr-name="subjectName" data-rr-value="100">语文</a></td>
-  	    <td >小红</td>
-  	    <td><a href="#">100001</a></td>
+  	    <td><a href="#" data-rr-name="subjectName" data-rr-value="">${t.subject.name}</a></td>
+  	    <input type="hidden" id="teacherId" value="${t.teacherId}"/>
+  	    <td>${t.teacherName}</td>
+  	    <td><a href="#">1001</a></td>
   	    <td><a href="#">修改密码</a>|<a href="#">分配任务</a></td>
   	  </tr>
-  	  <tr >
-  	    <td><a href="#" data-rr-name="subjectName" data-rr-value="102">数学</a></td>
-  	    <td>小兰</td>
-  	    <td>100002</td>
-  	    <#--<i class=" icon-remove"></i>-->
-  	    <td><a href="#">修改密码</a>|<a href="#">分配任务</a></td>
-  	  </tr>  	    	
+  	  </#list>
   	  <tr class="bg-warning">
   	    <td><a href="#" id="newTeacher"><i class="icon-plus"></i></a></td>
   	    <td></td>
@@ -36,19 +32,16 @@
 	    <div class="col-sm-8">
 	    <p></p>
 	    <select id="subject">
-	     <#--<#list result as subject> -->
-	    	<option value="100">语文<#--${subject.name}--></option>
-	    	<option value="101">英语</option>
-	    	<option value="102">数学</option>
-	    	<option value="103">科学</option>
-	     <#--</#list> -->	    
+	     <#list result as teacher>
+	    	<option value="${teacher.subject.id}">${teacher.subject.name}</option>
+	     </#list>    
 	    </select>
 	    </div>
 	  </div>
 	  <div class="form-group">
 	    <label for="teacherName" class="col-sm-4 control-label">姓名</label>
 	    <div class="col-sm-8">
-	      <input type="text" class="form-control" id="teacherName" data-rr-type="number" placeholder="姓名">
+	      <input type="text" class="form-control" id="teacherName" id="teacherName" placeholder="姓名">
 	    </div>
 	  </div>
 	  <div class="form-group">
