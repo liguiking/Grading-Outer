@@ -1,7 +1,7 @@
 (function() {
 	"use strict";
 
-	define([ 'jquery', 'dialog' ],function($, dialog) {
+	define([ 'jquery', 'dialog','lib/jquery/ajaxfileupload' ],function($, dialog) {
 				var defaultSettings = {
 					target : $(document.body),
 					type : 'GET',
@@ -153,7 +153,7 @@
 						if (settings.callback)
 							ajaxOpts["callback"] = settings.callback;
 						if (settings.dataType === 'text') {
-							ajaxOpts.fileElementId = settings.fileElementId|| "fileUpload";
+							ajaxOpts.fileElementId = settings.fileElementId|| "fileName";
 							$.ajaxFileUpload(ajaxOpts);
 						} else {
 							$.ajax(ajaxOpts);

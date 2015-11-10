@@ -1,8 +1,8 @@
 (function() {
 	"use strict";
 	define([ 'jquery', 'ajax','dialog' ], function($, ajax,dialog) {
-		var Method = {GET:'GET',POST:'POST',PUT:'PUT',DELETE:'DELETE'}
-		var DataType = {JSON:'json',HTML:'html'};
+		var Method = {GET:'GET',POST:'POST',PUT:'PUT',DELETE:'DELETE'};
+		var DataType = {JSON:'json',HTML:'html',TEXT:'text'};
 		function doAjax(opts) {
 
 			var beforeMsg = {
@@ -118,6 +118,16 @@
 			},
 			getHtml:function(url,data,messages,callback){
 				doSend(url,data,DataType.HTML,messages,Method.GET,callback);
+			},
+			upload:function(url,fileElementId,messages,callback){
+				doAjax({
+					url : url,
+					dataType : DataType.TEXT,
+					fileElementId:fileElementId|'fileName',
+					messages : messages,
+					callback : callback,
+					method : Method.POST
+				});					
 			},
 			send:function(url,data,dataType,contentType,messages,callback){
 				doAjax({
