@@ -17,6 +17,7 @@ import com.easytnt.commons.entity.cqrs.QueryBuilder;
 import com.easytnt.commons.ui.MenuGroup;
 import com.easytnt.commons.web.view.ModelAndViewFactory;
 import com.easytnt.grading.domain.exam.Subject;
+import com.easytnt.grading.service.SubjectExamService;
 import com.easytnt.grading.service.SubjectService;
 
 @Controller
@@ -24,6 +25,9 @@ import com.easytnt.grading.service.SubjectService;
 public class SubjectController {
 	private static Logger logger = LoggerFactory.getLogger(SubjectController.class);
 
+	@Autowired(required = false)
+	private SubjectExamService subjectExamService;
+	
 	@Autowired(required = false)
 	private SubjectService subjectService;
 	
@@ -36,6 +40,7 @@ public class SubjectController {
 		configMenuGroup.activedMenuByIndex(1);
 		rightMenuGroup.activedMenuByIndex(3);
 		return ModelAndViewFactory.newModelAndViewFor("/config")
+				.with("resultList", subjectExamService.list())
 				.with("menus2", topRightMenuGroup.getMenus())
 				.with("rightSideMenu", rightMenuGroup.getMenus())
 				.with("menus3", configMenuGroup.getMenus())

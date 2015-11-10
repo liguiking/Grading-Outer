@@ -111,7 +111,7 @@
 				doSend(url,data,DataType.JSON,messages,Method.PUT,callback);
 			},
 			removeJson:function(url,data,messages,callback){
-				doSend(url,data,DataType.JSON,messages,Method.PUT,callback);
+				doSend(url,data,DataType.JSON,messages,Method.DELETE,callback);
 			},
 			getJson:function(url,data,messages,callback){
 				doSend(url,data,DataType.JSON,messages,Method.GET,callback);

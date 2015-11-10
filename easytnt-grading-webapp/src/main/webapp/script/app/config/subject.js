@@ -2,6 +2,7 @@
 	"use strict";
 	define(['jquery','ajaxwrapper'],function($,ajaxWrapper){
 		var subjectExam = function(){
+			this.testId=undefined;
 			this.subject = {};
 			this.usedPaper=[];
 		};
@@ -18,11 +19,19 @@
 		var editorForm = function(editorForm){
 			
 			this.examPaper = undefined,
-			this.show = function(examPaper,subject,subjectExam){
+			this.isNew =  true,
+			this.show = function(examPaper,subject,subjectExam,isNew){
 				for(var o in examPaper){
 					editorForm.find('#'+o).val(examPaper[o]);
 				}
+				for(var o in subject){
+					editorForm.find('#'+o).val(subject[o]);
+				}
+				for(var o in subjectExam){
+					editorForm.find('#'+o).val(subjectExam[o]);
+				}
 				editorForm.find(':text:first').focus();
+				this.isNew = isNew;
 				this.examPaper = examPaper;
 				this.subject = subject;
 				this.subjectExam = subjectExam;
@@ -60,9 +69,26 @@
 				}
 
 			};
+			this.update = function(){
+				if(this.validate()){
+					ajaxWrapper.putJson("subjectExam/onUpdateSubjectExam",setInfo.setValue(),
+							{beforeMsg:{tipText:".",show:false},
+							sucessMsg:{tipText:"计分成功",show:true}},
+							function(m){
+								if(m.status.success){
+									alert("保存成功");
+								}
+							});
+				}
+
+			};
 			var self = this;
 			editorForm.submit(function(){
-				self.save();
+				if(self.isNew){
+					self.save();
+				}else{
+					self.update();
+				}
 				return false;
 			});
 			
@@ -75,9 +101,11 @@
 					var se = new subjectExam();
 					e.name = myForm.find('#name').val();
 					s.name = myForm.find('#name').val();
+					s.subjectCode = myForm.find('#subjectCode').val();
 					e.fullScore = myForm.find('#fullScore').val();
 					e.objectivityScore = myForm.find('#objectivityScore').val();
 					e.subjectivityScore = myForm.find('#subjectivityScore').val();
+					se.testId=myForm.find('#testId').val();
 					se.subject = s;
 					se.usedPaper = [e];
 					return se;
@@ -98,14 +126,15 @@
 						var sd = this.row.find('td:first a[data-rr-name="subjectName"]');
 						e.name = sd.text();
 						s.name = sd.text();
-						s.subjectCode = sd.attr('data-rr-value');;
+						s.subjectCode = sd.attr('data-rr-value');
+						se.testId = sd.attr('data-rr-testId');
 						e.fullScore = this.row.find('td:eq(3)').text();
 						e.objectivityScore = this.row.find('td:eq(4)').text();
 						e.subjectivityScore = this.row.find('td:eq(5)').text();
 						se.subject = s;
 						se.usedPaper = [e];
 					}
-					myForm.show(e,s,se);
+					myForm.show(e,s,se,this.isNew);
 				}
 			};
 
@@ -117,6 +146,19 @@
 				currentSubject.isNew = false;
 				currentSubject.row = $(this).parent().parent();
 				currentSubject.show();
+			}).on('click','tbody #removeSubject',function(e){
+				var myTable = $('div.subject-container>table');
+				var sd = $(this).parent().parent().find('td:first a[data-rr-name="subjectName"]');
+				var testId = sd.attr('data-rr-testId');
+				alert("我要删除"+testId);
+				ajaxWrapper.removeJson("subjectExam/onDeleteSubjectExam",{testId:testId},
+						{beforeMsg:{tipText:".",show:false},
+						sucessMsg:{tipText:"删除成功",show:true}},
+						function(m){
+							if(m.status.success){
+								alert("删除成功");
+							}
+						});
 			});
 		};
 

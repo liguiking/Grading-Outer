@@ -24,6 +24,6 @@ public class SubjectRepositoryHibernateImpl extends HibernateRepository<Subject,
 		if(resultList.size()!=0){
 			return (Integer)resultList.get(0);
 		}
-		return 0;
+		return 100;
 	}
 }

@@ -1,14 +1,14 @@
 package com.easytnt.grading.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.easytnt.commons.entity.cqrs.Query;
 import com.easytnt.commons.entity.service.AbstractEntityService;
-import com.easytnt.grading.domain.exam.Exam;
 import com.easytnt.grading.domain.exam.SubjectExam;
-import com.easytnt.grading.repository.ExamRepository;
 import com.easytnt.grading.repository.SubjectExamRepository;
 import com.easytnt.grading.service.SubjectExamService;
 
@@ -42,4 +42,23 @@ public class SubjectExamServiceImpl extends AbstractEntityService<SubjectExam, L
 	public void create(SubjectExam t) {
 		subjectExamRepository.save(t);
 	}
+
+	
+	
+	@Override
+	public void update(SubjectExam t) {
+		subjectExamRepository.update(t);
+	}
+
+	@Override
+	public void delete(SubjectExam t) {
+		subjectExamRepository.delete(t);
+	}
+
+	@Override
+	public List<SubjectExam> list() {
+		return subjectExamRepository.list();
+	}
+	
+	
 }
