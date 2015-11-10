@@ -108,7 +108,7 @@
 			var myForm = $('div.subject-container>.subject-editor>form');
 			var t = new Teacher();
 			var s = new subject();
-			//s.id = myForm.find("#subject").val();  --自动生成id可以删掉
+			s.id =  $("#subject").find("option:selected").val(); 
 			s.name =  $("#subject").find("option:selected").text()
 			
 			t.teacherName = myForm.find("#teacherName").val();
