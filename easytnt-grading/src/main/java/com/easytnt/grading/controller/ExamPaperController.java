@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,6 +34,9 @@ public class ExamPaperController {
 
 	@Autowired(required = false)
 	private ExamPaperService examPaperService;
+	
+	@Value("img\\sample")
+	private String imgDir;
 	
 	@RequestMapping(value = "/onCreateExamPaper",method = RequestMethod.POST)
 	public ModelAndView onCreateExamPaper(@RequestBody ExamPaper examPaper)
@@ -76,15 +80,15 @@ public class ExamPaperController {
 	@RequestMapping(value="/onAddPaperCard/{examPaperId}",method = RequestMethod.POST)
 	public ModelAndView onAddPaperCard(@PathVariable Long examPaperId,MultipartHttpServletRequest request)
 					throws Exception {
-		logger.debug("URL /examPaper Method onAddPaperCard ");
+		logger.debug("URL /examPaper Method onAddPaperCard "+imgDir);
 		PaperCard paperCard = new PaperCard();
 		Iterator<String> it = request.getFileNames();
 		if(it.hasNext()) {
 			String fileName = it.next();
 			MultipartFile mfile = request.getFile(fileName);
-			File file = FileUtil.inputStreamToFile(mfile.getInputStream(),mfile.getOriginalFilename());
+			File file = FileUtil.inputStreamToFile(request,imgDir,mfile.getInputStream(),mfile.getOriginalFilename());
 			logger.debug(file.getAbsolutePath());
-			paperCard.setPath(file.getCanonicalPath());
+			paperCard.setPath(imgDir+File.separator+file.getName());
 		}else {
 			throw new IllegalArgumentException("无效的文件名");
 		}
@@ -107,11 +111,13 @@ public class ExamPaperController {
 		examPaperService.deleteSectionFor(paperId,section);
 		return ModelAndViewFactory.newModelAndViewFor().build();
 	}
-	@RequestMapping(value="/{paperId}/paperCard",method = RequestMethod.DELETE)
-	public ModelAndView onRemovePaperCard(@PathVariable Long paperId,@RequestBody PaperCard paperCard)
+	@RequestMapping(value="/onRemovePaperCard/{paperId}",method = RequestMethod.DELETE)
+	public ModelAndView onRemovePaperCard(@PathVariable Long paperId,@RequestBody PaperCard paperCard,HttpServletRequest request)
 					throws Exception {
 		logger.debug("URL /examPaper Method U ", paperCard);
-		examPaperService.removePaperCardFor(paperId, paperCard);
+		examPaperService.deletePaperCardFor(paperId, paperCard);
+		File file  = new File(request.getServletContext().getRealPath("/")+File.separator+paperCard.getPath());
+		file.delete();
 		return ModelAndViewFactory.newModelAndViewFor().build();
 	}
 	

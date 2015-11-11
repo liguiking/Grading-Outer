@@ -10,7 +10,7 @@
 			<generator class="identity" />
 		</id>
 		<many-to-one name="paper" class="com.easytnt.grading.domain.paper.ExamPaper" 
-                     column="paper_id" cascade="all"  >
+                     column="paper_id" >
          </many-to-one>
 		<property name="cardSeq" type="java.lang.Integer">
 			<column name="card_seq" />

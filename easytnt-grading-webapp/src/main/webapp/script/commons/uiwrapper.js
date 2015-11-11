@@ -30,6 +30,17 @@
 						});
 					}
 					return dialog.modal(opts);
+				},show:function(title,content, size){
+					var opts = {
+							size : size||DialogSize.SM,
+							header : {
+								show : true,
+								text : title||""
+							},
+							footer:{show:false,buttons:[]},
+							body :content||""
+						};
+					return dialog.modal(opts);
 				},
 				fileUpload:function(html,opts,callback){
 					var fileInputCss = {

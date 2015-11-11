@@ -15,6 +15,6 @@ public interface ExamPaperService extends EntityService<ExamPaper, Long> {
 	
 	void addPaperCardFor(Long paperId, PaperCard paperCard);
 	
-	void removePaperCardFor(Long paperId, PaperCard paperCard);
+	void deletePaperCardFor(Long paperId, PaperCard paperCard);
 	
 }

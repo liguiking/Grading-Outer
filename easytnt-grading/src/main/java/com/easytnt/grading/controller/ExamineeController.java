@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,6 +31,8 @@ import com.easytnt.commons.web.view.ModelAndViewFactory;
 public class ExamineeController {
 	private static Logger logger = LoggerFactory.getLogger(ExamineeController.class);
 	
+	@Value("${easytnt.img.sample.dir}")
+	private String imgDir;
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView onGet()throws Exception {
 		logger.debug("URL /examinee Method GET ");
@@ -52,7 +55,7 @@ public class ExamineeController {
 		if(it.hasNext()) {
 			String fileName = it.next();
 			MultipartFile mfile = request.getFile(fileName);
-			File file = FileUtil.inputStreamToFile(mfile.getInputStream(),mfile.getOriginalFilename());
+			File file = FileUtil.inputStreamToFile(request,imgDir,mfile.getInputStream(),mfile.getOriginalFilename());
 			logger.debug(file.getAbsolutePath());
 		}else {
 			throw new IllegalArgumentException("无效的文件名");

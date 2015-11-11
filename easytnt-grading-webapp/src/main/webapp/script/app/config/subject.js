@@ -1,6 +1,6 @@
 (function(){
 	"use strict";
-	define(['jquery','app/marking/ImgToolbox','app/marking/PointPanel', 'app/marking/ImgView' ,'ajaxwrapper','ui'],function($,imgToolbox,point,imgViewer,ajaxWrapper,ui){
+	define(['jquery','app/marking/ImgToolbox','app/marking/PointPanel', 'app/marking/ImgView' ,'ajaxwrapper','ui', 'dialog'],function($,imgToolbox,point,imgViewer,ajaxWrapper,ui,dialog){
 		var subjectExam = function(){
 			this.testId=undefined;
 			this.subject = {};
@@ -58,11 +58,12 @@
 			
 			this.save = function(){
 				if(this.validate()){
-					ajaxWrapper.postJson("subjectExam",setInfo.setValue(),
+					ajaxWrapper.postJson("subjectExam/onCreateSubjectExam",setInfo.setValue(),
 							{beforeMsg:{tipText:".",show:false},
-							sucessMsg:{tipText:"保存成功",show:true}},
+							sucessMsg:{tipText:"计分成功",show:true}},
 							function(m){
 								if(m.status.success){
+									dialog.fadedialog(getOpts("保存成功"));
 									location.reload();
 								}
 							});
@@ -71,11 +72,12 @@
 			};
 			this.update = function(){
 				if(this.validate()){
-					ajaxWrapper.putJson("subjectExam",setInfo.setValue(),
+					ajaxWrapper.putJson("subjectExam/onUpdateSubjectExam",setInfo.setValue(),
 							{beforeMsg:{tipText:".",show:false},
-							sucessMsg:{tipText:"保存成功",show:true}},
+							sucessMsg:{tipText:"计分成功",show:true}},
 							function(m){
 								if(m.status.success){
+									dialog.fadedialog(getOpts("保存成功"));
 									location.reload();
 								}
 							});
@@ -141,38 +143,25 @@
 				currentSubject.isNew = true;
 				currentSubject.row = $(this).parent().parent();
 				currentSubject.show();
-			}).on('click','tbody #updateSubject',function(e){
+			}).on('click','tbody tr td a[data-rr-name="updateSubject"]',function(e){
 				currentSubject.isNew = false;
 				currentSubject.row = $(this).parent().parent().parent().parent().parent();
 				currentSubject.show();
-			}).on('click','tbody #removeSubject',function(e){
+			}).on('click','tbody tr td a[data-rr-name="removeSubject"]',function(e){
 				var myTable = $('div.subject-container>table');
 				var sd = $(this).parent().parent().parent().parent().parent().find('td:first a[data-rr-name="subjectName"]');
 				var testId = sd.attr('data-rr-testId');
-				if(testId==""){
-					return;
-				}
-				ajaxWrapper.removeJson("subjectExam",{testId:testId},
+				ajaxWrapper.removeJson("subjectExam/onDeleteSubjectExam",{testId:testId},
 						{beforeMsg:{tipText:".",show:false},
 						sucessMsg:{tipText:"删除成功",show:true}},
 						function(m){
 							if(m.status.success){
+								dialog.fadedialog(getOpts("删除成功"));
 								location.reload();
 							}
 						});
-			}).on('click','tbody #addImage',function(e){
-				var row = $(this).parent().parent();
-				var paperId = row.find('td:eq(5)').attr('data-rr-paperId');
+			}).on('click','tbody tr td a[data-rr-name="addImage"]',function(e){
 				var btns = [{text:'确定',clazz : 'btn-primary',callback:function(){
-					if($('div.file-preview-filename').val() == 0){
-						return;
-					}
-					if(paperId==''){
-						return;
-					}
-					ajaxWrapper.upload('examPaper/onAddPaperCard/'+paperId,
-							'fileName',
-							{beforeMsg:{tipText:"",show:true},successMsg:{tipText:"上传成功",show:true}});
 					$(this).trigger('close');
 				}},{text:'放弃',callback:function(){
 					$(this).trigger('close');
@@ -190,18 +179,68 @@
 						      '<span class="file-preview-input-title">选择文件</span>'+
 						      '<input id="fileName" type="file" name="fileName" accept="image/gif, image/jpeg,image/png" style="display:none;">'+
 						    '</div>'+
+						    '<button type="type" class="btn btn-default " id="upload">'+
+						      '<span class="glyphicon glyphicon-upload"></span>上传'+
+						    '</button>'+
 					    '</div>'+
 				       '</div>'+
 				  '</form>';
-				var modal = ui.modal('上传图片',message,'md',btns);
-				modal.find(':text').focus();
+				var modal = ui.show("图片上传",message,'md');
 				ui.fileUpload(modal);
 				$(modal.find('#uploadForm')).submit(function(){
 					return false;
 				});
+				var row = $(this).parent().parent();
+				var paperId = row.find('td:eq(4)').attr('data-rr-paperId');
+				$(modal.find('#upload')).click(function(){
+					if($('div.file-preview-filename').val() == 0){
+						return;
+					}
+					ajaxWrapper.upload('examPaper/onAddPaperCard/'+paperId,
+							'fileName',
+							{beforeMsg:{tipText:".",show:false},
+								sucessMsg:{tipText:"上传成功",show:true}},
+							function(m){
+									if(m.status.success){
+										dialog.fadedialog(getOpts("上传成功"));
+									}
+							});
+				});
+				$(modal.find('.close')).click(function(){
+					location.reload();
+				});
+			}).on('click','tbody tr td a[data-rr-name="image"]',function(e){
+				var path = $(this).attr('data-rr-imagePath');
+				
+				var message ='<img src="static/'+path+'" style="width:550px;height:700px" />'
+				ui.show("图片预览",message,'md');
+				
+//				var cardId = $(this).attr('data-rr-cardId');
+//				var row = $(this).parent().parent();
+//				var paperId = row.find('td:eq(4)').attr('data-rr-paperId');
+//				ajaxWrapper.removeJson("examPaper/onRemovePaperCard/"+paperId,{cardId:cardId,path:path},
+//						{beforeMsg:{tipText:".",show:false},
+//						sucessMsg:{tipText:"删除成功",show:true}},
+//						function(m){
+//							if(m.status.success){
+//								dialog.fadedialog(getOpts("删除成功"));
+//								location.reload();
+//							}
+//						});
 			});
 		};
-
+		function getOpts(message){
+			var DialogSize = {SM:'sm',MD:'md',LG:'lg'};
+			var opts = {
+					size : DialogSize.SM,
+					header : {
+						show : true,
+						text : "操作提示"
+					},
+					tipText :message
+				};
+			return opts;
+		}
 		return {
 			render:function(){
 				

@@ -23,4 +23,5 @@ public class ExamPaperRepositoryHibernateImpl extends HibernateRepository<ExamPa
 		return null;
 	}
 	
+	
 }

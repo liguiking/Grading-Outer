@@ -9,16 +9,22 @@
   	<#if resultList??>
 	  	<#list resultList as result>
 	  	  <tr>
-	  	    <td><a href="#" data-rr-name="subjectName" data-rr-value="${result.subject.subjectCode}" data-rr-testId="${result.testId}">${result.subject.name}</a></td>
+	  	    <td><a href="javascript:void(0)" data-rr-name="subjectName" data-rr-value="${result.subject.subjectCode}" data-rr-testId="${result.testId}">${result.subject.name}</a></td>
 	  	    <td>0</td>
-	  	    <td><a href="#" ><i class="icon-plus"></i></a></td>
-	  	 
 	  	    <#if result.usedPaper??>
 		  	    <#list result.usedPaper as usedPaper>
+		  	    	<td>
+		  	    		<#if usedPaper.paperCards ??>
+		  	    		<#list usedPaper.paperCards as paperCard>
+				  	    		<a href="javascript:void(0)" data-rr-name="image"  data-rr-imagePath="${paperCard.path}" data-rr-cardId="${paperCard.cardId}">${paperCard.cardSeq}</a>
+				  	    </#list>
+		  	    	</#if>
+		  	    		<a href="javascript:void(0)" data-rr-name="addImage" ><i class="icon-plus"></i></a></td>
+					</td>
 		  	    	<#if usedPaper.sections ?size = 0>
-		  	    		<td><a href="#">设计切割方案</a></td>
+		  	    		<td><a href="javascript:void(0)">设计切割方案</a></td>
 		  	    		<#else>
-		  	    		<td><a href="#">${usedPaper.sections ?size}</a></td>
+		  	    		<td><a href="javascript:void(0)">${usedPaper.sections ?size}</a></td>
 		  	    	</#if>
 		  	    	<td data-rr-paperId="${usedPaper.paperId}" >${usedPaper.fullScore}</td>
 		  	    	<td>${usedPaper.objectivityScore}</td>
@@ -29,12 +35,12 @@
 	  	    <i class=" icon-ok"></i></td>
 	  	    <#--
 	  	    <td>
-	  	    <a href="#" id="removeSubject"><i class="icon-minus"></i></a></td>-->
+	  	    <a href="javascript:void(0)" id="removeSubject"><i class="icon-minus"></i></a></td>-->
 	  	  </tr>
 	  	</#list>
   	</#if>	    	
   	  <tr class="bg-warning">
-  	    <td><a href="#" id="newSubject"><i class="icon-plus"></i></a></td><td>0</td><a href="#" ><i class="icon-plus"></i></a><td><a href="#">设计切割方案</a></td><td>0</td><td>0</td><td>0</td><td class="doing"></td>
+  	    <td><a href="javascript:void(0)" id="newSubject"><i class="icon-plus"></i></a></td><td>0</td><td></td><td><a href="javascript:void(0)">设计切割方案</a></td><td>0</td><td>0</td><td>0</td><td class="doing"></td>
   	  </tr>
   	</tbody>
   </table>

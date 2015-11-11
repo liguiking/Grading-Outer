@@ -72,7 +72,7 @@ public class ExamPaperServiceImpl extends AbstractEntityService<ExamPaper, Long>
 	}
 
 	@Override
-	public void removePaperCardFor(Long paperId, PaperCard paperCard) {
+	public void deletePaperCardFor(Long paperId, PaperCard paperCard) {
 		ExamPaper examPaper = load(paperId);
 		examPaper.removePaperCard(paperCard);
 		examPaperRepository.save(examPaper);

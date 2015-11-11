@@ -5,8 +5,11 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.easytnt.commons.exception.ThrowableParser;
 import com.easytnt.commons.util.Closer;
@@ -23,9 +26,9 @@ import com.easytnt.commons.util.Closer;
 public class FileUtil {
 	private static Logger logger = LoggerFactory.getLogger(FileUtil.class);
 	
-	public static File inputStreamToFile(InputStream in,String fileName) throws Exception{
-		String root = System.getProperty("java.io.tmpdir");
-		File file = new File(root + File.separator + System.currentTimeMillis() + "_" + fileName);
+	public static File inputStreamToFile(HttpServletRequest request,String imagedir,InputStream in,String fileName) throws Exception{
+		String root = request.getServletContext().getRealPath("/");
+		File file = new File(root+ File.separator+imagedir + File.separator + System.currentTimeMillis() + "_" + fileName);
 		OutputStream out = null;
 		try {
 			out = new FileOutputStream(file);
