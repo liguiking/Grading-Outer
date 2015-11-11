@@ -58,12 +58,11 @@
 			
 			this.save = function(){
 				if(this.validate()){
-					ajaxWrapper.postJson("subjectExam/onCreateSubjectExam",setInfo.setValue(),
+					ajaxWrapper.postJson("subjectExam",setInfo.setValue(),
 							{beforeMsg:{tipText:".",show:false},
-							sucessMsg:{tipText:"计分成功",show:true}},
+							sucessMsg:{tipText:"保存成功",show:true}},
 							function(m){
 								if(m.status.success){
-									alert("保存成功");
 									location.reload();
 								}
 							});
@@ -72,12 +71,11 @@
 			};
 			this.update = function(){
 				if(this.validate()){
-					ajaxWrapper.putJson("subjectExam/onUpdateSubjectExam",setInfo.setValue(),
+					ajaxWrapper.putJson("subjectExam",setInfo.setValue(),
 							{beforeMsg:{tipText:".",show:false},
-							sucessMsg:{tipText:"计分成功",show:true}},
+							sucessMsg:{tipText:"保存成功",show:true}},
 							function(m){
 								if(m.status.success){
-									alert("保存成功");
 									location.reload();
 								}
 							});
@@ -152,12 +150,11 @@
 				var myTable = $('div.subject-container>table');
 				var sd = $(this).parent().parent().parent().parent().parent().find('td:first a[data-rr-name="subjectName"]');
 				var testId = sd.attr('data-rr-testId');
-				ajaxWrapper.removeJson("subjectExam/onDeleteSubjectExam",{testId:testId},
+				ajaxWrapper.removeJson("subjectExam",{testId:testId},
 						{beforeMsg:{tipText:".",show:false},
 						sucessMsg:{tipText:"删除成功",show:true}},
 						function(m){
 							if(m.status.success){
-								alert("删除成功");
 								location.reload();
 							}
 						});
@@ -168,7 +165,7 @@
 				}},{text:'放弃',callback:function(){
 					$(this).trigger('close');
 				}}];
-				var message =  '<p>上传图片</p><div class="input-group"><span class="input-group-addon" id="error-reason">选择图片</span><input type="file" class="form-control" placeholder="选择图片"  accept="image/gif, image/jpeg,image/png" aria-describedby="error-reason"></div>';
+				var message =  '<p>上传图片</p><div class="input-group"><span class="input-group-addon" id="error-reason">选择图片</span><input type="file" class="form-control" placeholder="选择图片"  accept="image/tiff, image/jpeg,image/png" aria-describedby="error-reason"></div>';
 				
 				var modal = ui.modal('上传图片',message,'md',btns);
 				modal.find(':text').focus();

@@ -34,7 +34,7 @@ public class SubjectExamController {
 	@Autowired(required = false)
 	private SubjectService subjectService;
 	
-	@RequestMapping(value = "/onCreateSubjectExam",method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
 	public ModelAndView onCreateSubjectExam(@RequestBody SubjectExam subjectExam)
 					throws Exception {
 		logger.debug("URL /subjectExam Method POST ", subjectExam);
@@ -46,7 +46,7 @@ public class SubjectExamController {
 		subjectExamService.create(subjectExam);
 		return ModelAndViewFactory.newModelAndViewFor("/exam/editExam").build();
 	}
-	@RequestMapping(value = "/onUpdateSubjectExam",method = RequestMethod.PUT)
+	@RequestMapping(method = RequestMethod.PUT)
 	public ModelAndView onUpdateSubjectExam(@RequestBody SubjectExam subjectExam)
 			throws Exception {
 		logger.debug("URL /subjectExam Method PUT ", subjectExam);
@@ -58,7 +58,7 @@ public class SubjectExamController {
 		subjectExamService.update(sub);
 		return ModelAndViewFactory.newModelAndViewFor("/exam/editExam").build();
 	}
-	@RequestMapping(value = "/onDeleteSubjectExam",method = RequestMethod.DELETE)
+	@RequestMapping(method = RequestMethod.DELETE)
 	public ModelAndView onDeleteSubjectExam(@RequestBody SubjectExam subjectExam)
 					throws Exception {
 		logger.debug("URL /subject Method DELETE ", subjectExam);
@@ -66,7 +66,8 @@ public class SubjectExamController {
 		subjectExamService.delete(subjectExam);
 		return ModelAndViewFactory.newModelAndViewFor().build();
 	}
-	public Set<ExamPaper> getNewSet(Set<ExamPaper> oldSet,Set<ExamPaper> newSet){
+	
+	private Set<ExamPaper> getNewSet(Set<ExamPaper> oldSet,Set<ExamPaper> newSet){
 		Set<ExamPaper> resultSet = new LinkedHashSet<ExamPaper>();
 		for(ExamPaper newExamPaper:newSet){
 			for(ExamPaper oldExamPaper:oldSet){
