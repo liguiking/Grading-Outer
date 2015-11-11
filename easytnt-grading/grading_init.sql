@@ -90,6 +90,17 @@ CREATE TABLE `properties_dict` (
   PRIMARY KEY (`prodict_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='属性字典表,保存以键值对定义的业务数据';
 
+DROP TABLE IF EXISTS  `teacher_info`;
+CREATE TABLE `teacher_info` (
+  `teacher_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `subject_id` bigint(20) DEFAULT NULL COMMENT '所评科目',
+  `teacher_account` varchar(32) DEFAULT NULL COMMENT '评卷教师账号，与subject_code关系为： teacher_account=subject_code+(001-999)',
+  `leader` int(4) DEFAULT NULL COMMENT '组长标识，0--组员，1--小组长',
+  `teacher_name` varchar(32) DEFAULT NULL COMMENT '评卷教师姓名',
+  `teacher_passord` varchar(32) DEFAULT NULL COMMENT '评卷教师密码,需要加密存储',
+  PRIMARY KEY (`teacher_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='评卷教师信息'
+
 DROP TABLE IF EXISTS  `examinne`;
 CREATE TABLE `examinne` (
   `examinne_id` bigint(20) NOT NULL AUTO_INCREMENT,
