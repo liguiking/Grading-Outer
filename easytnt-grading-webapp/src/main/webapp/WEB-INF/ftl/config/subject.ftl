@@ -30,7 +30,7 @@
 		  	    		<#else>
 		  	    		<td><a href="#">${usedPaper.sections ?size}</a></td>
 		  	    	</#if>
-		  	    	<td>${usedPaper.fullScore}</td>
+		  	    	<td data-rr-paperId="${usedPaper.paperId}" >${usedPaper.fullScore}</td>
 		  	    	<td>${usedPaper.objectivityScore}</td>
 		  	    	<td>${usedPaper.subjectivityScore}</td>
 		  	    </#list>
@@ -44,7 +44,25 @@
 	  	</#list>
   	</#if>	    	
   	  <tr class="bg-warning">
-  	    <td><a href="#" id="newSubject"><i class="icon-plus"></i></a></td><td>0</td><td><a href="#">设计切割方案</a></td><td>0</td><td>0</td><td>0</td><td class="doing"></td>
+  	    <td><a href="#" id="newSubject"><i class="icon-plus"></i></a></td>
+  	    <td>0</td>
+  	    <td><a href="#" id="addImage"><i class="icon-plus"></i></a></td>
+	  	    <td>
+	  	    	<div class="btn-group">
+				  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				    操作<span class="caret"></span>
+				  </button>
+				  <ul class="dropdown-menu">
+				    <li><a href="#" id="updateSubject">更新</a></li>
+				    <li><a href="#" id="removeSubject">删除</a></li>
+				  </ul>
+				</div>
+	  	    </td>
+  	    <td><a href="#">设计切割方案</a></td>
+  	    <td>0</td>
+  	    <td>0</td>
+  	    <td>0</td>
+  	    <td class="doing"></td>
   	  </tr>
   	</tbody>
   </table>
