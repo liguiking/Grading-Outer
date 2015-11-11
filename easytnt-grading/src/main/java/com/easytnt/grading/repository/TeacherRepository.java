@@ -17,8 +17,12 @@ public interface TeacherRepository extends Repository<Teacher, Long> {
 	//获取所有的Teacher信息
 	public List<Teacher> tlist();
 	
-	//获取所选科目的最大id值
-	public int getSeq();
+	//计算普通帐号的seq
+	public String getSeq(Long subjectid);
+	
+	//计算组长账号的seq
+	public String getSeqL(Long subjectid);
+	
 	
 	//修改密码
 	public void updatePass(Long teacherid,String password);

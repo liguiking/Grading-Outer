@@ -17,7 +17,10 @@ public interface TeacherService extends EntityService<Teacher, Long> {
 	public List<Teacher> tlist();
 	
 	//返回账号计算
-	public int getSeq();
+	public String getSeq(Long subjectid);
+	
+	//返回账号计算
+	public String getSeqL(Long subjectid);
 	
 	//修改密码
 	public void updatePass(Long teacheckid,String pass);

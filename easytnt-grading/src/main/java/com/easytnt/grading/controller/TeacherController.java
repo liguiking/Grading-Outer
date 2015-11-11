@@ -1,7 +1,5 @@
 package com.easytnt.grading.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -34,7 +32,7 @@ public class TeacherController {
 	public ModelAndView onList()
 					throws Exception {
 		logger.debug("URL /teacher Method GET ");
-		MenuGroup topRightMenuGroup = MenuGroupFactory.getInstance().getTopRightMenuGroup();
+		MenuGroup topRightMenuGroup = MenuGroupFactory.getInstance().getConfigMenuGroup();
 		MenuGroup rightMenuGroup = MenuGroupFactory.getInstance().getRightMenuGroup();
 		MenuGroup configMenuGroup = MenuGroupFactory.getInstance().getConfigMenuGroup();
 		configMenuGroup.activedMenuByIndex(3);
@@ -47,16 +45,30 @@ public class TeacherController {
 				.with("page","worker").build();
 	}
 	
-	@RequestMapping(method = RequestMethod.POST)
-	public ModelAndView onCreateTeacher(@RequestBody Teacher teacher)
+	@RequestMapping(value="/{shu}",method = RequestMethod.POST)
+	public ModelAndView onCreateTeacher(@PathVariable int shu,@RequestBody Teacher teacher)
 					throws Exception {
 		logger.debug("URL /Teacher Method POST ", teacher);
-		//账号生成机制  查询subject表中某字段 计算account = subjectCode*100+某字段
-		
-		
-		
-		
-		teacherService.create(teacher);
+		if(teacher.getSubject().getName().equals("")||teacher.getSubject().getName()==null){
+			teacher.getSubject().setName("自然科学");
+		}
+		teacher.getSubject().setName(teacher.getSubject().getName());
+		//判断前台是否是生成组长账号 0-普通帐号 1为组长账号
+		if(teacher.getLeader()==0){
+			String seq = teacherService.getSeq(teacher.getSubject().getId());
+			teacher.getSubject().setId(null);
+			teacher = teacher.allocatedTo(teacher.getSubject(), Integer.parseInt(seq));
+			teacherService.create(teacher);
+		}else{
+			for(int i=0;i<shu;i++){
+				Teacher tea = new Teacher();
+				String seqL = teacherService.getSeqL(teacher.getSubject().getId());
+				teacher.getSubject().setId(null);
+				teacher.setTeacherId(null);
+				teacher.alladdleader(tea,teacher.getSubject(),Integer.parseInt(seqL));
+				teacherService.create(tea);
+			}
+		}
 		return ModelAndViewFactory.newModelAndViewFor("/teacher/editteacher").build();
 	}
 	
@@ -68,6 +80,7 @@ public class TeacherController {
 		return ModelAndViewFactory.newModelAndViewFor("/teacher/editTeacher").with("teacher",teacher).build();
 	}
 	
+	//用户修改
 	@RequestMapping(method = RequestMethod.PUT)
 	public ModelAndView onUpdateTeacher(@RequestBody Teacher teacher)
 					throws Exception {

@@ -5,6 +5,7 @@
 			this.teacherName = '';
 			this.teacherAccount = '';
 			this.teacherPassord ='';
+			this.leader= 0;
 			this.subject = {};
 		};
 		var subject = function(){
@@ -35,9 +36,10 @@
 			//验证表单
 			this.validate = function(){
 				var b = true;
-				var sName = $("#subject").find("option:selected").text()
+				//var sName = $("#subject").find("option:selected").text()
+				
 				var tName = $("#teacherName").val();
-				if(sName!="" &&sName !=null && tName!=""&&!tName !=null){
+				if(tName!=""&&tName !=null){
 					return true;
 				}else{
 					b=false;
@@ -63,7 +65,14 @@
 			//保存响应
 			this.save = function(){
 				if(this.validate()){
-					ajaxWrapper.postJson("/teacher",myData.dataValue(),
+					var shu = $("#accounts").val();
+					
+					if(shu *1 < 1)
+						shu = 1;
+						else
+						shu = shu * 1;
+
+					ajaxWrapper.postJson("/teacher/"+shu , myData.dataValue(),
 							{
 						    beforeMsg:{tipText:"",show:false},
 						    successMsg:{tipText:"创建成功",show:true}
@@ -114,6 +123,13 @@
 			t.teacherName = myForm.find("#teacherName").val();
 			t.teacherAccount = myForm.find("#teacherAccount").val();
 			t.teacherPassord = t.teacherAccount;
+			
+			//获取复选框是否选中1-选中  0-未选中
+			if($("#isLeader")[0].checked==true){
+				 	t.leader = 1;
+			}else{
+					t.leader = 0;
+			}
 			//获取主键id
 			t.teacherId = $("#teacherId").val();
 			t.subject = s;

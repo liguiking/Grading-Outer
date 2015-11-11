@@ -11,7 +11,7 @@
   	    <td><a href="#" data-rr-name="subjectName" data-rr-value="">${t.subject.name}</a></td>
   	    <input type="hidden" id="teacherId" value="${t.teacherId}"/>
   	    <td>${t.teacherName}</td>
-  	    <td><a href="#">1001</a></td>
+  	    <td><a href="#">${t.teacherAccount}</a></td>
   	    <td><a href="#">修改密码</a>|<a href="#">分配任务</a></td>
   	  </tr>
   	  </#list>
@@ -49,10 +49,22 @@
 	    <div class="col-sm-8">
 	      <input type="text" readonly="readonly" class="form-control" id="teacherAccount"  placeholder="账号">
 	    </div>
-	  </div>  	  
-	  <div class="form-group">
+	  </div> 
+	   <div class="form-group">
+	    <label for="accounts" class="col-sm-4 control-label">账号数量</label>
+	      <div class="col-sm-8">
+	        <input type="text"  class="form-control" id="accounts"  placeholder="生成组长账号数量">
+	      </div>	
+	   	</div>
+	    <div class="form-group">
 	    <div class="col-sm-offset-3 col-sm-9">
 	      <button type="submit" class="btn btn-default">保存</button>
+	       <#--<#list result as teacher>-->
+	      <#--<#if teacher.leader = 0>-->
+	      <label class="control-label"><input type="checkbox" checked="true" id="isLeader" name="isLeader" value="1">组长账号</label>
+	     <#-- <#else>-->
+	      <#--</#if>-->
+	      <#--</#list>-->
 	    </div>
 	  </div>
 	</form>
