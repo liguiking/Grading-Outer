@@ -114,7 +114,6 @@
 		var o = function(){
 			var myTable = $('div.subject-container>table');
 			var myForm = new editorForm($('div.subject-container>.subject-editor>form'));
-			
 			var currentSubject = {
 				isNew:false,
 				row:undefined,
@@ -150,6 +149,9 @@
 				var myTable = $('div.subject-container>table');
 				var sd = $(this).parent().parent().parent().parent().parent().find('td:first a[data-rr-name="subjectName"]');
 				var testId = sd.attr('data-rr-testId');
+				if(testId==""){
+					return;
+				}
 				ajaxWrapper.removeJson("subjectExam",{testId:testId},
 						{beforeMsg:{tipText:".",show:false},
 						sucessMsg:{tipText:"删除成功",show:true}},
@@ -159,16 +161,44 @@
 							}
 						});
 			}).on('click','tbody #addImage',function(e){
+				var row = $(this).parent().parent();
+				var paperId = row.find('td:eq(5)').attr('data-rr-paperId');
 				var btns = [{text:'确定',clazz : 'btn-primary',callback:function(){
-					
+					if($('div.file-preview-filename').val() == 0){
+						return;
+					}
+					if(paperId==''){
+						return;
+					}
+					ajaxWrapper.upload('examPaper/onAddPaperCard/'+paperId,
+							'fileName',
+							{beforeMsg:{tipText:"",show:true},successMsg:{tipText:"上传成功",show:true}});
 					$(this).trigger('close');
 				}},{text:'放弃',callback:function(){
 					$(this).trigger('close');
 				}}];
-				var message =  '<p>上传图片</p><div class="input-group"><span class="input-group-addon" id="error-reason">选择图片</span><input type="file" class="form-control" placeholder="选择图片"  accept="image/tiff, image/jpeg,image/png" aria-describedby="error-reason"></div>';
-				
+				var message=
+					'<form id="uploadForm"  method="POST" action="" enctype="multipar/form-data">'+
+			    	   '<div class="input-group file-preview">'+
+				    	'<input type="text" class="form-control file-preview-filename" disabled="disabled">'+
+				    	'<div class="input-group-btn"> '+
+						   '<button type="button" class="btn btn-default file-preview-clear" style="display:none;">'+
+						      '<span class="glyphicon glyphicon-remove"></span>清除'+
+						    '</button>'+
+						    '<div class="btn btn-default file-preview-input" >'+
+						      '<span class="glyphicon glyphicon-folder-open"></span>'+
+						      '<span class="file-preview-input-title">选择文件</span>'+
+						      '<input id="fileName" type="file" name="fileName" accept="image/gif, image/jpeg,image/png" style="display:none;">'+
+						    '</div>'+
+					    '</div>'+
+				       '</div>'+
+				  '</form>';
 				var modal = ui.modal('上传图片',message,'md',btns);
 				modal.find(':text').focus();
+				ui.fileUpload(modal);
+				$(modal.find('#uploadForm')).submit(function(){
+					return false;
+				});
 			});
 		};
 
