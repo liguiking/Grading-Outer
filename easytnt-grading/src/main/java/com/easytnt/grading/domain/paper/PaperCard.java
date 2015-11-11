@@ -5,6 +5,9 @@
 
 package com.easytnt.grading.domain.paper;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import com.easytnt.commons.entity.share.Entity;
 
 /** 
@@ -36,10 +39,21 @@ public class PaperCard implements Entity<PaperCard> {
 	public boolean sameIdentityAs(PaperCard other) {
 		return this.equals(other);
 	}
-	
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().append(this.cardId).toHashCode();
+	}
+	@Override
+	public boolean equals(Object o) {
+		if(!(o instanceof PaperCard))
+			return false;
+		PaperCard other = (PaperCard)o;
+		
+		return new EqualsBuilder().append(this.cardId,other.cardId).isEquals();
+	}
 	//以下功能为ORM或者自动构造使用，非此慎用
 	
-	private PaperCard(){
+	public PaperCard(){
 		
 	}
 	

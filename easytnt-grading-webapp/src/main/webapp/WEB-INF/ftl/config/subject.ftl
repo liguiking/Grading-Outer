@@ -20,7 +20,7 @@
 		  	    		<#else>
 		  	    		<td><a href="#">${usedPaper.sections ?size}</a></td>
 		  	    	</#if>
-		  	    	<td>${usedPaper.fullScore}</td>
+		  	    	<td data-rr-paperId="${usedPaper.paperId}" >${usedPaper.fullScore}</td>
 		  	    	<td>${usedPaper.objectivityScore}</td>
 		  	    	<td>${usedPaper.subjectivityScore}</td>
 		  	    </#list>

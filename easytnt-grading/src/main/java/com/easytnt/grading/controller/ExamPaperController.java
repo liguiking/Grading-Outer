@@ -1,5 +1,8 @@
 package com.easytnt.grading.controller;
 
+import java.io.File;
+import java.util.Iterator;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -10,10 +13,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.easytnt.commons.entity.cqrs.Query;
 import com.easytnt.commons.entity.cqrs.QueryBuilder;
+import com.easytnt.commons.io.FileUtil;
 import com.easytnt.commons.web.view.ModelAndViewFactory;
 import com.easytnt.grading.domain.paper.ExamPaper;
 import com.easytnt.grading.domain.paper.PaperCard;
@@ -67,10 +73,21 @@ public class ExamPaperController {
 		examPaperService.addSectionFor(examPaperId,section);
 		return ModelAndViewFactory.newModelAndViewFor().build();
 	}
-	@RequestMapping(value="/onAddPaperCard/{examPaperId}/paperCard",method = RequestMethod.POST)
-	public ModelAndView onAddPaperCard(@PathVariable Long examPaperId,@RequestBody PaperCard paperCard)
+	@RequestMapping(value="/onAddPaperCard/{examPaperId}",method = RequestMethod.POST)
+	public ModelAndView onAddPaperCard(@PathVariable Long examPaperId,MultipartHttpServletRequest request)
 					throws Exception {
-		logger.debug("URL /examPaper Method DELETE ", paperCard);
+		logger.debug("URL /examPaper Method onAddPaperCard ");
+		PaperCard paperCard = new PaperCard();
+		Iterator<String> it = request.getFileNames();
+		if(it.hasNext()) {
+			String fileName = it.next();
+			MultipartFile mfile = request.getFile(fileName);
+			File file = FileUtil.inputStreamToFile(mfile.getInputStream(),mfile.getOriginalFilename());
+			logger.debug(file.getAbsolutePath());
+			paperCard.setPath(file.getCanonicalPath());
+		}else {
+			throw new IllegalArgumentException("无效的文件名");
+		}
 		examPaperService.addPaperCardFor(examPaperId, paperCard);
 		return ModelAndViewFactory.newModelAndViewFor().build();
 	}

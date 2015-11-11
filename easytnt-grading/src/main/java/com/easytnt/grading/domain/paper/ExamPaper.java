@@ -66,6 +66,7 @@ public class ExamPaper implements Entity<ExamPaper> {
 	public void addPaperCard(PaperCard paperCard){
 		init();
 		paperCard.setPaper(this);
+		paperCard.setCardSeq(this.paperCards.size()+1);
 		this.paperCards.add(paperCard);
 	}
 	public void removePaperCard(PaperCard paperCard){
