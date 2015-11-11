@@ -77,7 +77,7 @@ public class ExamPaperController {
 		examPaperService.addSectionFor(examPaperId,section);
 		return ModelAndViewFactory.newModelAndViewFor().build();
 	}
-	@RequestMapping(value="/onAddPaperCard/{examPaperId}",method = RequestMethod.POST)
+	@RequestMapping(value="/{examPaperId}",method = RequestMethod.POST)
 	public ModelAndView onAddPaperCard(@PathVariable Long examPaperId,MultipartHttpServletRequest request)
 					throws Exception {
 		logger.debug("URL /examPaper Method onAddPaperCard "+imgDir);

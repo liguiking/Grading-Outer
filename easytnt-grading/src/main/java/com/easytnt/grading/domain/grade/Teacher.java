@@ -45,14 +45,22 @@ public class Teacher {
 		tea.setTeacherAccount(this.teacherAccount);
 		tea.setTeacherPassord(this.teacherPassord);
 	}
+	
+    public boolean isManager() {
+    	return this.leader > 0;
+    }
 
 	public List<Teacher> cloneTimes(int times){
 		ArrayList<Teacher> ts = new ArrayList<>();
-		Teacher t = new Teacher();
-		t.subject = this.subject;
-	    //t.teacherAccount = Integer.parseInt(this.teacherAccount)++;
-		t.leader = this.leader;
-		ts.add(t);
+		int account = Integer.valueOf(this.teacherAccount);
+		for(int i = 0;i<times;i++) {
+			Teacher t = new Teacher();
+			t.subject = this.subject;
+		    t.teacherAccount = (account++)+"";
+		    t.teacherPassord = t.teacherAccount;
+			t.leader = this.leader;
+			ts.add(t);
+		}
 		return ts;
 	}
 	

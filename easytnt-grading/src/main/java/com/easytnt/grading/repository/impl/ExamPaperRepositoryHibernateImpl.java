@@ -22,6 +22,11 @@ public class ExamPaperRepositoryHibernateImpl extends HibernateRepository<ExamPa
 		}
 		return null;
 	}
+
+	@Override
+	protected Class<ExamPaper> getEntityClass() {
+		return ExamPaper.class;
+	}
 	
 	
 }

@@ -17,6 +17,7 @@ import com.easytnt.commons.entity.cqrs.QueryBuilder;
 import com.easytnt.commons.ui.MenuGroup;
 import com.easytnt.commons.web.view.ModelAndViewFactory;
 import com.easytnt.grading.domain.grade.Teacher;
+import com.easytnt.grading.service.SubjectService;
 import com.easytnt.grading.service.TeacherService;
 
 @Controller
@@ -28,6 +29,9 @@ public class TeacherController {
 	private TeacherService teacherService;
 	
 	
+	@Autowired(required = false)
+	private SubjectService subjectService;
+	
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView onList()
 					throws Exception {
@@ -38,38 +42,20 @@ public class TeacherController {
 		configMenuGroup.activedMenuByIndex(3);
 		rightMenuGroup.activedMenuByIndex(3);
 		return ModelAndViewFactory.newModelAndViewFor("/config")
-				.with("result", teacherService.tlist())
+				.with("teachers", teacherService.list())
+				.with("subjects", subjectService.list())
 				.with("menus2", topRightMenuGroup.getMenus())
 				.with("rightSideMenu", rightMenuGroup.getMenus())
 				.with("menus3", configMenuGroup.getMenus())
 				.with("page","worker").build();
 	}
 	
-	@RequestMapping(value="/{shu}",method = RequestMethod.POST)
-	public ModelAndView onCreateTeacher(@PathVariable int shu,@RequestBody Teacher teacher)
+	@RequestMapping(value="/{amount}",method = RequestMethod.POST)
+	public ModelAndView onCreateTeacher(@PathVariable int amount,@RequestBody Teacher teacher)
 					throws Exception {
 		logger.debug("URL /Teacher Method POST ", teacher);
-		if(teacher.getSubject().getName().equals("")||teacher.getSubject().getName()==null){
-			teacher.getSubject().setName("自然科学");
-		}
-		teacher.getSubject().setName(teacher.getSubject().getName());
-		//判断前台是否是生成组长账号 0-普通帐号 1为组长账号
-		if(teacher.getLeader()==0){
-			String seq = teacherService.getSeq(teacher.getSubject().getId());
-			teacher.getSubject().setId(null);
-			teacher = teacher.allocatedTo(teacher.getSubject(), Integer.parseInt(seq));
-			teacherService.create(teacher);
-		}else{
-			for(int i=0;i<shu;i++){
-				Teacher tea = new Teacher();
-				String seqL = teacherService.getSeqL(teacher.getSubject().getId());
-				teacher.getSubject().setId(null);
-				teacher.setTeacherId(null);
-				teacher.alladdleader(tea,teacher.getSubject(),Integer.parseInt(seqL));
-				teacherService.create(tea);
-			}
-		}
-		return ModelAndViewFactory.newModelAndViewFor("/teacher/editteacher").build();
+		teacherService.create(teacher, amount);
+		return ModelAndViewFactory.newModelAndViewFor().build();
 	}
 	
 	@RequestMapping(value = "/{teacherId}", method = RequestMethod.GET)

@@ -37,54 +37,26 @@ public class TeacherServiceImpl extends AbstractEntityService<Teacher, Long>
 		super.setRepository(repository);
 	}
 
-	@Override
-	public Teacher load(Long pk) {
-		Teacher teacher = teacherRepository.load(pk);
-		return teacher;
-	}
-
-	@Transactional(readOnly = true)
-	@Override
-	public void query(Query<Teacher> query) {
-		// TODO Auto-generated method stub
-	}
-
-	// 重写保存创建
-	@Override
-	public void create(Teacher t) {
-		teacherRepository.save(t);
-	}
-
-	// 重写更新
-	@Override
-	public void update(Teacher t) {
-		teacherRepository.update(t);
-	}
-
-	// 获取所有的Teacher信息
-	public List<Teacher> tlist() {
-		List<Teacher> tlist = teacherRepository.tlist();
-		return tlist;
-	}
-
-	// 查询返回当前最大teacheraccount
-	@Override
-	public String getSeq(Long subjectid) {
-		String seq = teacherRepository.getSeq(subjectid);
-		return seq;
-	}
-
-	// 查询返回当前最大teacheraccount
-	@Override
-	public String getSeqL(Long subjectid) {
-		String seq = teacherRepository.getSeqL(subjectid);
-		return seq;
-	}
-
 	// 修改密码
 	@Override
 	public void updatePass(Long teacheckid, String pass) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	@Transactional
+	public void create(Teacher teacher, int amount) {
+		String seq = "1";
+		if(teacher.isManager()){
+			seq = teacherRepository.getSeqL(teacher.getSubject().getId());
+		}else {
+			seq = teacherRepository.getSeq(teacher.getSubject().getId());
+		}
+		teacher.setTeacherAccount(seq);
+		List<Teacher> teachers = teacher.cloneTimes(amount);
+		for(Teacher t:teachers) {
+			this.create(t);
+		}
 	}
 }

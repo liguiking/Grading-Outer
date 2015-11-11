@@ -12,16 +12,6 @@ import com.easytnt.grading.repository.TeacherRepository;
 @Repository
 public class TeacherRepositoryHibernateImpl extends HibernateRepository<Teacher,Long> implements TeacherRepository {
 
-	
-	//获取所有teacher信息
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Teacher> tlist() {
-		String hql = "from Teacher where 1=1";
-		Query q = this.getCurrentSession().createQuery(hql);
-		List<Teacher> tlist = q.list();
-		return tlist;
-	}
 	//根据subjectid 返回seq值
 	@Override
 	public String getSeq(Long subjectid) {
@@ -53,11 +43,8 @@ public class TeacherRepositoryHibernateImpl extends HibernateRepository<Teacher,
 	}
 	
 	@Override
-	public Teacher load(Long id) {
-		String hql ="from Teacher where teacherId="+id;
-		Query q = this.getCurrentSession().createQuery(hql);
-		Teacher t = (Teacher) q.list().get(0);
-		return t;
+	protected Class<Teacher> getEntityClass() {
+		return Teacher.class;
 	}
 	
 

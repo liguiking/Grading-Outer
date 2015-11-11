@@ -6,17 +6,16 @@
   	  </tr>
   	</thead>
   	<tbody>
-  	 <#list result as t>
+  	 <#list teachers as t>
   	  <tr >
-  	    <td><a href="#" data-rr-name="subjectName" data-rr-value="">${t.subject.name}</a></td>
-  	    <input type="hidden" id="teacherId" value="${t.teacherId}"/>
-  	    <td>${t.teacherName}</td>
-  	    <td><a href="#">${t.teacherAccount}</a></td>
-  	    <td><a href="#">修改密码</a>|<a href="#">分配任务</a></td>
+  	    <td><a href="javascript:void(0);" data-rr-name="teacher" data-rr-value="${t.teacherId}">${t.subject.name!}</a></td>
+  	    <td>${t.teacherName!}</td>
+  	    <td>${t.teacherAccount!}</td>
+  	    <td><a href="javascript:void(0);">修改密码</a>|<a href="javascript:void(0);">分配任务</a></td>
   	  </tr>
   	  </#list>
   	  <tr class="bg-warning">
-  	    <td><a href="#" id="newTeacher"><i class="icon-plus"></i></a></td>
+  	    <td></td>
   	    <td></td>
   	    <td><a href="#"></a></td>
   	    <td><a href="#"></td>
@@ -28,13 +27,13 @@
 	<div class="col-md-4"></div>
 	<form class="form-horizontal col-md-4">
 	  <div class="form-group">
-	    <label for="teacher" class="col-sm-4 control-label">科目名称</label>
+	    <label for="teacher" class="col-sm-4 control-label">科目</label>
 	    <div class="col-sm-8">
 	    <p></p>
 	    <select id="subject">
-	     <#list result as teacher>
-	    	<option value="${teacher.subject.id}">${teacher.subject.name}</option>
-	     </#list>    
+	     <#list subjects as subject>
+	    	<option value="${subject.id}">${subject.name!}</option>
+	     </#list>
 	    </select>
 	    </div>
 	  </div>
@@ -50,22 +49,17 @@
 	      <input type="text" readonly="readonly" class="form-control" id="teacherAccount"  placeholder="账号">
 	    </div>
 	  </div> 
-	   <div class="form-group">
+	  <div class="form-group">
 	    <label for="accounts" class="col-sm-4 control-label">账号数量</label>
-	      <div class="col-sm-8">
-	        <input type="text"  class="form-control" id="accounts"  placeholder="生成组长账号数量">
-	      </div>	
-	   	</div>
-	    <div class="form-group">
-	    <div class="col-sm-offset-3 col-sm-9">
-	      <button type="submit" class="btn btn-default">保存</button>
-	       <#--<#list result as teacher>-->
-	      <#--<#if teacher.leader = 0>-->
-	      <label class="control-label"><input type="checkbox" checked="true" id="isLeader" name="isLeader" value="1">组长账号</label>
-	     <#-- <#else>-->
-	      <#--</#if>-->
-	      <#--</#list>-->
+	    <div class="col-sm-4">
+	      <input type="text"  class="form-control" id="amount"  value="1" placeholder="账号数量">
 	    </div>
+	    <label class="control-label "><input type="checkbox"  id="isLeader" name="isLeader" value="1">组长</label>	
+	   </div>
+	   <div class="form-group">
+	   <div class="col-sm-offset-3 col-sm-9">
+	     <button type="submit" class="btn btn-default">保存</button>
+	   </div>
 	  </div>
 	</form>
 	<div class="col-md-4"></div>
