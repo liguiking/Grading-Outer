@@ -12,27 +12,27 @@
 	  	    <td><a href="javascript:void(0)" data-rr-name="subjectName" data-rr-value="${result.subject.subjectCode}" data-rr-testId="${result.testId}">${result.subject.name}</a></td>
 	  	    <td>0</td>
 	  	    <#if result.usedPaper??>
-		  	    <#list result.usedPaper as usedPaper>
-		  	    	<td>
-		  	    		<#if usedPaper.paperCards ??>
-		  	    		<#list usedPaper.paperCards as paperCard>
-				  	    		<a href="javascript:void(0)" data-rr-name="image"  data-rr-imagePath="${paperCard.path}" data-rr-cardId="${paperCard.cardId}">${paperCard.cardSeq}</a>
-				  	    </#list>
-		  	    	</#if>
-		  	    		<a href="javascript:void(0)" data-rr-name="addImage" ><i class="icon-plus"></i></a></td>
-					</td>
-		  	    	<#if usedPaper.sections ?size = 0>
-		  	    		<td><a href="javascript:void(0)">设计切割方案</a></td>
-		  	    		<#else>
-		  	    		<td><a href="javascript:void(0)">${usedPaper.sections ?size}</a></td>
-		  	    	</#if>
-		  	    	<td data-rr-paperId="${usedPaper.paperId}" >${usedPaper.fullScore}</td>
-		  	    	<td>${usedPaper.objectivityScore}</td>
-		  	    	<td>${usedPaper.subjectivityScore}</td>
+		  	  <#list result.usedPaper as usedPaper>
+		  	    <td>
+		  	    <#if usedPaper.paperCards ??>
+		  	      <#list usedPaper.paperCards as paperCard>
+				  	<a href="javascript:void(0)" data-rr-name="image"  data-rr-imagePath="${paperCard.path}" data-rr-cardId="${paperCard.cardId}">${paperCard.cardSeq}</a>
+				  	
+				  </#list>
+		  	    </#if>
+		  	      <a href="javascript:void(0)" data-rr-name="addImage" ><i class="icon-plus"></i></a></td>
+				</td>
+		  	    <#if usedPaper.sections ?size = 0>
+		  	      <td><a href="javascript:void(0)">设计切割方案</a></td>
+		  	    <#else>
+		  	      <td><a href="javascript:void(0)">${usedPaper.sections ?size}</a></td>
+		  	    </#if>
+		  	    <td data-rr-paperId="${usedPaper.paperId}" >${usedPaper.fullScore}</td>
+		  	    <td>${usedPaper.objectivityScore}</td>
+		  	    <td>${usedPaper.subjectivityScore}</td>
 		  	    </#list>
 	  	    </#if>
-	  	    <td class="completed">
-	  	    <i class=" icon-ok"></i></td>
+	  	    <td class="doing"><i class=" icon-remove" style="cursor: pointer;"></i></td>
 	  	    <#--
 	  	    <td>
 	  	    <a href="javascript:void(0)" id="removeSubject"><i class="icon-minus"></i></a></td>-->

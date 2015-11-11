@@ -1,6 +1,6 @@
 (function(){
 	"use strict";
-	define(['jquery','app/marking/ImgToolbox','app/marking/PointPanel', 'app/marking/ImgView' ,'ajaxwrapper','ui', 'dialog'],function($,imgToolbox,point,imgViewer,ajaxWrapper,ui,dialog){
+	define(['jquery','ajaxwrapper','ui', 'dialog'],function($,ajaxWrapper,ui,dialog){
 		var subjectExam = function(){
 			this.testId=undefined;
 			this.subject = {};
@@ -58,13 +58,12 @@
 			
 			this.save = function(){
 				if(this.validate()){
-					ajaxWrapper.postJson("subjectExam/onCreateSubjectExam",setInfo.setValue(),
+					ajaxWrapper.postJson("subjectExam",setInfo.setValue(),
 							{beforeMsg:{tipText:".",show:false},
-							sucessMsg:{tipText:"计分成功",show:true}},
+						     successMsg:{tipText:"保存成功",show:true}},
 							function(m){
 								if(m.status.success){
-									dialog.fadedialog(getOpts("保存成功"));
-									location.reload();
+									setTimeout(function(){location.reload();},1000);
 								}
 							});
 				}
@@ -72,15 +71,14 @@
 			};
 			this.update = function(){
 				if(this.validate()){
-					ajaxWrapper.putJson("subjectExam/onUpdateSubjectExam",setInfo.setValue(),
-							{beforeMsg:{tipText:".",show:false},
-							sucessMsg:{tipText:"计分成功",show:true}},
-							function(m){
-								if(m.status.success){
-									dialog.fadedialog(getOpts("保存成功"));
-									location.reload();
-								}
-							});
+					ajaxWrapper.putJson("subjectExam",setInfo.setValue(),
+						{beforeMsg:{tipText:".",show:false},
+						 successMsg:{tipText:"保存成功",show:true}},
+						function(m){
+							if(m.status.success){
+								setTimeout(function(){location.reload();},1000);
+							}
+						});
 				}
 
 			};
@@ -124,39 +122,40 @@
 					var s = new subject();
 					var se = new subjectExam();
 					if(!this.isNew){
-						var sd = this.row.find('td:first a[data-rr-name="subjectName"]');
+						var sd = this.row.find('td:first a');
 						e.name = sd.text();
 						s.name = sd.text();
 						s.subjectCode = sd.attr('data-rr-value');
 						se.testId = sd.attr('data-rr-testId');
-						e.fullScore = this.row.find('td:eq(5)').text();
-						e.objectivityScore = this.row.find('td:eq(6)').text();
-						e.subjectivityScore = this.row.find('td:eq(7)').text();
+						e.fullScore = this.row.find('td:eq(4)').text();
+						e.objectivityScore = this.row.find('td:eq(5)').text();
+						e.subjectivityScore = this.row.find('td:eq(6)').text();
 						se.subject = s;
 						se.usedPaper = [e];
 					}
 					myForm.show(e,s,se,this.isNew);
 				}
 			};
-
+            
+			
 			myTable.on('click','tbody #newSubject',function(e){
 				currentSubject.isNew = true;
 				currentSubject.row = $(this).parent().parent();
 				currentSubject.show();
-			}).on('click','tbody tr td a[data-rr-name="updateSubject"]',function(e){
+			}).on('click','tbody tr td a[data-rr-name=subjectName]',function(e){
 				currentSubject.isNew = false;
-				currentSubject.row = $(this).parent().parent().parent().parent().parent();
+				currentSubject.row = $(this).parent().parent();
 				currentSubject.show();
-			}).on('click','tbody tr td a[data-rr-name="removeSubject"]',function(e){
-				var myTable = $('div.subject-container>table');
+			}).on('click','tbody tr td.doing i',function(e){
+				logger.log("delete");
+				return ;
 				var sd = $(this).parent().parent().parent().parent().parent().find('td:first a[data-rr-name="subjectName"]');
 				var testId = sd.attr('data-rr-testId');
-				ajaxWrapper.removeJson("subjectExam/onDeleteSubjectExam",{testId:testId},
-						{beforeMsg:{tipText:".",show:false},
-						sucessMsg:{tipText:"删除成功",show:true}},
+				ajaxWrapper.removeJson("subjectExam",{testId:testId},
+						{beforeMsg:{tipText:".",show:true},
+						successMsg:{tipText:"删除成功",show:true}},
 						function(m){
 							if(m.status.success){
-								dialog.fadedialog(getOpts("删除成功"));
 								location.reload();
 							}
 						});
@@ -185,7 +184,7 @@
 					    '</div>'+
 				       '</div>'+
 				  '</form>';
-				var modal = ui.show("图片上传",message,'md');
+				var modal = ui.modal("图片上传",message,'md');
 				ui.fileUpload(modal);
 				$(modal.find('#uploadForm')).submit(function(){
 					return false;
@@ -196,13 +195,13 @@
 					if($('div.file-preview-filename').val() == 0){
 						return;
 					}
-					ajaxWrapper.upload('examPaper/onAddPaperCard/'+paperId,
+					ajaxWrapper.upload('examPaper/'+paperId,
 							'fileName',
 							{beforeMsg:{tipText:".",show:false},
-								sucessMsg:{tipText:"上传成功",show:true}},
+							 successMsg:{tipText:"上传成功",show:true}},
 							function(m){
 									if(m.status.success){
-										dialog.fadedialog(getOpts("上传成功"));
+										
 									}
 							});
 				});

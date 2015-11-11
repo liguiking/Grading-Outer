@@ -29,5 +29,10 @@ public class SubjectExamRepositoryHibernateImpl extends HibernateRepository<Subj
 		Query q = getCurrentSession().createQuery(" from SubjectExam ");
 		return  q.list();
 	}
+
+	@Override
+	protected Class<SubjectExam> getEntityClass() {
+		return SubjectExam.class;
+	}
 	
 }

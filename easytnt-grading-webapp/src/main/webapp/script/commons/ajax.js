@@ -96,7 +96,6 @@
 								if ($overlay) {
 									$overlay.complete();
 								}
-
 							},
 							success : function(data, textStatus, jqXHR) {
 								if (jqXHR) {

@@ -22,8 +22,15 @@ public class SubjectRepositoryHibernateImpl extends HibernateRepository<Subject,
 		Query q = getCurrentSession().createQuery("select max(subjectCode)+1 from Subject");
 		List resultList = q.list();
 		if(resultList.size()!=0){
+			if(resultList.get(0) == null)
+				return 100;
 			return (Integer)resultList.get(0);
 		}
 		return 100;
+	}
+
+	@Override
+	protected Class<Subject> getEntityClass() {
+		return Subject.class;
 	}
 }

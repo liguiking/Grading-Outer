@@ -32,18 +32,6 @@ public class SubjectServiceImpl  extends AbstractEntityService<Subject, Long> im
 		super.setRepository(repository);
 	}
 	
-	@Override
-	public Subject load(Long pk) {
-		Subject subject =  new Subject();
-		//subject.setName("subject");
-		return subject;
-	}
-
-	@Transactional(readOnly=true)
-	@Override
-	public void query(Query<Subject> query) {
-		// TODO Auto-generated method stub
-	}
 
 	@Override
 	public int getMaxCode() {

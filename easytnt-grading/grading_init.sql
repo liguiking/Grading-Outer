@@ -11,7 +11,7 @@ CREATE TABLE `test` (
   `test_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `test_oid` bigint(20) NOT NULL COMMENT '内码，设置规则：yyyymmdd' ,
   `subject_id` bigint(20) NOT NULL ,
-  `test_name` varchar(16) NOT NULL COMMENT '考试名称',
+  `test_name` varchar(16)  COMMENT '考试名称',
   `test_from` datetime DEFAULT NULL COMMENT '考试开始时间' ,
   `test_to` datetime DEFAULT NULL COMMENT '考试完成时间' ,
   `test_year` int(4)  COMMENT '考试年度' ,
@@ -26,7 +26,9 @@ CREATE TABLE `paper_info` (
   `taper_oid` bigint(20) COMMENT '内码，设置规则：test_oid+1位数字(1-9)' ,
   `paper_name` varchar(16) COMMENT '试卷名称',
   `paper_type` varchar(16) COMMENT '试卷类型',
-  `full_score` float(3,2) COMMENT '试卷满分',
+  `full_score` float(5,2) COMMENT '试卷满分',
+  `subjectivity_score` float(5,2) COMMENT '试卷满分',
+  `objectivity_score` float(5,2) COMMENT '试卷满分',
   PRIMARY KEY (`paper_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='试卷信息定义';
 
@@ -60,8 +62,8 @@ CREATE TABLE `paper_section_info` (
   `top` int(4)  COMMENT '在试卷扫描图片中相对上边位置，最小值0',
   `width` int(4)  COMMENT '在试卷扫描图片中相对宽度，最小值0',
   `height` int(4)  COMMENT '在试卷扫描图片中相对高度，最小值0',
-  `full_score` float(3,2) COMMENT '大题满分，如20分，则为20.0',
-  `maxerror` float(3,2) COMMENT '大题得分允许误差值，最大值不能超过full_score，如5分，则为5.0',
+  `full_score` float(5,2) COMMENT '大题满分，如20分，则为20.0',
+  `maxerror` float(5,2) COMMENT '大题得分允许误差值，最大值不能超过full_score，如5分，则为5.0',
   PRIMARY KEY (`section_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='试卷大题定义';
 
@@ -76,7 +78,7 @@ CREATE TABLE `paper_item_info` (
   `top` int(4)  COMMENT '在大题切割图片中相对上边位置，最小值0，最大值不能超过大题的height值',
   `width` int(4)  COMMENT '在大题切割图片中相对宽度，最小值0，最大值不能超过大题的width值',
   `height` int(4)  COMMENT '在大题切割图片中相对高度，最小值0，最大值不能超过大题的height值',
-  `full_score` float(3,2) COMMENT '小题满分，如5分，则为5.0',
+  `full_score` float(5,2) COMMENT '小题满分，如5分，则为5.0',
   `validscoredot` varchar(255)  COMMENT '小题给分串,以,号分隔，如1,2,3,4,5',
   PRIMARY KEY (`item_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='试卷小题定义';
@@ -99,7 +101,7 @@ CREATE TABLE `teacher_info` (
   `teacher_name` varchar(32) DEFAULT NULL COMMENT '评卷教师姓名',
   `teacher_passord` varchar(32) DEFAULT NULL COMMENT '评卷教师密码,需要加密存储',
   PRIMARY KEY (`teacher_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='评卷教师信息'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='评卷教师信息';
 
 DROP TABLE IF EXISTS  `examinne`;
 CREATE TABLE `examinne` (

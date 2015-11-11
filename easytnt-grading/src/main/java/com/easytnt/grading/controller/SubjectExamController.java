@@ -51,9 +51,10 @@ public class SubjectExamController {
 			throws Exception {
 		logger.debug("URL /subjectExam Method PUT ", subjectExam);
 		SubjectExam sub = subjectExamService.load(subjectExam.getTestId());
-		Subject  subject =  subjectExam.getSubject();
-		subject.setId(sub.getSubject().getId());
-		sub.setSubject(subject);
+		//Subject  subject =  subjectExam.getSubject();
+		sub.getSubject().setName( subjectExam.getSubject().getName());
+		//subject.setId(sub.getSubject().getId());
+		//sub.setSubject(subject);
 		sub.setUsedPaper(getNewSet(sub.getUsedPaper(),subjectExam.getUsedPaper()));
 		subjectExamService.update(sub);
 		return ModelAndViewFactory.newModelAndViewFor("/exam/editExam").build();
