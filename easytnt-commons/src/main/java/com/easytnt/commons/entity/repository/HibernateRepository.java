@@ -62,7 +62,5 @@ public abstract class HibernateRepository<T, PK extends Serializable> {
 		return this.sessionFactory.getCurrentSession();
 	}
 
-	protected Class<T> getEntityClass() {
-		return (Class<T>) this.getClass();
-	}
+	abstract protected Class<T> getEntityClass();
 }
