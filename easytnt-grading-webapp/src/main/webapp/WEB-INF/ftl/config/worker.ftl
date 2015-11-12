@@ -1,4 +1,13 @@
 <div class="subject-container">
+	 <select id="subject" class="form-controller selectpicker">
+	     <#list subjects as subject>
+	    	<option value="${subject.id}" data-rr-code="${subject.subjectCode}" data-rr-sname="${subject.name}">${subject.name!}</option>
+	     </#list>
+	 </select>
+	  <button class="btn btn-default" id="search" type="button">
+	                  科目搜索
+	  </button>
+  <p></p>
   <table class="table table-striped table-bordered ">
   	<thead class="bg-primary">
   	  <tr>
@@ -25,7 +34,7 @@
 	    <div class="col-sm-8">
 	     <select id="subject" class="form-controller selectpicker">
 	     <#list subjects as subject>
-	    	<option value="${subject.id}">${subject.name!}</option>
+	    	<option value="${subject.id}" data-rr-code="${subject.subjectCode}" data-rr-sname="${subject.name}">${subject.name!}</option>
 	     </#list>
 	     </select>
 	    </div>

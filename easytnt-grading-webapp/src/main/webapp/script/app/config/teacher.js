@@ -29,6 +29,16 @@
 				return b;
 			};
 			
+			//单独抽出来的取值拼接json格式
+			function createTeacher(){
+				var leader = 0;
+				if($('#isLeader')[0].checked)
+					leader = 1;
+				var teacher = {name:$('#teacherName').val(),leader:leader,subject:{id:$('#subject :selected').attr('data-rr-value'),subjectCode:$('#subject').val()}};
+				return teacher;
+			};
+			
+			
 			//保存响应
 			this.save = function(){
 				if(this.validate()){
@@ -36,7 +46,14 @@
 					if(amount * 1 < 1){
 						amount = 1;
 					}
-					var teacher = {teacherName:$('#teacherName').val(),subject:{id:$('#subject').val()}};
+					var leader = 0;
+					if($('#isLeader')[0].checked){
+						leader = 1;
+					}else{
+						leader = 0;
+					}
+					
+					var teacher = {teacherName:$('#teacherName').val(),leader:leader,subject:{id:$('#subject').val(),name:$('#subject :selected').attr('data-rr-sname'),subjectCode:$('#subject :selected').attr('data-rr-code')}};
 					ajaxWrapper.postJson("/teacher/"+amount ,teacher,
 						{beforeMsg:{tipText:"",show:false},successMsg:{tipText:"创建成功",show:true}},
 						function(data){
@@ -53,7 +70,7 @@
 			//修改响应
 			this.update = function(){
 				if(this.validate()){
-					var teacher = {teacherName:$('#teacherName').val(),subject:{id:$('#subject').val()}};
+					var teacher = {teacherName:$('#teacherName').val(),leader:leader,subject:{id:$('#subject').val(),name:$('#subject :selected').attr('data-rr-sname'),subjectCode:$('#subject :selected').attr('data-rr-code')}};
 					ajaxWrapper.putJson("/teacher",teacher,{beforeMsg:{tipText:"",show:false},successMsg:{tipText:"更新成功",show:true}},function(data){
 						if(data.status.success){
 							setTimeout(function(){
@@ -82,7 +99,6 @@
 			var  $form = $('div.subject-container>.subject-editor>form');
 			var myForm = new editorForm($form);
 			ui.pretty($form);
-			
 			var currentTeacher = {
 				isNew:false,
 				row:undefined,
@@ -99,7 +115,20 @@
 				}
 			};
 			
-
+			//点击科目搜索按钮
+			$("#search").click(function(e){
+				var subject_id = $('#subject').val();
+				var subject_name = $('#subject :selected').attr('data-rr-sname');
+				var teacher ={subject:{id:subject_id,name:subject_name}}
+				ajaxWrapper.get("/teacher/getSubjectName",teacher,"Json",{beforeMsg:{tipText:"没有该科目信息",show:false},successMsg:{tipText:"查询返回结果集",show:true}},function(data){
+					if(data.status.success){
+						setTimeout(function(){
+							location.reload();
+						},1000);
+					}
+				});
+			});
+			
 			myTable.on('click','tbody tr td a[data-rr-name=teacher]',function(e){
 				currentTeacher.row = $(this).parent().parent();
 				currentTeacher.show();
@@ -117,7 +146,7 @@
 						dialog.fadedialog(getOpts("密码不一致"));
 					}else{
 				    var teacher = {teacherId:tId,teacherPassord:qPass};	
-					ajaxWrapper.putJson("teacher/onUpdatePass",teacher,{beforeMsg:{tipText:"",show:false},successMsg:{tipText:"更新成功",show:true}},function(data){
+					ajaxWrapper.putJson("teacher/updatePass",teacher,{beforeMsg:{tipText:"",show:false},successMsg:{tipText:"修改密码成功",show:true}},function(data){
 						if(data.status.success){
 							dialog.update-success(getOpts("修改密码成功"));
 							//$(this).trigger('close');

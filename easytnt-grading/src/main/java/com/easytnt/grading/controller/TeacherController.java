@@ -1,5 +1,7 @@
 package com.easytnt.grading.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.easytnt.commons.entity.cqrs.Query;
@@ -27,7 +30,6 @@ public class TeacherController {
 
 	@Autowired(required = false)
 	private TeacherService teacherService;
-	
 	
 	@Autowired(required = false)
 	private SubjectService subjectService;
@@ -75,16 +77,16 @@ public class TeacherController {
 		return ModelAndViewFactory.newModelAndViewFor("/teacher/editTeacher").build();
 	}
 	
-    /*//获取所有的teacher信息
-	public ModelAndView onGetTeacher(){
+	//根据科目名称查询教师信息
+    @RequestMapping(value="getSubjectName")
+	public ModelAndView onGetTeacher(@RequestBody Teacher teacher){
 		logger.debug("URL /Teacher Method GET");
-		List<Teacher> tlist = teacherService.tlist();
-		return ModelAndViewFactory.newModelAndViewFor("/teacher/editTeacher").with("teacher", tlist).build(); 
+		List<Teacher> tlist = teacherService.getTeacherSname(teacher.getSubject().getId());
+		return ModelAndViewFactory.newModelAndViewFor().with("teachers",tlist).build();
 	}
-	*/
 	
 	//修改密码
-	@RequestMapping(value="onUpdatePass")
+	@RequestMapping(value="updatePass")
 	public ModelAndView onUpdatePass(@RequestBody Teacher teacher)
 					throws Exception {
 		logger.debug("URL /Teacher Method PUT ", teacher);

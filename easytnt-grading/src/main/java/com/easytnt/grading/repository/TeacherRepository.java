@@ -1,9 +1,7 @@
 package com.easytnt.grading.repository;
-
 import java.util.List;
 
 import com.easytnt.commons.entity.repository.Repository;
-import com.easytnt.grading.domain.exam.Subject;
 import com.easytnt.grading.domain.grade.Teacher;
 
 /**
@@ -23,4 +21,8 @@ public interface TeacherRepository extends Repository<Teacher, Long> {
 	
 	//修改密码
 	public void updatePass(Long teacherid,String password);
+	
+	//根据科目名称查询教师信息
+	public List<Teacher> getTeacherSname(Long subject_id);
+	
 }

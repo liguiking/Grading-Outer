@@ -52,10 +52,18 @@ public class TeacherServiceImpl extends AbstractEntityService<Teacher, Long>
 		}else {
 			seq = teacherRepository.getSeq(teacher.getSubject().getId());
 		}
-		teacher.setTeacherAccount(seq);
+		
+		teacher.genAccount(Integer.valueOf(seq));
+		//teacher.setTeacherAccount(seq);
 		List<Teacher> teachers = teacher.cloneTimes(amount);
 		for(Teacher t:teachers) {
 			this.create(t);
 		}
+	}
+	
+	//根据科目名称查询教师信息
+	public List<Teacher> getTeacherSname(Long subject_id){
+		List<Teacher> tlist = teacherRepository.getTeacherSname(subject_id);
+		return tlist;
 	}
 }
