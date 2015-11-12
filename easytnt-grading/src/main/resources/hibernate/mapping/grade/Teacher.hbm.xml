@@ -9,7 +9,7 @@
 			<generator class="identity" />
 		</id>
 		<many-to-one name="subject" column="subject_id"
-			class="com.easytnt.grading.domain.exam.Subject" cascade="all">
+			class="com.easytnt.grading.domain.exam.Subject" fetch="join" lazy="false">
 		</many-to-one>
 		<property name="teacherAccount" type="java.lang.String">
 			<column name="teacher_account" />

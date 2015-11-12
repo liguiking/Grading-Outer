@@ -1,5 +1,6 @@
 package com.easytnt.grading.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,8 +44,11 @@ public class TeacherController {
 		MenuGroup configMenuGroup = MenuGroupFactory.getInstance().getConfigMenuGroup();
 		configMenuGroup.activedMenuByIndex(3);
 		rightMenuGroup.activedMenuByIndex(3);
+		
+		Query<Teacher> query = new QueryBuilder().newQuery(1,10,new HashMap());
+		teacherService.query(query);
 		return ModelAndViewFactory.newModelAndViewFor("/config")
-				.with("teachers", teacherService.list())
+				.with("query", query)
 				.with("subjects", subjectService.list())
 				.with("menus2", topRightMenuGroup.getMenus())
 				.with("rightSideMenu", rightMenuGroup.getMenus())

@@ -1,5 +1,6 @@
 package com.easytnt.grading.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,13 @@ public class TeacherServiceImpl extends AbstractEntityService<Teacher, Long>
 	@Override
 	public void updatePass(Long teacheckid, String pass) {
 		teacherRepository.updatePass(teacheckid, pass);
+	}
+	
+	@Transactional(readOnly=true)
+	public void query(Query<Teacher> query){
+		//TODO 
+		query.result(this.list());
+		query.rows(101);
 	}
 
 	@Override

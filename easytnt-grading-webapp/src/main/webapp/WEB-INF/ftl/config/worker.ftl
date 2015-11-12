@@ -1,13 +1,11 @@
 <div class="subject-container">
+  <div class="col-sm-offset-10">	 
 	 <select id="subject" class="form-controller selectpicker">
-	     <#list subjects as subject>
-	    	<option value="${subject.id}" data-rr-code="${subject.subjectCode}" data-rr-sname="${subject.name}">${subject.name!}</option>
-	     </#list>
+	 <#list subjects as subject>
+	    <option value="${subject.id}">${subject.name!}</option>
+	 </#list>
 	 </select>
-	  <button class="btn btn-default" id="search" type="button">
-	                  科目搜索
-	  </button>
-  <p></p>
+  </div>	 
   <table class="table table-striped table-bordered ">
   	<thead class="bg-primary">
   	  <tr>
@@ -15,14 +13,16 @@
   	  </tr>
   	</thead>
   	<tbody>
-  	 <#list teachers as t>
+  	<#if query.results?size gt 0>
+  	 <#list query.results as t>
   	  <tr>
-  	    <td><a href="javascript:void(0);" data-rr-name="teacher" data-rr-tid="${t.teacherId}" data-rr-tpass="${t.teacherPassord}">${t.subject.name!}</a></td>
+  	    <td><a href="javascript:void(0);" data-rr-name="teacher" data-rr-tid="${t.teacherId}" data-rr-sid="${t.subject.id}">${t.subject.name!}</a></td>
   	    <td>${t.teacherName!}</td>
   	    <td>${t.teacherAccount!}</td>
   	    <td><a href="javascript:void(0);" data-rr-name="updatePass">修改密码</a>|<a href="javascript:void(0);">分配任务</a></td>
   	  </tr>
   	  </#list>
+  	</#if>  
   	</tbody>
   </table>
   

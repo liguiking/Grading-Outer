@@ -99,40 +99,29 @@
 			var  $form = $('div.subject-container>.subject-editor>form');
 			var myForm = new editorForm($form);
 			ui.pretty($form);
+			ui.pretty(myTable.prev());
 			var currentTeacher = {
 				isNew:false,
 				row:undefined,
 				o:undefined,
 				show:function(){
 					this.o = {
-						name:this.row.find(''),
-						teacherId:this.row.find(''),
+						name:this.row.find('td:eq(1)').text(),
+						teacherId:this.row.find('td:eq(0) a').attr('data-rr-tid'),
 						subject:{
-							id:this.row.find()
+							id:this.row.find('td:eq(0) a').attr('data-rr-sid')
 						}
 					};
 					myForm.show(this);
 				}
 			};
 			
-			//点击科目搜索按钮
-			$("#search").click(function(e){
-				var subject_id = $('#subject').val();
-				var subject_name = $('#subject :selected').attr('data-rr-sname');
-				var teacher ={subject:{id:subject_id,name:subject_name}}
-				ajaxWrapper.get("/teacher/getSubjectName",teacher,"Json",{beforeMsg:{tipText:"没有该科目信息",show:false},successMsg:{tipText:"查询返回结果集",show:true}},function(data){
-					if(data.status.success){
-						setTimeout(function(){
-							location.reload();
-						},1000);
-					}
-				});
-			});
 			
 			myTable.on('click','tbody tr td a[data-rr-name=teacher]',function(e){
 				currentTeacher.row = $(this).parent().parent();
 				currentTeacher.show();
 			}).on('click','tbody tr td a[data-rr-name="updatePass"]',function(e){
+				//这种做法无意义,而且修改密码也不是这样修改的，这是管理员用的
 				var sd = $(this).parent().parent().find('td:first a[data-rr-name="teacher"]');
 				var btns = [{text:'确定',clazz :'btn-primary',callback:function(){
 					var tId = sd.attr('data-rr-tid');

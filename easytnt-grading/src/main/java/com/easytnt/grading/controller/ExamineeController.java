@@ -1,6 +1,7 @@
 package com.easytnt.grading.controller;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import org.slf4j.Logger;
@@ -13,9 +14,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.easytnt.commons.entity.cqrs.Query;
+import com.easytnt.commons.entity.cqrs.QueryBuilder;
 import com.easytnt.commons.io.FileUtil;
 import com.easytnt.commons.ui.MenuGroup;
 import com.easytnt.commons.web.view.ModelAndViewFactory;
+import com.easytnt.grading.domain.grade.Teacher;
 
 
 /** 
@@ -41,10 +45,13 @@ public class ExamineeController {
 		MenuGroup configMenuGroup = MenuGroupFactory.getInstance().getConfigMenuGroup();
 		configMenuGroup.activedMenuByIndex(2);
 		rightMenuGroup.activedMenuByIndex(3);
+		Query<Teacher> query = new QueryBuilder().newQuery(1,10,new HashMap());
+		query.rows(202);
 		return ModelAndViewFactory.newModelAndViewFor("/config")
 				.with("menus2", topRightMenuGroup.getMenus())
 				.with("rightSideMenu", rightMenuGroup.getMenus())
 				.with("menus3", configMenuGroup.getMenus())
+				.with("query",query)
 				.with("page","examinee").build();
 	}
 	
