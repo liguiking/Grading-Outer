@@ -16,6 +16,7 @@ import com.easytnt.commons.entity.cqrs.Query;
 import com.easytnt.commons.entity.cqrs.QueryBuilder;
 import com.easytnt.commons.ui.MenuGroup;
 import com.easytnt.commons.web.view.ModelAndViewFactory;
+import com.easytnt.grading.domain.exam.Subject;
 import com.easytnt.grading.domain.grade.Teacher;
 import com.easytnt.grading.service.SubjectService;
 import com.easytnt.grading.service.TeacherService;

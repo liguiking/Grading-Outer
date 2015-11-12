@@ -29,6 +29,14 @@
 				return b;
 			};
 			
+			function createTeacher(){
+				var leader = 0;
+				if($('#isLeader')[0].checked)
+					leader = 1;
+				var teacher = {name:$('#teacherName').val(),leader:leader,subject:{id:$('#subject :selected').attr('data-rr-value'),subjectCode:$('#subject').val()}};
+				return teacher;
+			};
+			
 			//保存响应
 			this.save = function(){
 				if(this.validate()){
@@ -36,7 +44,7 @@
 					if(amount * 1 < 1){
 						amount = 1;
 					}
-					var teacher = {name:$('#teacherName').val(),subject:{id:$('#subject').val()}};
+					var teacher = createTeacher();
 					ajaxWrapper.postJson("/teacher/"+amount ,teacher,
 						{beforeMsg:{tipText:"",show:false},successMsg:{tipText:"创建成功",show:true}},
 						function(data){
@@ -53,7 +61,7 @@
 			//修改响应
 			this.update = function(){
 				if(this.validate()){
-					var teacher = {name:$('#teacherName').val(),subject:{id:$('#subject').val()}};
+					var teacher = createTeacher();
 					ajaxWrapper.putJson("/teacher",teacher,{beforeMsg:{tipText:"",show:false},successMsg:{tipText:"更新成功",show:true}},function(data){
 						if(data.status.success){
 							setTimeout(function(){

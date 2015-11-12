@@ -133,7 +133,7 @@
 											} ]
 										},
 										tipText : '操作失败:' + tmpData.status.msg,
-										incoInfo : 'error',
+										iconInfo : 'error',
 									});
 								} else {
 									if (settings.beforeMsg.show)

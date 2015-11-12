@@ -49,6 +49,18 @@ public class Teacher {
     public boolean isManager() {
     	return this.leader > 0;
     }
+    
+    public void genAccount(int seq) {
+    	if(this.subject != null) {
+    		if(this.isManager()) {
+    			this.teacherAccount =  String.valueOf(this.subject.getSubjectCode() * 10 +seq);
+    		}else {
+    			this.teacherAccount =  String.valueOf(this.subject.getSubjectCode() * 100 +seq);
+    		}
+    		return;
+    	}
+    	throw new UnsupportedOperationException("没有设置评卷老师所属科目，无法生成账号");
+    }
 
 	public List<Teacher> cloneTimes(int times){
 		ArrayList<Teacher> ts = new ArrayList<>();

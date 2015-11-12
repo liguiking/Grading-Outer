@@ -31,7 +31,7 @@
 	    <div class="col-sm-8">
 	     <select id="subject" class="form-controller selectpicker">
 	     <#list subjects as subject>
-	    	<option value="${subject.id}">${subject.name!}</option>
+	    	<option value="${subject.subjectCode}" data-rr-value="${subject.id}">${subject.name!}</option>
 	     </#list>
 	     </select>
 	    </div>
