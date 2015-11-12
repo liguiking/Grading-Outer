@@ -1,7 +1,5 @@
 package com.easytnt.grading.repository.impl;
 
-import java.util.List;
-
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
@@ -37,11 +35,14 @@ public class TeacherRepositoryHibernateImpl extends HibernateRepository<Teacher,
 	//修改密码
 	@Override
 	public void updatePass(Long teacherid,String password) {
-		Teacher teacher = load(teacherid);
+		String hql = "from Teacher where teacherId="+teacherid;
+		Query q = this.getCurrentSession().createQuery(hql);
+		Teacher teacher = (Teacher) q.list().get(0);
 		teacher.setTeacherPassord(password);
+		teacher.setSubject(teacher.getSubject());
 		update(teacher);
 	}
-	
+
 	@Override
 	protected Class<Teacher> getEntityClass() {
 		return Teacher.class;

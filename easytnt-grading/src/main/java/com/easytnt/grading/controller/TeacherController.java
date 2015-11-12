@@ -16,7 +16,6 @@ import com.easytnt.commons.entity.cqrs.Query;
 import com.easytnt.commons.entity.cqrs.QueryBuilder;
 import com.easytnt.commons.ui.MenuGroup;
 import com.easytnt.commons.web.view.ModelAndViewFactory;
-import com.easytnt.grading.domain.exam.Subject;
 import com.easytnt.grading.domain.grade.Teacher;
 import com.easytnt.grading.service.SubjectService;
 import com.easytnt.grading.service.TeacherService;
@@ -82,15 +81,16 @@ public class TeacherController {
 		List<Teacher> tlist = teacherService.tlist();
 		return ModelAndViewFactory.newModelAndViewFor("/teacher/editTeacher").with("teacher", tlist).build(); 
 	}
+	*/
 	
 	//修改密码
-	@RequestMapping(value ="/updatePass", method = RequestMethod.PUT)
+	@RequestMapping(value="onUpdatePass")
 	public ModelAndView onUpdatePass(@RequestBody Teacher teacher)
 					throws Exception {
 		logger.debug("URL /Teacher Method PUT ", teacher);
-		teacherService.update(teacher);
+		teacherService.updatePass(teacher.getTeacherId(), teacher.getTeacherPassord());
 		return ModelAndViewFactory.newModelAndViewFor("/teacher/editTeacher").build();
-	}*/
+	}
 	
 	@RequestMapping(method = RequestMethod.DELETE)
 	public ModelAndView onDeleteTeacher(@RequestBody Teacher teacher)

@@ -1,6 +1,6 @@
 (function(){
 	"use strict";
-	define(['jquery','ajaxwrapper','ui'],function($,ajaxWrapper,ui){
+	define(['jquery','ajaxwrapper','ui', 'dialog'],function($,ajaxWrapper,ui,dialog){
 		var Teacher = function(){
 			this.teacherName = '';
 			this.teacherAccount = '';
@@ -29,14 +29,6 @@
 				return b;
 			};
 			
-			function createTeacher(){
-				var leader = 0;
-				if($('#isLeader')[0].checked)
-					leader = 1;
-				var teacher = {name:$('#teacherName').val(),leader:leader,subject:{id:$('#subject :selected').attr('data-rr-value'),subjectCode:$('#subject').val()}};
-				return teacher;
-			};
-			
 			//保存响应
 			this.save = function(){
 				if(this.validate()){
@@ -44,7 +36,7 @@
 					if(amount * 1 < 1){
 						amount = 1;
 					}
-					var teacher = createTeacher();
+					var teacher = {teacherName:$('#teacherName').val(),subject:{id:$('#subject').val()}};
 					ajaxWrapper.postJson("/teacher/"+amount ,teacher,
 						{beforeMsg:{tipText:"",show:false},successMsg:{tipText:"创建成功",show:true}},
 						function(data){
@@ -61,7 +53,7 @@
 			//修改响应
 			this.update = function(){
 				if(this.validate()){
-					var teacher = createTeacher();
+					var teacher = {teacherName:$('#teacherName').val(),subject:{id:$('#subject').val()}};
 					ajaxWrapper.putJson("/teacher",teacher,{beforeMsg:{tipText:"",show:false},successMsg:{tipText:"更新成功",show:true}},function(data){
 						if(data.status.success){
 							setTimeout(function(){
@@ -90,6 +82,7 @@
 			var  $form = $('div.subject-container>.subject-editor>form');
 			var myForm = new editorForm($form);
 			ui.pretty($form);
+			
 			var currentTeacher = {
 				isNew:false,
 				row:undefined,
@@ -110,9 +103,77 @@
 			myTable.on('click','tbody tr td a[data-rr-name=teacher]',function(e){
 				currentTeacher.row = $(this).parent().parent();
 				currentTeacher.show();
+			}).on('click','tbody tr td a[data-rr-name="updatePass"]',function(e){
+				var sd = $(this).parent().parent().find('td:first a[data-rr-name="teacher"]');
+				var btns = [{text:'确定',clazz :'btn-primary',callback:function(){
+					var tId = sd.attr('data-rr-tid');
+					var teacherPass = sd.attr('data-rr-tpass');
+					var tPass = $("#inputPassord").val();
+					var nPass = $("#newPassword").val();
+					var qPass = $("#readPassword").val();
+					if(tPass!=teacherPass){
+						dialog.fadedialog(getOpts("原密码有误"));
+					}else if(nPass!=qPass){
+						dialog.fadedialog(getOpts("密码不一致"));
+					}else{
+				    var teacher = {teacherId:tId,teacherPassord:qPass};	
+					ajaxWrapper.putJson("teacher/onUpdatePass",teacher,{beforeMsg:{tipText:"",show:false},successMsg:{tipText:"更新成功",show:true}},function(data){
+						if(data.status.success){
+							dialog.update-success(getOpts("修改密码成功"));
+							//$(this).trigger('close');
+						}
+					});
+				}
+				}},{text:'放弃',callback:function(){
+					$(this).trigger('close');
+				}}];
+				var message=
+					'<form id="updatePass"  method="POST" action="">'+
+			    	   '<div class="input-group update-pass">'+
+				    	'<div class="form-group">'+
+				    		'<label for="inputPassord" class="col-sm-4 control-label">原密码</label>'+
+				    			'<div class="col-sm-8">'+
+				    				'<input type="text" class="form-control" id="inputPassord"  placeholder="原密码">'+
+				    			'</div>'+
+				    	'</div> '+
+
+				    	'<div class="form-group">'+
+			    		'<label for="newPassword" class="col-sm-4 control-label">新密码</label>'+
+			    			'<div class="col-sm-8">'+
+			    				'<input type="password" class="form-control" id="newPassword"  placeholder="新密码">'+
+			    			'</div>'+
+			    		'</div> '+
+			    		
+			    		'<div class="form-group">'+
+			    		'<label for="readPassword" class="col-sm-4 control-label">确认密码</label>'+
+			    			'<div class="col-sm-8">'+
+			    				'<input type="password" class="form-control" id="readPassword"  placeholder="确认密码">'+
+			    			'</div>'+
+			    	    '</div> '+
+				       '</div>'+
+				  '</form>';
+				var modal = ui.modal("修改密码",message,5,btns);
+				
 			});
 			$form.show();
 		};
+
+		//操作提示
+		function getOpts(message){
+			var DialogSize = {SM:'sm',MD:'md',LG:'lg'};
+			var opts = {
+					size : DialogSize.SM,
+					header : {
+						show : true,
+						text : "操作提示"
+					},
+					iconInfo:'error',
+					tipText :message
+				};
+			return opts;
+		}
+
+
 
 		return {
 			render:function(){

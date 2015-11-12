@@ -35,6 +35,7 @@ public class Teacher {
 		this.teacherPassord = this.teacherAccount;
 		return this;
 	}
+	
 	//本类方法批量生成组长账号
 	public void alladdleader(Teacher tea ,Subject subject,int seq){
 		this.subject  = subject;
@@ -50,24 +51,13 @@ public class Teacher {
     	return this.leader > 0;
     }
     
-    public void genAccount(int seq) {
-    	if(this.subject != null) {
-    		if(this.isManager()) {
-    			this.teacherAccount =  String.valueOf(this.subject.getSubjectCode() * 10 +seq);
-    		}else {
-    			this.teacherAccount =  String.valueOf(this.subject.getSubjectCode() * 100 +seq);
-    		}
-    		return;
-    	}
-    	throw new UnsupportedOperationException("没有设置评卷老师所属科目，无法生成账号");
-    }
-
 	public List<Teacher> cloneTimes(int times){
 		ArrayList<Teacher> ts = new ArrayList<>();
 		int account = Integer.valueOf(this.teacherAccount);
 		for(int i = 0;i<times;i++) {
 			Teacher t = new Teacher();
 			t.subject = this.subject;
+			t.teacherName = this.teacherName;
 		    t.teacherAccount = (account++)+"";
 		    t.teacherPassord = t.teacherAccount;
 			t.leader = this.leader;

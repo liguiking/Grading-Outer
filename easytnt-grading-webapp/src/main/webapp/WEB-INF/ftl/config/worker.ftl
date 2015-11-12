@@ -7,19 +7,13 @@
   	</thead>
   	<tbody>
   	 <#list teachers as t>
-  	  <tr >
-  	    <td><a href="javascript:void(0);" data-rr-name="teacher" data-rr-value="${t.teacherId}">${t.subject.name!}</a></td>
+  	  <tr>
+  	    <td><a href="javascript:void(0);" data-rr-name="teacher" data-rr-tid="${t.teacherId}" data-rr-tpass="${t.teacherPassord}">${t.subject.name!}</a></td>
   	    <td>${t.teacherName!}</td>
   	    <td>${t.teacherAccount!}</td>
-  	    <td><a href="javascript:void(0);">修改密码</a>|<a href="javascript:void(0);">分配任务</a></td>
+  	    <td><a href="javascript:void(0);" data-rr-name="updatePass">修改密码</a>|<a href="javascript:void(0);">分配任务</a></td>
   	  </tr>
   	  </#list>
-  	  <tr class="bg-warning">
-  	    <td></td>
-  	    <td></td>
-  	    <td><a href="#"></a></td>
-  	    <td><a href="#"></td>
-  	  </tr>
   	</tbody>
   </table>
   
@@ -31,7 +25,7 @@
 	    <div class="col-sm-8">
 	     <select id="subject" class="form-controller selectpicker">
 	     <#list subjects as subject>
-	    	<option value="${subject.subjectCode}" data-rr-value="${subject.id}">${subject.name!}</option>
+	    	<option value="${subject.id}">${subject.name!}</option>
 	     </#list>
 	     </select>
 	    </div>
