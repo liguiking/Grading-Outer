@@ -111,7 +111,7 @@ public class ExamPaperController {
 		examPaperService.deleteSectionFor(paperId,section);
 		return ModelAndViewFactory.newModelAndViewFor().build();
 	}
-	@RequestMapping(value="/onRemovePaperCard/{paperId}",method = RequestMethod.DELETE)
+	@RequestMapping(value="/removePaperCard/{paperId}",method = RequestMethod.DELETE)
 	public ModelAndView onRemovePaperCard(@PathVariable Long paperId,@RequestBody PaperCard paperCard,HttpServletRequest request)
 					throws Exception {
 		logger.debug("URL /examPaper Method U ", paperCard);

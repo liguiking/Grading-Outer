@@ -44,13 +44,28 @@
 					if(i == 0){
 						if(this.value.length < 1 ){
 							b = false;
+							dialog.fadedialog(getOpts("科目不能为空"));
 							return false;
 						}	
 					}else{
 						score[i-1] = this.value;
 					}
 				});
+				if(b && (score[0]=="" || score[1] =="" || score[2] =="" )){
+					dialog.fadedialog(getOpts("满分或客观题满分或主观题满分不能为空"));
+					return false;
+				}
+				var reg = new RegExp("^[0-9]*$");
+				if (b && (!reg.test(score[0]) || !reg.test(score[1]) || !reg.test(score[2])) ) { 
+					dialog.fadedialog(getOpts("满分或客观题满分或主观题满分必须为正整数"));
+					return false;
+				} 
+				if(score[0]>999 || score[1] >999 || score[2] >999 ){
+					dialog.fadedialog(getOpts("满分或客观题满分或主观题满分不超过999"));
+					return false;
+				}
 				if(b && score[0] != (score[1]*1 + score[2]*1)){
+					dialog.fadedialog(getOpts("客观题满分和主观题满分之和要等于满分"));
 					b = false;
 				}
 				return b;
@@ -147,23 +162,20 @@
 				currentSubject.row = $(this).parent().parent();
 				currentSubject.show();
 			}).on('click','tbody tr td.doing i',function(e){
-				logger.log("delete");
-				return ;
-				var sd = $(this).parent().parent().parent().parent().parent().find('td:first a[data-rr-name="subjectName"]');
+				var sd = $(this).parent().parent().find('td:first a[data-rr-name="subjectName"]');
 				var testId = sd.attr('data-rr-testId');
 				ajaxWrapper.removeJson("subjectExam",{testId:testId},
 						{beforeMsg:{tipText:".",show:true},
 						successMsg:{tipText:"删除成功",show:true}},
 						function(m){
 							if(m.status.success){
-								location.reload();
+								setTimeout(function(){location.reload();},1000);
 							}
 						});
 			}).on('click','tbody tr td a[data-rr-name="addImage"]',function(e){
-				var btns = [{text:'确定',clazz : 'btn-primary',callback:function(){
+				var btns = [{text:'取消',callback:function(){
 					$(this).trigger('close');
-				}},{text:'放弃',callback:function(){
-					$(this).trigger('close');
+					location.reload();
 				}}];
 				var message=
 					'<form id="uploadForm"  method="POST" action="" enctype="multipar/form-data">'+
@@ -176,7 +188,7 @@
 						    '<div class="btn btn-default file-preview-input" >'+
 						      '<span class="glyphicon glyphicon-folder-open"></span>'+
 						      '<span class="file-preview-input-title">选择文件</span>'+
-						      '<input id="fileName" type="file" name="fileName" accept="image/gif, image/jpeg,image/png" style="display:none;">'+
+						      '<input id="fileName" type="file" name="fileName" accept="image/gif, image/jpeg,image/png,image/tiff" style="display:none;">'+
 						    '</div>'+
 						    '<button type="type" class="btn btn-default " id="upload">'+
 						      '<span class="glyphicon glyphicon-upload"></span>上传'+
@@ -184,7 +196,7 @@
 					    '</div>'+
 				       '</div>'+
 				  '</form>';
-				var modal = ui.modal("图片上传",message,'md');
+				var modal = ui.modal("图片上传",message,'md',btns);
 				ui.fileUpload(modal);
 				$(modal.find('#uploadForm')).submit(function(){
 					return false;
@@ -217,13 +229,13 @@
 //				var cardId = $(this).attr('data-rr-cardId');
 //				var row = $(this).parent().parent();
 //				var paperId = row.find('td:eq(4)').attr('data-rr-paperId');
-//				ajaxWrapper.removeJson("examPaper/onRemovePaperCard/"+paperId,{cardId:cardId,path:path},
+//				ajaxWrapper.removeJson("examPaper/removePaperCard/"+paperId,{cardId:cardId,path:path},
 //						{beforeMsg:{tipText:".",show:false},
 //						sucessMsg:{tipText:"删除成功",show:true}},
 //						function(m){
 //							if(m.status.success){
 //								dialog.fadedialog(getOpts("删除成功"));
-//								location.reload();
+//								setTimeout(function(){location.reload();},1000);
 //							}
 //						});
 			});
@@ -236,6 +248,7 @@
 						show : true,
 						text : "操作提示"
 					},
+					iconInfo:'error',
 					tipText :message
 				};
 			return opts;
