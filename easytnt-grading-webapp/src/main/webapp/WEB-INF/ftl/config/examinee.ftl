@@ -1,4 +1,4 @@
-<div class="subject-container">
+<div class="subject-container" style="display:none;">
   <form id="uploadForm"  method="POST" action="" enctype="multipar/form-data" class="form-inline">
     <div class="col-md-offset-8 col-md-4 input-group file-preview">
       <input type="text" class="form-control file-preview-filename" disabled="disabled">
@@ -27,7 +27,7 @@
   	<tbody>
   	  <tr >
   	    <td>
-  	      <select name="s">
+  	      <select name="i1" class="selectpicker" style="width:50%;">
   	        <option value="1">考点</option>
   	        <option value="2">考场</option>
   	        <option value="3">考生姓名</option>
@@ -35,7 +35,7 @@
   	      </select>
   	    </td>
   	    <td>
-  	      <select name="s">
+  	      <select name="s1" class="selectpicker">
   	        <option value="1">考点</option>
   	        <option value="2">考场</option>
   	        <option value="3">考生姓名</option>
@@ -43,19 +43,9 @@
   	      </select>  	    
   	    </td>
   	    <td><a href="#"><i class="icon-plus"></i></a></td>
-  	  </tr>
-  	  
+  	  </tr>  	  
   	</tbody>
   </table>
-  <nav>
-    <ul class="pagination">
-      <li><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
-      <li><a href="#">1</a></li>
-      <li><a href="#">2</a></li>
-      <li><a href="#">3</a></li>
-      <li><a href="#">4</a></li>
-      <li><a href="#">5</a></li>
-      <li><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
-    </ul>
-  </nav>  
+  <#import "/taglib/commons/pager.ftl" as page> 
+  <@page.pager pager=query/>
 </div>

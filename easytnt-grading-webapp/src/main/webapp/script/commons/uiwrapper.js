@@ -1,6 +1,6 @@
 (function() {
 	"use strict";
-	define([ 'jquery', 'dialog','select','icheck' ], function($, dialog) {
+	define([ 'jquery', 'dialog','select','icheck','pager' ], function($, dialog) {
 		var DialogSize = {SM:'sm',MD:'md',LG:'lg'};
 		var button = {
 				type : 'button',
@@ -103,7 +103,57 @@
 						radioClass:'iradio_minimal-blue',
 						increaseArea:'20%'
 					});
+				},
+				pager:{
+					init:function($pagerContainer){
+						var pager = {
+							pageSize:10,
+							pageNum:1,
+							data:{}
+						};
+						
+						if($pagerContainer){
+							var pagerSizeObj = $pagerContainer.find("#pagesize");
+				    		if(pagerSizeObj.size()){
+				    			page.pageSize = parseInt(pagerSizeObj.val());
+							}					
+						}
+						return pager;
+					},
+					render:function(pagerOpts){
+						logger.log(pagerOpts);
+						var defOpts = {
+							"containerObj" : undefined,
+							"pageObj" : undefined,
+							"fn" : function(pager) {
+								logger.log(pager);
+							}
+						};
+
+						$.extend(true, defOpts,pagerOpts);
+						
+						defOpts.containerObj = $("<div></div>").append(defOpts.containerObj.clone());
+						
+						var _pageNum = parseInt(defOpts.containerObj.find("#pageNum").val());
+						_pageNum=_pageNum==0?1:_pageNum;
+						var _pageCount = parseInt(defOpts.containerObj.find("#pageCount").val());
+						var pageSize = 10;
+						if(defOpts.containerObj.find("#pageSize").size()){
+							pageSize = parseInt(defOpts.containerObj.find("#pageSize").val());
+						}
+						defOpts.pageObj.pager({
+							pageNum : _pageNum,
+							pageCount : _pageCount,
+							click : function(pageNum, pageCount) {
+								var pager = {};
+								pager["pageSize"] = pageSize;
+								pager["pageNum"] = pageNum;
+								defOpts.fn.call(this,pager);
+							}
+						});					
+					}					
 				}
+
 		};
 		return ui;
 	});

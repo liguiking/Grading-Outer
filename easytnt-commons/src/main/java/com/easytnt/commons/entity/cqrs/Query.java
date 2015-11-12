@@ -24,7 +24,7 @@ public interface Query<T> {
 	
 	public void result(List<T> list) ;
 	
-	public void totalRows(int totalRows);
+	public void rows(int totalRows);
 		
 	public boolean hasNext();
 

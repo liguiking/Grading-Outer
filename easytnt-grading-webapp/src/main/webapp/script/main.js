@@ -87,6 +87,7 @@ var config = {
 
 	paths : {
 		"jquery" : jqueryPath,
+		"pager" : "lib/jquery/jquery.pager",
 		"easyui" : "lib/jquery/jquery.easyui.min",
 		"bootstrap" : "lib/bootstrap/bootstrap.min",
 		"select" : "lib/bootstrap/plugins/bootstrap-select",

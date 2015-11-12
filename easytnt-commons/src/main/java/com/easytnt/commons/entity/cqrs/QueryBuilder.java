@@ -55,7 +55,7 @@ public class QueryBuilder {
 			}
 			
 			@Override
-			public void totalRows(int totalRows) {
+			public void rows(int totalRows) {
 				this.totalRows = totalRows;
 				this.totalPage = this.totalRows / this.getPageSize();
 				
