@@ -3,6 +3,7 @@
 	define(['jquery','ajaxwrapper','ui', 'dialog'],function($,ajaxWrapper,ui,dialog){
 		var subjectExam = function(){
 			this.testId=undefined;
+			this.desc={};
 			this.subject = {};
 			this.usedPaper=[];
 		};
@@ -116,6 +117,7 @@
 					var se = new subjectExam();
 					e.name = myForm.find('#name').val();
 					s.name = myForm.find('#name').val();
+					se.desc.name=myForm.find('#name').val();
 					s.subjectCode = myForm.find('#subjectCode').val();
 					e.fullScore = myForm.find('#fullScore').val();
 					e.objectivityScore = myForm.find('#objectivityScore').val();
