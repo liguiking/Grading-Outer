@@ -82,7 +82,6 @@
 			var  $form = $('div.subject-container>.subject-editor>form');
 			var myForm = new editorForm($form);
 			ui.pretty($form);
-			logger.log('1111');
 			var currentTeacher = {
 				isNew:false,
 				row:undefined,
