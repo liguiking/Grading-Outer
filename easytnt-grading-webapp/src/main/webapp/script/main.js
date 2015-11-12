@@ -89,6 +89,8 @@ var config = {
 		"jquery" : jqueryPath,
 		"easyui" : "lib/jquery/jquery.easyui.min",
 		"bootstrap" : "lib/bootstrap/bootstrap.min",
+		"select" : "lib/bootstrap/plugins/bootstrap-select",
+		"icheck" : "lib/bootstrap/plugins/iCheck/icheck.min",
 		"chart" : "lib/highcharts/highcharts",
 		"smartWizard" : "lib/smartWizard/jquery.smartWizard",
 		"dialog":"commons/dialog",
@@ -102,7 +104,8 @@ var config = {
 	},
 	shim : {
 		'bootstrap' : {deps:['jquery']},
-		'chart' : {deps:['jquery']}
+		'chart' : {deps:['jquery']},
+		'select' : {deps:['bootstrap']}
 	}
 };
 if(browser.isMobile()){

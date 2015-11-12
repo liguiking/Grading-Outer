@@ -1,6 +1,6 @@
 (function(){
 	"use strict";
-	define(['jquery','ajaxwrapper'],function($,ajaxWrapper){
+	define(['jquery','ajaxwrapper','ui'],function($,ajaxWrapper,ui){
 		var Teacher = function(){
 			this.teacherName = '';
 			this.teacherAccount = '';
@@ -79,7 +79,10 @@
 		
 		var o = function(){
 			var myTable = $('div.subject-container>table');
-			var myForm = new editorForm($('div.subject-container>.subject-editor>form'));
+			var  $form = $('div.subject-container>.subject-editor>form');
+			var myForm = new editorForm($form);
+			ui.pretty($form);
+			logger.log('1111');
 			var currentTeacher = {
 				isNew:false,
 				row:undefined,
@@ -101,6 +104,7 @@
 				currentTeacher.row = $(this).parent().parent();
 				currentTeacher.show();
 			});
+			$form.show();
 		};
 
 		return {

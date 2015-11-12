@@ -1,6 +1,6 @@
 (function() {
 	"use strict";
-	define([ 'jquery', 'dialog' ], function($, dialog) {
+	define([ 'jquery', 'dialog','select','icheck' ], function($, dialog) {
 		var DialogSize = {SM:'sm',MD:'md',LG:'lg'};
 		var button = {
 				type : 'button',
@@ -30,7 +30,8 @@
 						});
 					}
 					return dialog.modal(opts);
-				},show:function(title,content, size){
+				},
+				show:function(title,content, size){
 					var opts = {
 							size : size||DialogSize.SM,
 							header : {
@@ -79,6 +80,28 @@
 							fileHtml.find('button.btn-import').removeAttr('disabled');
 						};
 						reader.readAsDataURL(file);
+					});
+				},
+				pretty:function(html){
+					var $html = $(html);
+					$html.find('select.selectpicker').each(function(){
+						var $select = $(this);
+						if($select.attr('disabled')){
+							$select.selectpicker().css({'background-color':'#eee'});
+							$select.next().css({'background-color':'#eee'});
+						}else{
+							$select.selectpicker();
+							if($select.find('>option').size() > 10){
+								$select.next().find('div.dropdown-menu ul').css({'overflow-y':'auto','height':'200px'});
+							}
+							$select.next().css({'width':'100%'});
+						}
+					});
+					
+					$html.find(':checkbox,:radio').iCheck({
+						checkboxClass:'icheckbox_minimal-blue',
+						radioClass:'iradio_minimal-blue',
+						increaseArea:'20%'
 					});
 				}
 		};

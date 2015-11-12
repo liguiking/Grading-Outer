@@ -25,16 +25,15 @@
   
   <div class="subject-editor">
 	<div class="col-md-4"></div>
-	<form class="form-horizontal col-md-4">
+	<form class="form-horizontal col-md-4" style="display:none;">
 	  <div class="form-group">
 	    <label for="teacher" class="col-sm-4 control-label">科目</label>
 	    <div class="col-sm-8">
-	    <p></p>
-	    <select id="subject">
+	     <select id="subject" class="form-controller selectpicker">
 	     <#list subjects as subject>
 	    	<option value="${subject.id}">${subject.name!}</option>
 	     </#list>
-	    </select>
+	     </select>
 	    </div>
 	  </div>
 	  <div class="form-group">
@@ -51,15 +50,15 @@
 	  </div> 
 	  <div class="form-group">
 	    <label for="accounts" class="col-sm-4 control-label">账号数量</label>
-	    <div class="col-sm-4">
+	    <div class="col-sm-3">
 	      <input type="text"  class="form-control" id="amount"  value="1" placeholder="账号数量">
 	    </div>
-	    <label class="control-label "><input type="checkbox"  id="isLeader" name="isLeader" value="1">组长</label>	
+	    <div class="col-sm-3 col-radio"><label class="control-label "><input class="form-control" type="checkbox"  id="isLeader" name="isLeader" value="1">组长</label></div>	
 	   </div>
 	   <div class="form-group">
-	   <div class="col-sm-offset-3 col-sm-9">
-	     <button type="submit" class="btn btn-default">保存</button>
-	   </div>
+	     <div class="col-sm-offset-3 col-sm-9">
+	       <button type="submit" class="btn btn-default">保存</button>
+	     </div>
 	  </div>
 	</form>
 	<div class="col-md-4"></div>
