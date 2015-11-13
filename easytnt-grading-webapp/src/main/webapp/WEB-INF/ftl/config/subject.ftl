@@ -14,13 +14,14 @@
 	  	    <#if result.usedPaper??>
 		  	  <#list result.usedPaper as usedPaper>
 		  	    <td>
+		  	    <section class="demos">
 		  	    <#if usedPaper.paperCards ??>
 		  	      <#list usedPaper.paperCards as paperCard>
-				  	<a href="javascript:void(0)" data-rr-name="image"  data-rr-imagePath="${paperCard.path}" data-rr-cardId="${paperCard.cardId}">${paperCard.cardSeq}</a>
-				  	
+				  	<a href="javascript:void(0)" data-rr-name="image"  class="demo-image" data-image="static/${paperCard.path}" data-rr-cardId="${paperCard.cardId}">${paperCard.cardSeq}</a>
 				  </#list>
 		  	    </#if>
-		  	      <a href="javascript:void(0)" data-rr-name="addImage" ><i class="icon-plus"></i></a></td>
+		  	      	<a href="javascript:void(0)" data-rr-name="addImage" ><i class="icon-plus"></i></a></td>
+				  </section>
 				</td>
 		  	    <#if usedPaper.sections ?size = 0>
 		  	      <td><a href="javascript:void(0)">设计切割方案</a></td>

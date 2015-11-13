@@ -103,7 +103,8 @@ var config = {
 		"funcs":"commons/functions",
 		"StringBuffer":"ext/StringBuffer",
 		"Map":"ext/Map",
-		"ichartUtil":"commons/ichart"
+		"ichartUtil":"commons/ichart",
+		"intense":"lib/jquery/intense"
 	},
 	shim : {
 		'bootstrap' : {deps:['jquery']},

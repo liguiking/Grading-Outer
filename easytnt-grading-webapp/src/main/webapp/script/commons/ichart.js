@@ -6,7 +6,7 @@
 			var draw = {
 					render : 'canvasDiv',
 					data: data,
-					padding:'5 1',//设置padding,以便title能占满x轴
+					padding:'5 15 30 -70',//设置padding,以便title能占满x轴
 					sub_option:{
 						label:false,
 						hollow_inside:false,//设置一个点的亮色在外环的效果
@@ -22,7 +22,8 @@
 						}
 					},
 					width : 1000,
-					height : 600,
+					height : 500,
+					position:'center',
 					background_color:'#0c222f',
 					gradient:true,
 					shadow:true,
@@ -44,7 +45,7 @@
 					},
 					coordinate:{
 						width : 800,
-						height : 440,
+						height : 340,
 						grid_color:'#506e7d',
 						background_color:null,//设置坐标系为透明背景
 						scale:[{

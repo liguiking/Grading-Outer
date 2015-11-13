@@ -1,6 +1,6 @@
 (function(){
 	"use strict";
-	define(['jquery','ajaxwrapper','ui', 'dialog'],function($,ajaxWrapper,ui,dialog){
+	define(['jquery','ajaxwrapper','ui', 'dialog','intense'],function($,ajaxWrapper,ui,dialog,intense){
 		var subjectExam = function(){
 			this.testId=undefined;
 			this.desc={};
@@ -203,7 +203,7 @@
 				$(modal.find('#uploadForm')).submit(function(){
 					return false;
 				});
-				var row = $(this).parent().parent();
+				var row = $(this).parent().parent().parent();
 				var paperId = row.find('td:eq(4)').attr('data-rr-paperId');
 				$(modal.find('#upload')).click(function(){
 					if($('div.file-preview-filename').val() == 0){
@@ -223,10 +223,10 @@
 					location.reload();
 				});
 			}).on('click','tbody tr td a[data-rr-name="image"]',function(e){
-				var path = $(this).attr('data-rr-imagePath');
-				
-				var message ='<img src="static/'+path+'" style="width:550px;height:700px" />'
-				ui.show("图片预览",message,'md');
+//				var path = $(this).attr('data-rr-imagePath');
+
+//				var message ='<img src="static/'+path+'"  />'
+//				ui.show("图片预览",message,'lg');
 				
 //				var cardId = $(this).attr('data-rr-cardId');
 //				var row = $(this).parent().parent();
@@ -242,6 +242,12 @@
 //						});
 			});
 		};
+		var elements = document.querySelectorAll( '.demo-image' );
+		logger.log(elements);
+		logger.log(elements.length);
+		if(elements!=undefined && elements.length!=0){
+			Intense( elements );
+		}
 		function getOpts(message){
 			var DialogSize = {SM:'sm',MD:'md',LG:'lg'};
 			var opts = {
