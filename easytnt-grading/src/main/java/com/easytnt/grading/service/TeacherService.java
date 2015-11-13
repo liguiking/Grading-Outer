@@ -13,10 +13,6 @@ import com.easytnt.grading.domain.grade.Teacher;
 public interface TeacherService extends EntityService<Teacher, Long> {
 	
 	public void create(Teacher teacher,int amount);
-	
-	//修改密码
-	public void updatePass(Long teacheckid,String pass);
-	
-	//根据科目名称查询教师信息
-	public List<Teacher> getTeacherSname(Long subject_id);
+
+	public void resetPassword(Teacher teacher);
 }

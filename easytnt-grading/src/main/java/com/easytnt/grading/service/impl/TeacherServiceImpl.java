@@ -38,11 +38,7 @@ public class TeacherServiceImpl extends AbstractEntityService<Teacher, Long>
 		super.setRepository(repository);
 	}
 
-	// 修改密码
-	@Override
-	public void updatePass(Long teacheckid, String pass) {
-		teacherRepository.updatePass(teacheckid, pass);
-	}
+
 	
 	@Transactional(readOnly=true)
 	public void query(Query<Teacher> query){
@@ -62,16 +58,15 @@ public class TeacherServiceImpl extends AbstractEntityService<Teacher, Long>
 		}
 		
 		teacher.genAccount(Integer.valueOf(seq));
-		//teacher.setTeacherAccount(seq);
 		List<Teacher> teachers = teacher.cloneTimes(amount);
 		for(Teacher t:teachers) {
 			this.create(t);
 		}
 	}
-	
-	//根据科目名称查询教师信息
-	public List<Teacher> getTeacherSname(Long subject_id){
-		List<Teacher> tlist = teacherRepository.getTeacherSname(subject_id);
-		return tlist;
+
+	@Transactional
+	@Override
+	public void resetPassword(Teacher teacher) {
+		teacher.resetPassord();
 	}
 }

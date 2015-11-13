@@ -31,9 +31,9 @@ public class Teacher {
 	 public void genAccount(int seq) {
 	    	if(this.subject != null) {
 	    		if(this.isManager()) {
-	    			this.teacherAccount =  String.valueOf(this.subject.getSubjectCode() * 10 +seq);
-	    		}else {
 	    			this.teacherAccount =  String.valueOf(this.subject.getSubjectCode() * 100 +seq);
+	    		}else {
+	    			this.teacherAccount =  String.valueOf(this.subject.getSubjectCode() * 1000 +seq);
 	    		}
 	    		return;
 	    	}
@@ -42,6 +42,10 @@ public class Teacher {
 
     public boolean isManager() {
     	return this.leader > 0;
+    }
+    
+    public void resetPassord() {
+    	this.teacherPassord = this.teacherAccount;
     }
     
 	public List<Teacher> cloneTimes(int times){

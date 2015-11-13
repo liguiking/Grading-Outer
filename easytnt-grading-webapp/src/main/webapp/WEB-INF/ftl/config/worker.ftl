@@ -1,6 +1,6 @@
 <div class="subject-container">
   <div class="col-sm-offset-10">	 
-	 <select id="subject" class="form-controller selectpicker">
+	 <select id="subject-query" class="form-controller selectpicker">
 	 <#list subjects as subject>
 	    <option value="${subject.id}">${subject.name!}</option>
 	 </#list>
@@ -14,14 +14,8 @@
   	</thead>
   	<tbody>
   	<#if query.results?size gt 0>
-  	 <#list query.results as t>
-  	  <tr>
-  	    <td><a href="javascript:void(0);" data-rr-name="teacher" data-rr-tid="${t.teacherId}" data-rr-sid="${t.subject.id}">${t.subject.name!}</a></td>
-  	    <td>${t.teacherName!}</td>
-  	    <td>${t.teacherAccount!}</td>
-  	    <td><a href="javascript:void(0);" data-rr-name="updatePass">修改密码</a>|<a href="javascript:void(0);">分配任务</a></td>
-  	  </tr>
-  	  </#list>
+  	 <#assign teachers=query.results>
+  	 <#include "/teacher/teacherRow.ftl">
   	</#if>  
   	</tbody>
   </table>
@@ -34,7 +28,7 @@
 	    <div class="col-sm-8">
 	     <select id="subject" class="form-controller selectpicker">
 	     <#list subjects as subject>
-	    	<option value="${subject.id}" data-rr-code="${subject.subjectCode}" data-rr-sname="${subject.name}">${subject.name!}</option>
+	    	<option value="${subject.subjectCode}" data-rr-value="${subject.id}">${subject.name!}</option>
 	     </#list>
 	     </select>
 	    </div>

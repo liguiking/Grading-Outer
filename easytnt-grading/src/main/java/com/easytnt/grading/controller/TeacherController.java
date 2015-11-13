@@ -81,23 +81,6 @@ public class TeacherController {
 		return ModelAndViewFactory.newModelAndViewFor("/teacher/editTeacher").build();
 	}
 	
-	//根据科目名称查询教师信息
-    @RequestMapping(value="getSubjectName")
-	public ModelAndView onGetTeacher(@RequestBody Teacher teacher){
-		logger.debug("URL /Teacher Method GET");
-		List<Teacher> tlist = teacherService.getTeacherSname(teacher.getSubject().getId());
-		return ModelAndViewFactory.newModelAndViewFor().with("teachers",tlist).build();
-	}
-	
-	//修改密码
-	@RequestMapping(value="updatePass")
-	public ModelAndView onUpdatePass(@RequestBody Teacher teacher)
-					throws Exception {
-		logger.debug("URL /Teacher Method PUT ", teacher);
-		teacherService.updatePass(teacher.getTeacherId(), teacher.getTeacherPassord());
-		return ModelAndViewFactory.newModelAndViewFor("/teacher/editTeacher").build();
-	}
-	
 	@RequestMapping(method = RequestMethod.DELETE)
 	public ModelAndView onDeleteTeacher(@RequestBody Teacher teacher)
 					throws Exception {
@@ -112,7 +95,16 @@ public class TeacherController {
 		logger.debug("URL /Teacher/query/{}/{} Method GET ", page,size);
         Query<Teacher> query = new QueryBuilder().newQuery(page,size,request.getParameterMap());
         teacherService.query(query);
-		return ModelAndViewFactory.newModelAndViewFor("/teacher/listTeacher").with("result",query.getResults())
+		return ModelAndViewFactory.newModelAndViewFor("/teacher/listTeacher").with("teachers",query.getResults())
 				.with("totalPage",query.getTotalPage()).build();
+	}
+	
+	@RequestMapping(value="/password/reset/{teacherId}",method = RequestMethod.PUT)
+	public ModelAndView onResetPassword(@PathVariable Long teacherId)
+					throws Exception {
+		logger.debug("URL /password/reset//{} Method GET ", teacherId);
+        Teacher teacher = teacherService.load(teacherId);
+        teacherService.resetPassword(teacher);
+		return ModelAndViewFactory.newModelAndViewFor().build();
 	}
 }

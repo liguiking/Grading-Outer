@@ -53,7 +53,7 @@
 						leader = 0;
 					}
 					
-					var teacher = {teacherName:$('#teacherName').val(),leader:leader,subject:{id:$('#subject').val(),name:$('#subject :selected').attr('data-rr-sname'),subjectCode:$('#subject :selected').attr('data-rr-code')}};
+					var teacher = createTeacher();
 					ajaxWrapper.postJson("/teacher/"+amount ,teacher,
 						{beforeMsg:{tipText:"",show:false},successMsg:{tipText:"创建成功",show:true}},
 						function(data){
@@ -70,7 +70,7 @@
 			//修改响应
 			this.update = function(){
 				if(this.validate()){
-					var teacher = {teacherName:$('#teacherName').val(),leader:leader,subject:{id:$('#subject').val(),name:$('#subject :selected').attr('data-rr-sname'),subjectCode:$('#subject :selected').attr('data-rr-code')}};
+					var teacher = createTeacher();
 					ajaxWrapper.putJson("/teacher",teacher,{beforeMsg:{tipText:"",show:false},successMsg:{tipText:"更新成功",show:true}},function(data){
 						if(data.status.success){
 							setTimeout(function(){
