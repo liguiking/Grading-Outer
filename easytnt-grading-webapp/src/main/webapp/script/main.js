@@ -94,6 +94,7 @@ var config = {
 		"icheck" : "lib/bootstrap/plugins/iCheck/icheck.min",
 		"chart" : "lib/highcharts/highcharts",
 		"smartWizard" : "lib/smartWizard/jquery.smartWizard",
+		"ichart":"lib/ichart/ichart.1.2.min",
 		"dialog":"commons/dialog",
 		"ui":"commons/uiwrapper", 
 		"ajax":"commons/ajax",
@@ -101,7 +102,8 @@ var config = {
 		"logger":"util/logger",
 		"funcs":"commons/functions",
 		"StringBuffer":"ext/StringBuffer",
-		"Map":"ext/Map"
+		"Map":"ext/Map",
+		"ichartUtil":"commons/ichart"
 	},
 	shim : {
 		'bootstrap' : {deps:['jquery']},
