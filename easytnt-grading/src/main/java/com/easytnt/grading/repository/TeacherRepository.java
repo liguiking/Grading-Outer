@@ -12,17 +12,9 @@ import com.easytnt.grading.domain.grade.Teacher;
  */
 public interface TeacherRepository extends Repository<Teacher, Long> {
 	
-
-	//计算普通帐号的seq
-	public String getSeq(Long subjectid);
-	
-	//计算组长账号的seq
-	public String getSeqL(Long subjectid);
-	
-	//修改密码
-	public void updatePass(Long teacherid,String password);
-	
 	//根据科目名称查询教师信息
 	public List<Teacher> getTeacherSname(Long subject_id);
+
+	int selectMaxSeqOf(Long subjectId, int leader);
 	
 }

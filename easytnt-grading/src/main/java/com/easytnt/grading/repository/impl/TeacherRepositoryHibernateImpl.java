@@ -2,7 +2,13 @@ package com.easytnt.grading.repository.impl;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.criterion.CriteriaSpecification;
+import org.hibernate.criterion.ProjectionList;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.ResultTransformer;
 import org.springframework.stereotype.Repository;
 
 import com.easytnt.commons.entity.repository.HibernateRepository;
@@ -11,38 +17,17 @@ import com.easytnt.grading.repository.TeacherRepository;
 
 @Repository
 public class TeacherRepositoryHibernateImpl extends HibernateRepository<Teacher,Long> implements TeacherRepository {
-
-	//根据subjectid 返回seq值
-	@Override
-	public String getSeq(Long subjectid) {
-		String sql = "select case when count(t.teacher_account)=0 then 1 else max(CONVERT(teacher_account ,SIGNED))-s.subject_code*100 + 1 end as seq from teacher_info t left"
-				+ " join subject s on t.subject_id = s.subject_id where t.subject_id="+subjectid;
-		Query q = this.getCurrentSession().createSQLQuery(sql);
-		String seq1 =  q.uniqueResult().toString();
-		String[] seq = seq1.split("\\.");
-		return seq[0];
-	}
-
-	//计算组长的seq
-	@Override
-	public String getSeqL(Long subjectid) {
-		String sql = "select case when count(t.teacher_account)=0 then 1 else max(CONVERT(teacher_account ,SIGNED))-s.subject_code*10 + 1 end as seq from teacher_info t left"
-				+ " join subject s on t.subject_id = s.subject_id where t.subject_id="+subjectid;
-		Query q = this.getCurrentSession().createSQLQuery(sql);
-		String seq1 =  q.uniqueResult().toString();
-		String[] seq = seq1.split("\\.");
-		return seq[0];
-	}
 	
-	//修改密码
 	@Override
-	public void updatePass(Long teacherid,String password) {
-		String hql = "from Teacher where teacherId="+teacherid;
-		Query q = this.getCurrentSession().createQuery(hql);
-		Teacher teacher = (Teacher) q.list().get(0);
-		teacher.setTeacherPassord(password);
-		teacher.setSubject(teacher.getSubject());
-		update(teacher);
+	public int selectMaxSeqOf(Long subjectId,int leader) {
+		String sql = "select max(teacher_account + 0) seq  from  teacher_info where subject_id=? and leader=?";
+		Query query = this.getCurrentSession().createSQLQuery(sql);
+		query.setLong(0, subjectId);
+		query.setInteger(1, leader);
+		Object o = query.uniqueResult();
+		if(o == null)
+			return 0;
+		return ((Double)o).intValue();
 	}
 	
 	//根据科目查询教师信息
@@ -58,6 +43,32 @@ public class TeacherRepositoryHibernateImpl extends HibernateRepository<Teacher,
 		return null;
 	}
 	
+	@Override
+	public void query(com.easytnt.commons.entity.cqrs.Query<Teacher> query) {
+
+		Criteria criteria = this.getCurrentSession().createCriteria(getEntityClass());
+		if(query.parameterOf("subjectid") != null) {
+			Long subjectId = Long.valueOf(query.parameterOf("subjectid"));
+			if(subjectId>0) {
+				criteria.add(Restrictions.eq("subject.id", subjectId));			
+			}
+		}
+
+		
+		ProjectionList ps = Projections.projectionList();
+		ps.add(Projections.rowCount());
+		criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+		Object o = criteria.setProjection(ps).uniqueResult();
+		Long rowsTotal = (Long)o;
+		query.rows(rowsTotal.intValue());
+		criteria.setProjection(null);
+		
+		criteria.setFirstResult(query.getStartRow());
+		criteria.setMaxResults(query.getPageSize());
+		criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+		
+		query.result(criteria.list());
+	}
 	
 	@Override
 	protected Class<Teacher> getEntityClass() {

@@ -39,11 +39,11 @@ public class TeacherController {
 	public ModelAndView onList()
 					throws Exception {
 		logger.debug("URL /teacher Method GET ");
-		MenuGroup topRightMenuGroup = MenuGroupFactory.getInstance().getConfigMenuGroup();
+		MenuGroup topRightMenuGroup = MenuGroupFactory.getInstance().getTopRightMenuGroup();
 		MenuGroup rightMenuGroup = MenuGroupFactory.getInstance().getRightMenuGroup();
 		MenuGroup configMenuGroup = MenuGroupFactory.getInstance().getConfigMenuGroup();
 		configMenuGroup.activedMenuByIndex(3);
-		rightMenuGroup.activedMenuByIndex(3);
+		rightMenuGroup.activedMenuByIndex(3); 
 		
 		Query<Teacher> query = new QueryBuilder().newQuery(1,10,new HashMap());
 		teacherService.query(query);

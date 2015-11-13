@@ -101,7 +101,7 @@ CREATE TABLE `teacher_info` (
   `teacher_name` varchar(32) DEFAULT NULL COMMENT '评卷教师姓名',
   `teacher_passord` varchar(32) DEFAULT NULL COMMENT '评卷教师密码,需要加密存储',
   PRIMARY KEY (`teacher_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='评卷教师信息';
+) ENGINE=InnoDB AUTO_INCREMENT=1  DEFAULT CHARSET=utf8 COMMENT='评卷教师信息';
 
 DROP TABLE IF EXISTS  `examinne`;
 CREATE TABLE `examinne` (

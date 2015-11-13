@@ -34,7 +34,7 @@
 				var leader = 0;
 				if($('#isLeader')[0].checked)
 					leader = 1;
-				var teacher = {name:$('#teacherName').val(),leader:leader,subject:{id:$('#subject :selected').attr('data-rr-value'),subjectCode:$('#subject').val()}};
+				var teacher = {teacherName:$('#teacherName').val(),leader:leader,subject:{id:$('#subject :selected').attr('data-rr-value'),subjectCode:$('#subject').val()}};
 				return teacher;
 			};
 			
@@ -92,11 +92,10 @@
 			});
 		};
 		
-		
-		
 		var o = function(){
 			var myTable = $('div.subject-container>table');
 			var  $form = $('div.subject-container>.subject-editor>form');
+			var $outer = $('div.subject-container');
 			var myForm = new editorForm($form);
 			ui.pretty($form);
 			ui.pretty(myTable.prev());
@@ -116,62 +115,53 @@
 				}
 			};
 			
+			//加入页码块
+			this.query = function(pager){
+				logger.log('examinee.query');
+				if(!pager){
+	        	    pager = ui.pager.init($outer);
+	        	}
+			};
+			
+			ui.pager.render({
+				"fn":self.query,
+				"containerObj" : $outer,
+				"pageObj" : $outer.find('#pager')
+			});
+			
+			ui.pretty($outer);
+			
+			//select 的下拉change响应事件
+			$("#subject-query").change(function(){
+				var messageObj ="";
+				var subjectId = $("#subject-query").val();
+				ajaxWrapper.getHtml("/query/1/10",{id:subjectId},messageObj,function(html){
+					  var rowSize = myTable.find('tbody tr').size();
+					  myTable.find('tbody tr:lg('+rowSize+')').remove();
+					  $(html).insertBefoer(myTable.find('tbody tr:last'));
+				});
+			});
 			
 			myTable.on('click','tbody tr td a[data-rr-name=teacher]',function(e){
 				currentTeacher.row = $(this).parent().parent();
 				currentTeacher.show();
-			}).on('click','tbody tr td a[data-rr-name="updatePass"]',function(e){
-				//这种做法无意义,而且修改密码也不是这样修改的，这是管理员用的
+			}).on('click','tbody tr td a[data-rr-name="resetPass"]',function(e){
 				var sd = $(this).parent().parent().find('td:first a[data-rr-name="teacher"]');
+				var account =sd.attr("data-rr-account");
+				var tId = sd.attr("data-rr-tid");
+				//这种做法无意义,而且修改密码也不是这样修改的，这是管理员用的
 				var btns = [{text:'确定',clazz :'btn-primary',callback:function(){
-					var tId = sd.attr('data-rr-tid');
-					var teacherPass = sd.attr('data-rr-tpass');
-					var tPass = $("#inputPassord").val();
-					var nPass = $("#newPassword").val();
-					var qPass = $("#readPassword").val();
-					if(tPass!=teacherPass){
-						dialog.fadedialog(getOpts("原密码有误"));
-					}else if(nPass!=qPass){
-						dialog.fadedialog(getOpts("密码不一致"));
-					}else{
-				    var teacher = {teacherId:tId,teacherPassord:qPass};	
-					ajaxWrapper.putJson("teacher/updatePass",teacher,{beforeMsg:{tipText:"",show:false},successMsg:{tipText:"修改密码成功",show:true}},function(data){
+				    var teacher = {teacherId:tId,teacherAccount:account};	
+					ajaxWrapper.putJson("/teacher/password/reset/"+tId,teacher,{beforeMsg:{tipText:"",show:false},successMsg:{tipText:""+account+"账号密码重置成功",show:true}},function(data){
 						if(data.status.success){
-							dialog.update-success(getOpts("修改密码成功"));
-							//$(this).trigger('close');
 						}
 					});
-				}
+				
 				}},{text:'放弃',callback:function(){
 					$(this).trigger('close');
 				}}];
-				var message=
-					'<form id="updatePass"  method="POST" action="">'+
-			    	   '<div class="input-group update-pass">'+
-				    	'<div class="form-group">'+
-				    		'<label for="inputPassord" class="col-sm-4 control-label">原密码</label>'+
-				    			'<div class="col-sm-8">'+
-				    				'<input type="text" class="form-control" id="inputPassord"  placeholder="原密码">'+
-				    			'</div>'+
-				    	'</div> '+
-
-				    	'<div class="form-group">'+
-			    		'<label for="newPassword" class="col-sm-4 control-label">新密码</label>'+
-			    			'<div class="col-sm-8">'+
-			    				'<input type="password" class="form-control" id="newPassword"  placeholder="新密码">'+
-			    			'</div>'+
-			    		'</div> '+
-			    		
-			    		'<div class="form-group">'+
-			    		'<label for="readPassword" class="col-sm-4 control-label">确认密码</label>'+
-			    			'<div class="col-sm-8">'+
-			    				'<input type="password" class="form-control" id="readPassword"  placeholder="确认密码">'+
-			    			'</div>'+
-			    	    '</div> '+
-				       '</div>'+
-				  '</form>';
-				var modal = ui.modal("修改密码",message,5,btns);
-				
+				var message1="是否确定重置账号"+account+"的密码";
+				var modal = ui.modal("重置密码",message1,5,btns);
 			});
 			$form.show();
 		};
