@@ -25,7 +25,8 @@
    	  </tr>  	  
   	</tbody>
   </table>
-  
+  <#import "/taglib/commons/pager.ftl" as page> 
+  <@page.pager pager=query/>
   <div class="subject-editor">
 	<div class="col-md-4"></div>
 	<form class="form-horizontal col-md-4" style="display:none;">
