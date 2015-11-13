@@ -16,7 +16,13 @@
   	<#if query.results?size gt 0>
   	 <#assign teachers=query.results>
   	 <#include "/teacher/teacherRow.ftl">
-  	</#if>  
+  	</#if>
+	<tr class="bg-warning">
+   	    <td><a href="javascirpt:void(0);" id="newTeacher"><i class="icon-plus"></i></a></td>
+   	    <td></td>
+   	    <td><a href="javascirpt:void(0);"></a></td>
+   	    <td><a href="javascirpt:void(0);"></td>
+   	  </tr>  	  
   	</tbody>
   </table>
   
