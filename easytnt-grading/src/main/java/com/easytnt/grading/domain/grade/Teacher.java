@@ -30,12 +30,17 @@ public class Teacher {
 
 	 public void genAccount(int seq) {
 	    	if(this.subject != null) {
-	    		if(this.isManager()) {
-	    			this.teacherAccount =  String.valueOf(this.subject.getSubjectCode() * 100 +seq);
-	    		}else {
-	    			this.teacherAccount =  String.valueOf(this.subject.getSubjectCode() * 1000 +seq);
-	    		}
-	    		return;
+	    		if(seq <1 ) {
+		    			
+		    		if(this.isManager()) {
+		    			this.teacherAccount =  (this.subject.getSubjectCode() * 100 ) + "";//String.valueOf(this.subject.getSubjectCode() * 100 +seq);
+		    		}else {
+		    			this.teacherAccount =  (this.subject.getSubjectCode() * 1000 ) + "";//String.valueOf(this.subject.getSubjectCode() * 1000 +seq);
+		    		}
+		    		}else {
+		    			this.teacherAccount = seq + "" ;
+		    		}
+		    		return;
 	    	}
 	    	throw new UnsupportedOperationException("没有设置评卷老师所属科目，无法生成账号");
 	    }
@@ -55,7 +60,7 @@ public class Teacher {
 			Teacher t = new Teacher();
 			t.subject = this.subject;
 			t.teacherName = this.teacherName;
-		    t.teacherAccount = (account++)+"";
+		    t.teacherAccount = (++account)+"";
 		    t.teacherPassord = t.teacherAccount;
 			t.leader = this.leader;
 			ts.add(t);

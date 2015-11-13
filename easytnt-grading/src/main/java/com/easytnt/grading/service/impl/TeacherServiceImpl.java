@@ -42,22 +42,15 @@ public class TeacherServiceImpl extends AbstractEntityService<Teacher, Long>
 	
 	@Transactional(readOnly=true)
 	public void query(Query<Teacher> query){
-		//TODO 
-		query.result(this.list());
-		query.rows(101);
+		this.teacherRepository.query(query);
 	}
 
 	@Override
 	@Transactional
 	public void create(Teacher teacher, int amount) {
-		String seq = "1";
-		if(teacher.isManager()){
-			seq = teacherRepository.getSeqL(teacher.getSubject().getId());
-		}else {
-			seq = teacherRepository.getSeq(teacher.getSubject().getId());
-		}
-		
-		teacher.genAccount(Integer.valueOf(seq));
+		int seq = this.teacherRepository.selectMaxSeqOf(teacher.getSubject().getId(),teacher.getLeader());
+		teacher.genAccount(seq); 
+		logger.debug("科目{} 最新账号是：{}",teacher.getSubject().getSubjectCode(),teacher.getTeacherAccount());
 		List<Teacher> teachers = teacher.cloneTimes(amount);
 		for(Teacher t:teachers) {
 			this.create(t);
