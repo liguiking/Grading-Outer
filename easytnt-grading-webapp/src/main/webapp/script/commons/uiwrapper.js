@@ -103,6 +103,10 @@
 						radioClass:'iradio_minimal-blue',
 						increaseArea:'20%'
 					});
+					
+					if(browser.isMobile()){
+						$html.find('select.selectpicker').selectpicker('mobile');
+					}
 				},
 				pager:{
 					init:function($pagerContainer){
@@ -120,6 +124,7 @@
 						}
 						return pager;
 					},
+
 					render:function(pagerOpts){
 						logger.log(pagerOpts);
 						var defOpts = {

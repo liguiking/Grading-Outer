@@ -95,7 +95,7 @@ public class TeacherController {
 		logger.debug("URL /Teacher/query/{}/{} Method GET ", page,size);
         Query<Teacher> query = new QueryBuilder().newQuery(page,size,request.getParameterMap());
         teacherService.query(query);
-		return ModelAndViewFactory.newModelAndViewFor("/teacher/listTeacher").with("teachers",query.getResults())
+		return ModelAndViewFactory.newModelAndViewFor("/teacher/listTeacher").with("query",query)
 				.with("totalPage",query.getTotalPage()).build();
 	}
 	

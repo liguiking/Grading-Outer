@@ -1,10 +1,18 @@
 <div class="subject-container">
-  <div class="col-sm-offset-10">	 
-	 <select id="subject-query" class="form-controller selectpicker">
-	 <#list subjects as subject>
+  <div class="col-md-12">
+    <div class="col-md-8">
+    <#import "/taglib/commons/pager.ftl" as page > 
+    <@page.pager pager=query css="margin:0;text-align:left;"/>
+    </div>
+    <div class="col-md-2"></div>
+    <div class="col-md-2">	 
+	  <select id="subject-query" class="form-controller selectpicker">
+	    <option value="-1">全部</option>
+	  <#list subjects as subject>
 	    <option value="${subject.id}">${subject.name!}</option>
-	 </#list>
-	 </select>
+	  </#list>
+	  </select>
+    </div>
   </div>	 
   <table class="table table-striped table-bordered ">
   	<thead class="bg-primary">
@@ -25,8 +33,7 @@
    	  </tr>  	  
   	</tbody>
   </table>
-  <#import "/taglib/commons/pager.ftl" as page> 
-  <@page.pager pager=query/>
+  
   <div class="subject-editor">
 	<div class="col-md-4"></div>
 	<form class="form-horizontal col-md-4" style="display:none;">

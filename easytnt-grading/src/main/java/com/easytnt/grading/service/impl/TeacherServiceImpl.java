@@ -44,6 +44,15 @@ public class TeacherServiceImpl extends AbstractEntityService<Teacher, Long>
 	public void query(Query<Teacher> query){
 		this.teacherRepository.query(query);
 	}
+	
+	@Override
+	@Transactional
+	public void update(Teacher teacher) {
+		if(teacher.getTeacherId() == null)
+			throw new UnsupportedOperationException("组长主唯一标识不能为空");
+		Teacher t = this.load(teacher.getTeacherId());
+		t.copyNameFrom(teacher);
+	}
 
 	@Override
 	@Transactional

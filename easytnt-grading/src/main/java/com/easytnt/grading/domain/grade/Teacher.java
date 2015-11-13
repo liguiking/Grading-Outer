@@ -17,33 +17,32 @@ import com.easytnt.grading.domain.exam.Subject;
  */
 public class Teacher {
 	private Long teacherId;
+	
 	private Subject subject;
+	
 	private String teacherAccount;
+	
 	private String teacherName;
+	
 	private String teacherPassord;
+	
 	private int leader;
 
-	// 无参
-	public Teacher() {
-		
+	public void genAccount(int seq) {
+    	if(this.subject != null) {
+    		if(seq <1 ) {	
+	    		if(this.isManager()) {
+	    			this.teacherAccount =  (this.subject.getSubjectCode() * 100 ) + "";//String.valueOf(this.subject.getSubjectCode() * 100 +seq);
+	    		}else {
+	    			this.teacherAccount =  (this.subject.getSubjectCode() * 1000 ) + "";//String.valueOf(this.subject.getSubjectCode() * 1000 +seq);
+	    		}
+	    		}else {
+	    			this.teacherAccount = seq + "" ;
+	    		}
+	    		return;
+    	}
+    	throw new UnsupportedOperationException("没有设置评卷老师所属科目，无法生成账号");
 	}
-
-	 public void genAccount(int seq) {
-	    	if(this.subject != null) {
-	    		if(seq <1 ) {
-		    			
-		    		if(this.isManager()) {
-		    			this.teacherAccount =  (this.subject.getSubjectCode() * 100 ) + "";//String.valueOf(this.subject.getSubjectCode() * 100 +seq);
-		    		}else {
-		    			this.teacherAccount =  (this.subject.getSubjectCode() * 1000 ) + "";//String.valueOf(this.subject.getSubjectCode() * 1000 +seq);
-		    		}
-		    		}else {
-		    			this.teacherAccount = seq + "" ;
-		    		}
-		    		return;
-	    	}
-	    	throw new UnsupportedOperationException("没有设置评卷老师所属科目，无法生成账号");
-	    }
 
     public boolean isManager() {
     	return this.leader > 0;
@@ -51,6 +50,10 @@ public class Teacher {
     
     public void resetPassord() {
     	this.teacherPassord = this.teacherAccount;
+    }
+    
+    public void copyNameFrom(Teacher other) {
+    	this.teacherName = other.teacherName;
     }
     
 	public List<Teacher> cloneTimes(int times){
@@ -85,6 +88,10 @@ public class Teacher {
 	@Override
 	public String toString() {
 		return new ToStringBuilder(this).append(this.teacherAccount).append(this.teacherName).build();
+	}
+	
+	public Teacher() {
+		
 	}
 	
 	//set  get
