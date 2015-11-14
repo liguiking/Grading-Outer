@@ -34,7 +34,7 @@ public class Area implements ValueObject<Area> {
 		this.width = width;
 		this.height = height;
 	}
-
+	public Area(){}
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder().append(this.left).append(this.top)
@@ -63,7 +63,7 @@ public class Area implements ValueObject<Area> {
 	public boolean sameValueAs(Area other) {
 		return this.equals(other);
 	}
-	
+
 	public int getLeft() {
 		return left;
 	}
@@ -94,5 +94,8 @@ public class Area implements ValueObject<Area> {
 
 	public void setHeight(int height) {
 		this.height = height;
-	}	
+	}
+	
+	
+
 }

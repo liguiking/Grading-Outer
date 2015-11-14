@@ -5,6 +5,11 @@
 
 package com.easytnt.grading.domain.exam;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -23,8 +28,14 @@ import com.easytnt.grading.domain.paper.ExamPaper;
  * @version 1.0
  **/
 public class SubjectExam implements Entity<SubjectExam>{
-    
-    private Long oid;
+	private static SimpleDateFormat sdf;
+    static{
+    	sdf=new SimpleDateFormat("yyyyMMdd");
+    }
+	
+	private Long testId;
+	
+    private Long oid=(long) Integer.parseInt(sdf.format(new Date()));
     
     private ExamDesc desc;
     
@@ -32,7 +43,11 @@ public class SubjectExam implements Entity<SubjectExam>{
     
     private Exam belongTo;
     
-    private ExamPaper usedPaper;
+    private Set<ExamPaper> usedPaper;
+    
+    private Integer testYear;
+    private Integer testMonth;
+    private Integer testWeek;
     
     public SubjectExam(ExamDesc desc,Subject subject ,Long oid) {
 		this.desc = desc;
@@ -40,7 +55,19 @@ public class SubjectExam implements Entity<SubjectExam>{
 		this.oid = oid;
 	}
     
-    public static SubjectExam createBy(ExamPaper usedPaper,ExamDesc desc,Subject subject) {
+    private void init() {
+		if (this.usedPaper == null) {
+			this.usedPaper = new LinkedHashSet<ExamPaper>();
+		}
+	}
+    private int index=1;
+    public void addExamPapers(ExamPaper examPaper){
+    	init();
+    	examPaper.setPaperOid(this.oid*10+index);
+    	this.usedPaper.add(examPaper);
+    	this.index++;
+    }
+    public static SubjectExam createBy(Set<ExamPaper> usedPaper,ExamDesc desc,Subject subject) {
     	SubjectExam se = new SubjectExam();
     	se.usedPaper = usedPaper;
     	se.desc = desc;
@@ -109,12 +136,44 @@ public class SubjectExam implements Entity<SubjectExam>{
 		this.belongTo = belongTo;
 	}
 
-	public ExamPaper getUsedPaper() {
+	public Set<ExamPaper> getUsedPaper() {
 		return usedPaper;
 	}
 
-	public void setUsedPaper(ExamPaper usedPaper) {
+	public void setUsedPaper(Set<ExamPaper> usedPaper) {
 		this.usedPaper = usedPaper;
+	}
+
+	public Long getTestId() {
+		return testId;
+	}
+
+	public void setTestId(Long testId) {
+		this.testId = testId;
+	}
+
+	public Integer getTestYear() {
+		return testYear;
+	}
+
+	public void setTestYear(Integer testYear) {
+		this.testYear = testYear;
+	}
+
+	public Integer getTestMonth() {
+		return testMonth;
+	}
+
+	public void setTestMonth(Integer testMonth) {
+		this.testMonth = testMonth;
+	}
+
+	public Integer getTestWeek() {
+		return testWeek;
+	}
+
+	public void setTestWeek(Integer testWeek) {
+		this.testWeek = testWeek;
 	}
 	
 }

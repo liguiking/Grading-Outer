@@ -1,3 +1,17 @@
+Array.prototype.remove = function(obj) {
+	var index = -1;
+	for(var i = 0; i < this.length; i++) {
+		if(this[i] == obj) {
+			index = i;
+			break;
+		}
+	}
+	
+	if(index != -1) {
+		this.splice(index, 1);
+	}
+}
+
 function getUrlFileName(){
 	var pathname = window.location.pathname;
 	if(pathname == '' || pathname == '/') return 'index';
@@ -73,9 +87,14 @@ var config = {
 
 	paths : {
 		"jquery" : jqueryPath,
+		"pager" : "lib/jquery/jquery.pager",
+		"easyui" : "lib/jquery/jquery.easyui.min",
 		"bootstrap" : "lib/bootstrap/bootstrap.min",
+		"select" : "lib/bootstrap/plugins/bootstrap-select",
+		"icheck" : "lib/bootstrap/plugins/iCheck/icheck.min",
 		"chart" : "lib/highcharts/highcharts",
 		"smartWizard" : "lib/smartWizard/jquery.smartWizard",
+		"ichart":"lib/ichart/ichart.1.2.min",
 		"dialog":"commons/dialog",
 		"ui":"commons/uiwrapper", 
 		"ajax":"commons/ajax",
@@ -83,11 +102,14 @@ var config = {
 		"logger":"util/logger",
 		"funcs":"commons/functions",
 		"StringBuffer":"ext/StringBuffer",
-		"Map":"ext/Map"
+		"Map":"ext/Map",
+		"ichartUtil":"commons/ichart",
+		"intense":"lib/jquery/intense"
 	},
 	shim : {
 		'bootstrap' : {deps:['jquery']},
-		'chart' : {deps:['jquery']}
+		'chart' : {deps:['jquery']},
+		'select' : {deps:['bootstrap']}
 	}
 };
 if(browser.isMobile()){

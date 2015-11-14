@@ -7,9 +7,9 @@
   <script type="text/javascript" data-main="${request.contextPath}/static/script/main"  src="${request.contextPath}/static/script/require.js"></script>
    <script type="text/javascript">
    var v = + + new Date;
-	requirejs.config({
+   requirejs.config({
 		urlArgs : "v="+v,
-	});
+   });
   </script>
 </#macro>
 

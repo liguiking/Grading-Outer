@@ -11,6 +11,8 @@ import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.easytnt.commons.entity.cqrs.Query;
+
 public abstract class HibernateRepository<T, PK extends Serializable> {
 	protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -57,12 +59,14 @@ public abstract class HibernateRepository<T, PK extends Serializable> {
 		List<T> list = criteria.list();
 		return list;
 	}
+	
+	public void query(Query<T> query) {
+		//TODO in sub class 
+	}
 
 	protected Session getCurrentSession() {
 		return this.sessionFactory.getCurrentSession();
 	}
 
-	protected Class<T> getEntityClass() {
-		return (Class<T>) this.getClass();
-	}
+	abstract protected Class<T> getEntityClass();
 }

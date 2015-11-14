@@ -23,16 +23,19 @@ import com.easytnt.commons.entity.share.ValueObject;
  * @version 1.0
  **/
 public class Subject implements ValueObject<Subject> {
-
+	
 	private String name;
 
-	private String code;
-
-	private Set<Subject> composings;
+	private int subjectCode;
+	
+	public Subject(String name,int subjectCode) {
+		this.name  = name;
+		this.subjectCode = subjectCode;
+	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(this.name).append(this.code).append(this.composings).toHashCode();
+		return new HashCodeBuilder().append(this.subjectCode).toHashCode();
 	}
 
 	@Override
@@ -41,12 +44,12 @@ public class Subject implements ValueObject<Subject> {
 			return false;
 		Subject other = (Subject) o;
 
-		return new EqualsBuilder().append(this.name, other.name).append(this.code, other.code).append(this.code, other.code).isEquals();
+		return new EqualsBuilder().append(this.subjectCode, other.subjectCode).isEquals();
 	}
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this).append(this.name).append(this.code).build();
+		return new ToStringBuilder(this).append(this.name).append(this.subjectCode).build();
 	}
 
 	@Override
@@ -68,20 +71,12 @@ public class Subject implements ValueObject<Subject> {
 		this.name = name;
 	}
 
-	public String getCode() {
-		return code;
+	public int getSubjectCode() {
+		return subjectCode;
 	}
 
-	public void setCode(String code) {
-		this.code = code;
-	}
-
-	public Set<Subject> getComposings() {
-		return composings;
-	}
-
-	public void setComposings(Set<Subject> composings) {
-		this.composings = composings;
+	public void setSubjectCode(int subjectCode) {
+		this.subjectCode = subjectCode;
 	}
 
 	public Long getId() {
@@ -91,5 +86,6 @@ public class Subject implements ValueObject<Subject> {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
 
 }

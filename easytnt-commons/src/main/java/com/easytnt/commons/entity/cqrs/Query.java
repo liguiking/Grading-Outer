@@ -20,11 +20,11 @@ public interface Query<T> {
 
 	public void parametersWith(Map<String, String[]> parameters);
 	
-	public <E>E parameterOf(String name,Class<E> clazz);
+	public String parameterOf(String name);
 	
 	public void result(List<T> list) ;
 	
-	public void totalRows(int totalRows);
+	public void rows(int totalRows);
 		
 	public boolean hasNext();
 

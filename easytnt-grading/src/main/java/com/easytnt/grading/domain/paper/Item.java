@@ -24,6 +24,10 @@ import com.easytnt.grading.domain.share.Area;
 public class Item implements ValueObject<Item> {
 
 	private String title;
+	
+	private Section section;
+	
+	private Long itemOid;
 
 	private String caption;
 
@@ -33,9 +37,15 @@ public class Item implements ValueObject<Item> {
 	
 	private Float[] validValues;
 	
-	public Item(String title,Float fullScore) {
-		this.title = title;
+	public Item(Section section) {
+		this.section = section;
+	}
+	
+	public Item(Section section,Float fullScore,String title,String caption) {
+		this.section = section;
 		this.fullScore = fullScore;
+		this.title = title;
+		this.caption = caption;
 	}
 
 	public boolean isEffectiveScore(Float score) {
@@ -57,7 +67,17 @@ public class Item implements ValueObject<Item> {
 			
 			this.validValues = scores;
 		}
-		
+	}
+	public String genValidscoredot(Float[] validValues) {
+		if(validValues.length > 0) {
+			StringBuffer sb = new StringBuffer();
+			for(Float value:validValues) {
+				sb.append(value).append(",");
+			}
+			sb.deleteCharAt(sb.length()-1);
+			return sb.toString();
+		}
+		return null;
 	}
 
 	public Float getMinPoint() {
@@ -76,8 +96,7 @@ public class Item implements ValueObject<Item> {
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder()
-				.append(this.title).append(this.fullScore).toHashCode();
+		return new HashCodeBuilder().append(this.itemOid).toHashCode();
 	}
 
 	@Override
@@ -86,8 +105,8 @@ public class Item implements ValueObject<Item> {
 			return false;
 		
 		Item other = (Item) o;
-		return new EqualsBuilder().append(this.title, other.title)
-				.append(this.fullScore, other.fullScore).isEquals();
+		return new EqualsBuilder()
+				.append(this.itemOid, other.itemOid).isEquals();
 	}
 
 	@Override
@@ -100,7 +119,13 @@ public class Item implements ValueObject<Item> {
 	public boolean sameValueAs(Item other) {
 		return this.equals(other);
 	}
-	
+	public void setSection(Section section,Integer index) {
+		this.section = section;
+		setOid(index);
+	}
+	private void setOid(Integer index){
+		this.itemOid = section.getSectionOid()*1000+index;
+	}
 	public static class Builder{
 		private Item item;
 		
@@ -126,6 +151,11 @@ public class Item implements ValueObject<Item> {
 		
 		public Builder answerArea(Area answerArea) {
 			this.item.answerArea = answerArea;
+			return this;
+		}
+		
+		public Builder createForSection(Section section) {
+			this.item.section = section;
 			return this;
 		}
 		
@@ -172,6 +202,7 @@ public class Item implements ValueObject<Item> {
 	}
 
 	public void setValidValues(Float[] validValues) {
+		genValidscoredot(validValues);
 		this.validValues = validValues;
 	}
 
@@ -192,4 +223,29 @@ public class Item implements ValueObject<Item> {
 		this.fullScore = fullScore;
 	}
 
+	public Long getItemOid() {
+		return itemOid;
+	}
+
+	public void setItemOid(Long itemOid) {
+		this.itemOid = itemOid;
+	}
+
+	public String getValidscoredot() {
+		return genValidscoredot(this.validValues);
+	}
+
+	public void setValidscoredot(String validscoredot) {
+		genValidValues(validscoredot);
+	}
+
+	public Section getSection() {
+		return section;
+	}
+
+	public void setSection(Section section) {
+		this.section = section;
+	}
+	
+	
 }
