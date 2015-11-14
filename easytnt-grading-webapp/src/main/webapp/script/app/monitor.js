@@ -8,13 +8,7 @@
 			require(p,function(module){
 				module.render();
 			});
-			if(m!="progress"){
-				draw(m);
-				setInterval(function(){
-					draw(m);
-				},60000);
-				
-			}
+			
 		};
 		function draw(m){
 			ajaxWrapper.postJson("/monitor/"+m+"Show/"+123,123,{beforeMsg:{tipText:"",show:false},

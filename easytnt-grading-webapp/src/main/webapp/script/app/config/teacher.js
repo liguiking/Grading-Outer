@@ -135,17 +135,15 @@
 				}
 			};
 			
-			var pagerOpts = {
-				"fn":self.query,
-				"containerObj" : $outer,
-				"pageObj" : $outer.find('#pager')
-			}
+
+			ui.pretty($outer);
 			
-			//加入页码块
+			var redrawPage = false;
+			
 			this.query = function(pager){
-				logger.log('examinee.query');
+
 				if(!pager){
-	        	    pager = ui.pager.init($outer);
+	        	    pager = _pager.concreator.init();
 	        	}
 				
 				var messageObj = {beforeMsg:{tipText:"",show:true},successMsg:{show:false}};
@@ -154,37 +152,28 @@
 				ajaxWrapper.getHtml(url,{subjectid:subjectId},messageObj,function(html){
 					  var rowSize = myTable.find('tbody tr').size();
 					  myTable.find('tbody tr:lt('+(rowSize-1)+')').remove();
-					  $(html).find('tr').insertBefore(myTable.find('tbody tr:last'));
-					  var pagerOuter = $('#pager').parent().parent();
-					  pagerOuter.children().remove();
-					  pagerOuter.append($(html).find('>div'));
-					  initPager();
+					  var $html = $(html);
+					  $html.find('tr').insertBefore(myTable.find('tbody tr:last'));
+					  
+					  if(redrawPage){
+						  pager.concreator.redraw($html);
+						  redrawPage = false;
+					  }
 				});
 			};
-			
-			function initPager(){
-				ui.pager.render({
-					"fn":self.query,
-					"containerObj" : $outer,
-					"pageObj" : $outer.find('#pager')
-				});
-				
-			}
-			
-			initPager();
-			
-			ui.pretty($outer);
+			//加入页码块
+			var _pager = new ui.pager().create('pager',self.query);
 			
 			//select 的下拉change响应事件
 			$("#subject-query").change(function(){
+				redrawPage = true;
 				self.query();
 			});
 			
 			myTable.on('click','#newTeacher',function(e){
 				currentTeacher.isNew = true;
 				currentTeacher.show();
-			})
-			.on('click','tbody tr td a[data-rr-name=teacher]',function(e){
+			}).on('click','tbody tr td a[data-rr-name=teacher]',function(e){
 				currentTeacher.row = $(this).parent().parent();
 				currentTeacher.isNew = false;
 				currentTeacher.show();

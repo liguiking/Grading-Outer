@@ -20,16 +20,13 @@
 			this.query = function(pager){
 				logger.log('examinee.query');
 				if(!pager){
-	        	    pager = ui.pager.init($outer);
+					pager = _pager.concreator.init();
 	        	}
 				//TODO query
 			};
 			
-			ui.pager.render({
-				"fn":self.query,
-				"containerObj" : $outer,
-				"pageObj" : $outer.find('#pager')
-			});
+			//加入页码块
+			var _pager = new ui.pager().create('pager',self.query);
 			
 			$outer.show();
 		};
