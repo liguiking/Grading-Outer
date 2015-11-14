@@ -51,7 +51,7 @@ public class MenuGroupFactory {
     	configMenuGroup.appendMenu(new Menu("评卷老师管理","config?page=teacher"));
     	
     	monitorMenuGroup.appendMenu(new Menu("评卷进度","monitor?page=progress"));
-    	monitorMenuGroup.appendMenu(new Menu("评卷教师监控","monitor?page=teacher"));
+    	monitorMenuGroup.appendMenu(new Menu("评卷教师监控","monitor?page=worker"));
     	monitorMenuGroup.appendMenu(new Menu("小组一致性","monitor?page=team"));
     	monitorMenuGroup.appendMenu(new Menu("自身稳定性","monitor?page=personalStabled"));
 	}

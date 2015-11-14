@@ -2,11 +2,13 @@
 	"use strict";
 	define([ 'jquery','ui','ichart'], function($,ui) {
 		var self ;
-		var draw = function (data,labels,min,max,space,unit){
+		var draw = function (data,labels,min,max,space,unit,renderTo){
+			var chartW = $('#'+renderTo).width();
+			var chartH = $('#'+renderTo).height();
 			var draw = {
-					render : 'canvasDiv',
+					render : renderTo||'canvasDiv',
 					data: data,
-					padding:'5 15 30 -70',//设置padding,以便title能占满x轴
+					padding:'15 15 30 -70',//设置padding,以便title能占满x轴
 					sub_option:{
 						label:false,
 						hollow_inside:false,//设置一个点的亮色在外环的效果
@@ -21,8 +23,10 @@
 							}
 						}
 					},
-					width : 1000,
-					height : 500,
+					width : chartW,
+					height : chartH,
+					offsetx: 35,					
+					offsety:0,
 					position:'center',
 					background_color:'#0c222f',
 					gradient:true,
@@ -34,18 +38,20 @@
 					},
 					legend:{
 						enable:true,
+						align:'right',
+						valign:'center',
 						background_color : null,
 						line_height:25,
 						color:'#d3d4f0',
 						fontsize:12,
+						offsetx:20,
 						fontweight:600,
 						border : {
 							enable : false
 						}
 					},
 					coordinate:{
-						width : 800,
-						height : 340,
+
 						grid_color:'#506e7d',
 						background_color:null,//设置坐标系为透明背景
 						scale:[{
@@ -71,12 +77,12 @@
 			return draw;
 		}
 		var ichartDraw = self = {
-				showMiamJiTu:function(data,labels,min,max,space,unit){
-					var chart = new iChart.Area2D(draw(data,labels,min,max,space,unit));
+				showMiamJiTu:function(data,labels,min,max,space,unit,renderTo){
+					var chart = new iChart.Area2D(draw(data,labels,min,max,space,unit,renderTo));
 					this.finaly(chart,unit);
 				},
-				showZheXianTu:function(data,labels,min,max,space,unit){
-					var chart = new iChart.LineBasic2D(draw(data,labels,min,max,space,unit));
+				showZheXianTu:function(data,labels,min,max,space,unit,renderTo){
+					var chart = new iChart.LineBasic2D(draw(data,labels,min,max,space,unit,renderTo));
 					this.finaly(chart,unit);
 				},
 				finaly:function(chart,unit){

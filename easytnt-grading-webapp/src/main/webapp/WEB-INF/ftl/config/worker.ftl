@@ -1,10 +1,10 @@
 <div class="subject-container">
   <div class="col-md-12">
-    <div class="col-md-8">
+    <div class="col-md-9">
     <#import "/taglib/commons/pager.ftl" as page > 
     <@page.pager pager=query css="margin:0;text-align:left;"/>
     </div>
-    <div class="col-md-2"></div>
+    <div class="col-md-1"></div>
     <div class="col-md-2">	 
 	  <select id="subject-query" class="form-controller selectpicker">
 	    <option value="-1">全部</option>
