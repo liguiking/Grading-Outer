@@ -9,8 +9,8 @@
   	<#list examList as t>
 	  	  <tr>
 	  	    <td><a href="javascript:void(0)" data-rr-name="examName" data-rr-id="${t.id}" data-rr-oid="${t.oid}">${t.desc.name}</a></td>
-	  	    <td><a href="javascript:void(0)" data-rr-begin="${t.desc.from}">${t.desc.from?string("yyyy-MM-dd")}</a></td>
-		    <td><a href="javascript:void(0)" data-rr-end="${t.desc.to}">${t.desc.to?string("yyyy-MM-dd")}</a></td>
+	  	    <td>${t.desc.from?string("yyyy-MM-dd")}</a></td>
+		    <td>${t.desc.to?string("yyyy-MM-dd")}</a></td>
 		    <td><a href="javascript:void(0);" data-rr-name="deleteExam">删除</a></td>
 	  	  </tr>
 	 </#list> 	  

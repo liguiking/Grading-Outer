@@ -87,12 +87,12 @@
 				show:function(){
 					if(!this.isNew){
 						this.o = {
-							id:myTable.find('td:eq(0) a').attr('data-rr-id'),
-							oid:myTable.find('td:eq(0) a').attr('data-rr-oid'),
+							id:this.row.find('td:eq(0) a').attr('data-rr-id'),
+							oid:this.row.find('td:eq(0) a').attr('data-rr-oid'),
 							desc:{
-								name:myTable.find('td:eq(0) a').text(),
-								from:myTable.find('td:eq(1) a').text(),
-								to:myTable.find('td:eq(2) a').text()
+								name:this.row.find('td:eq(0)').text(),
+								from:this.row.find('td:eq(1)').text(),
+								to:this.row.find('td:eq(2)').text()
 							},
 						};
 					}else{
@@ -101,7 +101,6 @@
 					myForm.show(this);
 				}
 			};
-			
 			
 			//单击事件
 			myTable.on('click',"#newExam",function(e){
