@@ -2,7 +2,7 @@ package com.easytnt.grading.domain.ichart;
 
 public class Data {
 	private String name;
-	private String value;
+	private Float value;
 	private String color;
 	public String getName() {
 		return name;
@@ -10,10 +10,10 @@ public class Data {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getValue() {
+	public Float getValue() {
 		return value;
 	}
-	public void setValue(String value) {
+	public void setValue(Float value) {
 		this.value = value;
 	}
 	public String getColor() {

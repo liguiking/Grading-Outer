@@ -2,9 +2,30 @@
 	"use strict";
 	define([ 'jquery','ui','ichart'], function($,ui) {
 		var self ;
-		var draw = function (data,labels,min,max,space,unit,renderTo){
+		var draw = function (data,labels,min,max,space,unit,renderTo,isShowLabel){
 			var chartW = $('#'+renderTo).width();
 			var chartH = $('#'+renderTo).height();
+			var showLabels=[{
+				 position:'left',	
+				 label:{
+					 color:'#eff4f8',
+					 fontsize:14,
+					 fontweight:600
+				 },
+				 start_scale:min,
+				 end_scale:max,
+				 scale_space:space
+			}];
+			if(isShowLabel){
+				showLabels[1] = {
+					 position:'bottom',	
+					 label:{
+						 color:'#506673',
+						 fontweight:600
+					 },
+					 labels:labels
+				};
+			}
 			var draw = {
 					render : renderTo||'canvasDiv',
 					data: data,
@@ -19,7 +40,10 @@
 						listeners:{
 							 //tip:提示框对象、name:数据名称、value:数据值、text:当前文本、i:数据点的索引
 							parseText:function(tip,name,value,text,i){
-								return labels[i]+":<span style='color:red'>"+value+"</span>"+unit;
+								if(isShowLabel){
+									return labels[i]+":<span style='color:red'>"+value+"</span>"+unit;
+								}
+								return "<span style='color:red'>"+value+"</span>"+unit;
 							}
 						}
 					},
@@ -51,41 +75,27 @@
 						}
 					},
 					coordinate:{
-
 						grid_color:'#506e7d',
 						background_color:null,//设置坐标系为透明背景
-						scale:[{
-							 position:'left',	
-							 label:{
-								 color:'#eff4f8',
-								 fontsize:14,
-								 fontweight:600
-							 },
-							 start_scale:min,
-							 end_scale:max,
-							 scale_space:space
-						},{
-							 position:'bottom',	
-							 label:{
-								 color:'#506673',
-								 fontweight:600
-							 },
-							 labels:labels
-						}]
+						scale:showLabels
 					}
 				};
 			return draw;
 		}
 		var ichartDraw = self = {
 				showMiamJiTu:function(data,labels,min,max,space,unit,renderTo){
-					var chart = new iChart.Area2D(draw(data,labels,min,max,space,unit,renderTo));
-					this.finaly(chart,unit);
+					var chart = new iChart.Area2D(draw(data,labels,min,max,space,unit,renderTo,true));
+					this.finaly(chart,unit,true);
 				},
 				showZheXianTu:function(data,labels,min,max,space,unit,renderTo){
-					var chart = new iChart.LineBasic2D(draw(data,labels,min,max,space,unit,renderTo));
-					this.finaly(chart,unit);
+					var chart = new iChart.LineBasic2D(draw(data,labels,min,max,space,unit,renderTo,true));
+					this.finaly(chart,unit,true);
 				},
-				finaly:function(chart,unit){
+				showZhuZhuangTu:function(data,min,max,space,unit,renderTo){
+					var chart = new iChart.Column2D(draw(data,[],min,max,space,unit,renderTo,false));
+					this.finaly(chart,unit,false);
+				},
+				finaly:function(chart,unit,isShowLabel){
 					//利用自定义组件构造左侧说明文本
 					chart.plugin(new iChart.Custom({
 							drawFn:function(){
@@ -99,12 +109,14 @@
 								chart.target.textAlign('start')
 								.textBaseline('bottom')
 								.textFont('600 11px 微软雅黑')
-								.fillText(unit,x-40,y-12,false,'#ffffff')
-								.textBaseline('bottom')
-								.fillText('(时间)',x+w+12,y+h+10,false,'#ffffff');
-								
+								.fillText(unit,x-40,y-12,false,'#ffffff');
+								if(isShowLabel){
+									chart.target.textBaseline('bottom')
+									.fillText('(时间)',x+w+12,y+h+10,false,'#ffffff');
+								}
 							}
 					}));
+					
 					//调用绘图方法开始绘图
 					chart.draw();
 				}
