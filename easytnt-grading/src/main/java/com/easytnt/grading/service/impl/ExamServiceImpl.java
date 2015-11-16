@@ -34,6 +34,12 @@ public class ExamServiceImpl extends AbstractEntityService<Exam, Long>implements
 		return exam;
 	}
 
+	@Override
+	public void create(Exam t) {
+		// TODO Auto-generated method stub
+		super.create(t);
+	}
+
 	@Transactional(readOnly=true)
 	@Override
 	public void query(Query<Exam> query) {

@@ -26,9 +26,9 @@ import com.easytnt.commons.util.Closer;
 public class FileUtil {
 	private static Logger logger = LoggerFactory.getLogger(FileUtil.class);
 	
-	public static File inputStreamToFile(HttpServletRequest request,String imagedir,InputStream in,String fileName) throws Exception{
-		String root = request.getServletContext().getRealPath("/");
-		File file = new File(root+ File.separator+imagedir + File.separator + System.currentTimeMillis() + "_" + fileName);
+	public static File inputStreamToFile(InputStream in,String fileName) throws Exception{
+		String root = System.getProperty("java.io.tmpdir");
+		File file = new File(root + File.separator + System.currentTimeMillis() + "_" + fileName);
 		OutputStream out = null;
 		try {
 			out = new FileOutputStream(file);

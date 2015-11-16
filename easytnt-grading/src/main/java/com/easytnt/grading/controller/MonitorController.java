@@ -37,7 +37,28 @@ public class MonitorController {
 		logger.debug("URL /monitor/progress Method Get");
 		return createModelAndView(0,"progress");
 	}
-	
+	@RequestMapping(value="/monitor/progress/data",method=RequestMethod.GET)
+	public ModelAndView onGetProgressData()throws Exception{
+		logger.debug("URL /monitor/progress/data Method Get");
+		ResultData resultData = new ResultData();
+		List<Data> dataList = new ArrayList<Data>();
+		String[] color = new String[]{"#a5c2d5","#cbab4f","#76a871","#76a871","#a56f8f","#c12c44","#a56f8f","#9f7961","#76a871","#6f83a5"};
+		for(int i=0;i<10;i++){
+			Data data = new Data();
+			data.setName("数据"+i);
+			data.setColor(color[i]);
+			data.setValue(((int)(random.nextFloat()*10))/10f);
+			dataList.add(data);
+		}
+		resultData.setData(dataList);
+		resultData.setMax(1f);
+		resultData.setMin(0f);
+		resultData.setSpace(0.1f);
+		resultData.setUnit("数据");
+		
+		return ModelAndViewFactory.newModelAndViewFor()
+				.with("data",resultData).build();
+	}
 	@RequestMapping(value="/monitor/worker",method=RequestMethod.GET)
 	public ModelAndView onMonitorWorker()throws Exception{
 		logger.debug("URL /monitor/worker Method Get");

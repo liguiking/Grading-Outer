@@ -13,7 +13,7 @@ public interface ExamPaperService extends EntityService<ExamPaper, Long> {
 
 	void addSectionFor(Long paperId, Section section);
 	
-	void addPaperCardFor(Long paperId, PaperCard paperCard);
+	ExamPaper addPaperCardFor(Long paperId, PaperCard paperCard);
 	
 	void deletePaperCardFor(Long paperId, PaperCard paperCard);
 	
