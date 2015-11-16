@@ -6,10 +6,20 @@ CREATE TABLE `subject` (
   PRIMARY KEY (`subject_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='科目定义';
 
+DROP TABLE IF EXISTS  `term_test`;
+CREATE TABLE `term_test` (
+  `term_test_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `term_test_oid` bigint(20) NOT NULL COMMENT '内码，设置规则：yyyymmdd' ,
+  `term_test_name` varchar(16)  COMMENT '考试名称',
+  `term_test_from` datetime DEFAULT NULL COMMENT '考试开始时间' ,
+  `term_test_to` datetime DEFAULT NULL COMMENT '考试完成时间' ,
+  PRIMARY KEY (`term_test_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='学期考试定义';
+
 DROP TABLE IF EXISTS  `test`;
 CREATE TABLE `test` (
   `test_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `test_oid` bigint(20) NOT NULL COMMENT '内码，设置规则：yyyymmdd' ,
+  `test_oid` bigint(20) NOT NULL COMMENT '内码，设置规则：yyyymmdd+科目oid' ,
   `subject_id` bigint(20) NOT NULL ,
   `test_name` varchar(16)  COMMENT '考试名称',
   `test_from` datetime DEFAULT NULL COMMENT '考试开始时间' ,
@@ -18,7 +28,7 @@ CREATE TABLE `test` (
   `test_month` int(2)  DEFAULT '1' COMMENT '一年中月分数字(1-12)' ,
   `test_week` int(2)  DEFAULT '1' COMMENT '一年中的周数（取值范围1-54）' ,
   PRIMARY KEY (`test_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='试卷信息定义';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='科目考试义';
 
 DROP TABLE IF EXISTS  `paper_info`;
 CREATE TABLE `paper_info` (
