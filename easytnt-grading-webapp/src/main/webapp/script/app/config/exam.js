@@ -1,6 +1,6 @@
 (function(){
 	"use strict";
-	define(['jquery','ajaxwrapper','ui', 'dialog','intense'],function($,ajaxWrapper,ui,dialog,intense){
+	define(['jquery','ajaxwrapper','ui', 'dialog'],function($,ajaxWrapper,ui,dialog){
 		var editorForm = function($form){
 			this.exam = undefined,
 			this.isNew =  true,
@@ -123,22 +123,10 @@
 						}
 				   });
 			});
+			ui.pretty(myTable.next());
 		};
 		
-		//提示
-		function getOpts(message){
-			var DialogSize = {SM:'sm',MD:'md',LG:'lg'};
-			var opts = {
-					size : DialogSize.SM,
-					header : {
-						show : true,
-						text : "操作提示"
-					},
-					iconInfo:'error',
-					tipText :message
-				};
-			return opts;
-		}
+
 		return {
 			render:function(){
 				

@@ -31,13 +31,19 @@
 	  <div class="form-group">
 	    <label for="beginDate" class="col-sm-4 control-label">开始时间</label>
 	    <div class="col-sm-8">
-	      <input type="text" class="form-control" id="beginDate" data-rr-type="beginDate" placeholder="开始时间">
+	      <div class="input-group">
+	        <input type="text" class="form-control date-picker" id="beginDate" data-rr-type="beginDate" placeholder="开始时间" readOnly>
+	        <span class="input-group-addon"><i class="icon-calendar"></i></span>
+	      </div>
 	    </div>
 	  </div>
 	  <div class="form-group">
 	    <label for="endDate" class="col-sm-4 control-label">结束时间</label>
 	    <div class="col-sm-8">
-	      <input type="text" class="form-control" id="endDate" data-rr-type="endDate" placeholder="结束时间">
+	      <div class="input-group">
+	        <input type="text" class="form-control date-picker" id="endDate" data-rr-type="endDate" placeholder="结束时间" readOnly>
+	        <span class="input-group-addon"><i class="icon-calendar"></i></span>
+	      </div>
 	    </div>
 	  </div>
 	 

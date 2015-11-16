@@ -41,7 +41,7 @@ public class ExamController {
 		MenuGroup topRightMenuGroup = MenuGroupFactory.getInstance().getTopRightMenuGroup();
 		MenuGroup rightMenuGroup = MenuGroupFactory.getInstance().getRightMenuGroup();
 		MenuGroup configMenuGroup = MenuGroupFactory.getInstance().getConfigMenuGroup();
-		configMenuGroup.activedMenuByIndex(1);
+		configMenuGroup.activedMenuByIndex(0);
 		rightMenuGroup.activedMenuByIndex(3);
 		return ModelAndViewFactory.newModelAndViewFor("/config")
 				.with("examList", examService.list())
