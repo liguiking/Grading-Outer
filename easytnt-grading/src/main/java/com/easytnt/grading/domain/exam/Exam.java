@@ -11,45 +11,50 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.easytnt.commons.entity.share.Entity;
 
-/** 
+/**
  * <pre>
  * 考试
  * </pre>
- *  
+ * 
  * @author 李贵庆2015年10月14日
  * @version 1.0
  **/
 public class Exam implements Entity<Exam> {
 	private Long id;
+
+	private Long oid;
+
+	private int year; 
 	
-    private Long oid;
-    
-    private ExamDesc desc;
-    
+	private int month;
 	
-	public Exam(ExamDesc desc,Long oid) {
+	private int week;
+	
+	private ExamDesc desc;
+
+	public Exam(ExamDesc desc, Long oid) {
 		this.desc = desc;
 		this.oid = oid;
 	}
 
-	public void genOid(){
+	public void genOid() {
 		this.oid = System.currentTimeMillis();
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder().append(this.oid).toHashCode();
 	}
-	
+
 	@Override
 	public boolean equals(Object o) {
-		if(!(o instanceof Exam))
+		if (!(o instanceof Exam))
 			return false;
-		Exam other = (Exam)o;
-		
-		return new EqualsBuilder().append(this.oid,other.oid).isEquals();
+		Exam other = (Exam) o;
+
+		return new EqualsBuilder().append(this.oid, other.oid).isEquals();
 	}
-	
+
 	@Override
 	public String toString() {
 		return new ToStringBuilder(this).append(this.desc).build();
@@ -59,10 +64,10 @@ public class Exam implements Entity<Exam> {
 	public boolean sameIdentityAs(Exam other) {
 		return this.equals(other);
 	}
-	
-	//以下功能为ORM或者自动构造使用，非此慎用
+
+	// 以下功能为ORM或者自动构造使用，非此慎用
 	public Exam() {
-		
+
 	}
 
 	public Long getOid() {
@@ -88,6 +93,28 @@ public class Exam implements Entity<Exam> {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
-}
+	public int getYear() {
+		return year;
+	}
 
+	public void setYear(int year) {
+		this.year = year;
+	}
+
+	public int getMonth() {
+		return month;
+	}
+
+	public void setMonth(int month) {
+		this.month = month;
+	}
+
+	public int getWeek() {
+		return week;
+	}
+
+	public void setWeek(int week) {
+		this.week = week;
+	}
+
+}
