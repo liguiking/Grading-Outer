@@ -1,9 +1,18 @@
 package com.easytnt.grading.controller;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.OutputStream;
 import java.util.Iterator;
+import java.util.Set;
 
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.FileImageOutputStream;
+import javax.imageio.stream.ImageInputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +29,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.easytnt.commons.entity.cqrs.Query;
 import com.easytnt.commons.entity.cqrs.QueryBuilder;
-import com.easytnt.commons.io.FileUtil;
+import com.easytnt.commons.exception.ThrowableParser;
+import com.easytnt.commons.util.Closer;
 import com.easytnt.commons.web.view.ModelAndViewFactory;
 import com.easytnt.grading.domain.paper.ExamPaper;
 import com.easytnt.grading.domain.paper.PaperCard;
@@ -35,7 +45,7 @@ public class ExamPaperController {
 	@Autowired(required = false)
 	private ExamPaperService examPaperService;
 	
-	@Value("img\\sample")
+	@Value("d:\\")
 	private String imgDir;
 	
 	@RequestMapping(value = "/onCreateExamPaper",method = RequestMethod.POST)
@@ -82,20 +92,58 @@ public class ExamPaperController {
 					throws Exception {
 		logger.debug("URL /examPaper Method onAddPaperCard "+imgDir);
 		PaperCard paperCard = new PaperCard();
+		ExamPaper examPaper = examPaperService.addPaperCardFor(examPaperId, paperCard);
 		Iterator<String> it = request.getFileNames();
 		if(it.hasNext()) {
 			String fileName = it.next();
 			MultipartFile mfile = request.getFile(fileName);
-			File file = FileUtil.inputStreamToFile(mfile.getInputStream(),mfile.getOriginalFilename());
-			logger.debug(file.getAbsolutePath());
-			paperCard.setPath(file.getAbsolutePath());
+			String path = examPaper.getPaperOid()+File.separator+paperCard.getCardId()+File.separator+mfile.getOriginalFilename();
+			Iterator<ImageReader> readers = ImageIO  
+	                .getImageReadersByFormatName("JPG");  
+	        ImageReader reader = readers.next();  
+	        ImageInputStream iis = ImageIO.createImageInputStream(mfile.getInputStream());  
+	        reader.setInput(iis, true); 
+	        BufferedImage bi = reader.read(0);
+	        File file = new File(imgDir+path);
+	        file.mkdirs();
+	        ImageIO.write(bi, "JPG", file); 
+			paperCard.setPath(path);
 		}else {
 			throw new IllegalArgumentException("无效的文件名");
 		}
-		examPaperService.addPaperCardFor(examPaperId, paperCard);
+		examPaperService.update(examPaper);
 		return ModelAndViewFactory.newModelAndViewFor().build();
 	}
-	
+	@RequestMapping(value="/{examPaperId}/{cardId}",method = RequestMethod.GET)
+	public void onGetPaperCard(@PathVariable Long examPaperId,@PathVariable Long cardId,HttpServletResponse response)
+					throws Exception {
+		ExamPaper examPaper = examPaperService.load(examPaperId);
+		Set<PaperCard> paperCardSet = examPaper.getPaperCards();
+		PaperCard paperCard=null;
+		for(PaperCard pc:paperCardSet){
+			if(pc.getCardId().equals(cardId)){
+				paperCard = pc;
+				break;
+			}
+		}
+		File file=null;
+		if(paperCard!=null){
+			file = new File(imgDir+paperCard.getPath());
+		}
+		FileInputStream iis = new FileInputStream(file);
+		OutputStream out = response.getOutputStream();
+		try {
+			int read = 0;
+			byte[] bytes = new byte[1024];
+			while((read = iis.read(bytes)) != -1) {
+				out.write(bytes);
+			}
+		}catch(Exception e) {
+			logger.error(ThrowableParser.toString(e));
+		}finally{
+			Closer.close(out);
+		}
+	}
 	@RequestMapping(value="/{examPaperId}/section/{position}",method = RequestMethod.PUT)
 	public ModelAndView onUpdateSection(@PathVariable Long examPaperId,@RequestBody Section section,@PathVariable Integer position)
 					throws Exception {

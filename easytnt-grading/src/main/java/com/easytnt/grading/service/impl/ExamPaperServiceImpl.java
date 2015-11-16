@@ -65,10 +65,11 @@ public class ExamPaperServiceImpl extends AbstractEntityService<ExamPaper, Long>
 	}
 
 	@Override
-	public void addPaperCardFor(Long paperId, PaperCard paperCard) {
+	public ExamPaper addPaperCardFor(Long paperId, PaperCard paperCard) {
 		ExamPaper examPaper = load(paperId);
 		examPaper.addPaperCard(paperCard);
 		examPaperRepository.save(examPaper);
+		return examPaper;
 	}
 
 	@Override
