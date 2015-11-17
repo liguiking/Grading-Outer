@@ -22,7 +22,26 @@
 			//表单验证
 			this.validate = function(){
 				var b = true;
+				var examname=$("#examName").val();
+				var begindate=$("#beginDate").val();
+				var enddate=$("#endDate").val();
 				
+				var bdate = new Date(begindate);
+				var edate = new Date(enddate);
+				
+				if(examname==""||begindate==""||enddate==""){
+					b=false;
+					dialog.fadedialog(getOpts("考试科目名称不能为空,时间不能为空"));
+					return false;
+				}
+				if(edate-bdate>=0){
+					b = true;
+					return true;
+				}else{
+					b=false;
+					dialog.fadedialog(getOpts("开始日期不能大于结束日期"));
+					return false;
+				}
 				return b;
 			};
 			
@@ -112,8 +131,8 @@
 				currentEaxm.show();
 				
 			}).on('click','tbody tr td a[data-rr-name="deleteExam"]',function(e){
-				var myTable = $('div.subject-container>table');
-				var id = myTable.find('td:eq(0) a').attr('data-rr-id');
+				var sd = $(this).parent().parent().find('td:first a[data-rr-name="examName"]');
+				var id = sd.attr('data-rr-id');
 				ajaxWrapper.removeJson("exam",{id:id},
 						{beforeMsg:{tipText:".",show:true},
 						successMsg:{tipText:"删除成功",show:true}},
@@ -125,6 +144,20 @@
 			});
 			ui.pretty(myTable.next());
 		};
+		
+		function getOpts(message){
+			var DialogSize = {SM:'sm',MD:'md',LG:'lg'};
+			var opts = {
+					size : DialogSize.SM,
+					header : {
+						show : true,
+						text : "操作提示"
+					},
+					iconInfo:'error',
+					tipText :message
+				};
+			return opts;
+		}
 		
 
 		return {
