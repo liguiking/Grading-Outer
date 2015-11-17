@@ -4,5 +4,5 @@ import com.easytnt.grading.service.ListDataMapper;
 import com.easytnt.grading.service.ListDataSourceReader;
 
 public interface ExamineeRepository extends Repository{
-	int imports(ListDataMapper mapper,ListDataSourceReader reader);
+	int insertImports(ListDataMapper mapper,ListDataSourceReader reader);
 }

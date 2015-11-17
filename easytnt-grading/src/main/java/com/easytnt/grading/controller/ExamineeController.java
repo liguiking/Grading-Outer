@@ -1,12 +1,14 @@
 package com.easytnt.grading.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,7 +24,10 @@ import com.easytnt.commons.io.FileUtil;
 import com.easytnt.commons.ui.MenuGroup;
 import com.easytnt.commons.web.view.ModelAndViewFactory;
 import com.easytnt.grading.domain.grade.Teacher;
+import com.easytnt.grading.service.ExamService;
+import com.easytnt.grading.service.ExamineeService;
 import com.easytnt.grading.service.impl.ListDataMapperImpl;
+import com.easytnt.grading.service.impl.ListDataSourceReaderImpl;
 
 
 /** 
@@ -37,6 +42,9 @@ import com.easytnt.grading.service.impl.ListDataMapperImpl;
 @RequestMapping(value="/examinee")
 public class ExamineeController {
 	private static Logger logger = LoggerFactory.getLogger(ExamineeController.class);
+	
+	@Autowired(required = false)
+	private ExamineeService examineeService;
 	
 	@Value("${easytnt.img.sample.dir}")
 	private String imgDir;
@@ -85,8 +93,13 @@ public class ExamineeController {
 	@RequestMapping(value="/importExaminee",method = RequestMethod.POST)
 	public ModelAndView importExaminee(@RequestBody Map<String,String> map)throws Exception {
 		logger.debug("URL /importExaminee Method POST ");
-		File file = new File(imgDir);
-		file.delete();
+		if(imgDir!=null){
+			File file = new File(imgDir);
+			FileInputStream stream = new FileInputStream(file);
+			FileInputStream stream2 = new FileInputStream(file);
+			examineeService.insertImports(new ListDataMapperImpl(stream,map), new ListDataSourceReaderImpl(stream2));
+			file.delete();
+		}
 		return ModelAndViewFactory.newModelAndViewFor().build();
 	}
 }

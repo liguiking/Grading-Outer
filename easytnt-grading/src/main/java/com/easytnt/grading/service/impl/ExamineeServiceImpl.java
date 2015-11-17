@@ -13,13 +13,8 @@ public class ExamineeServiceImpl implements ExamineeService{
 	private ExamineeRepository examineeRepository;
 
 	@Override
-	public int imports(ListDataMapper mapper, ListDataSourceReader reader) {
-		// TODO Auto-generated method stub
-		
-		
-		
-		
-		return 0;
+	public int insertImports(ListDataMapper mapper, ListDataSourceReader reader) {
+		return examineeRepository.insertImports(mapper, reader);
 	}
 
 }

@@ -14,7 +14,7 @@ public class ExamineeRepositoryHibernateImpl extends HibernateRepository impleme
 	private static Query query = null;
 	//读取数据
 	@Override
-	public int imports(ListDataMapper mapper, ListDataSourceReader reader) {
+	public int insertImports(ListDataMapper mapper, ListDataSourceReader reader) {
 		try {
 			int colindex = 0;
 			String sql = "";
