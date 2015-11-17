@@ -113,27 +113,67 @@ CREATE TABLE `teacher_info` (
   PRIMARY KEY (`teacher_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1  DEFAULT CHARSET=utf8 COMMENT='评卷教师信息';
 
+DROP TABLE IF EXISTS  `student`;
+CREATE TABLE `student` (
+  `student_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `student_number` varchar(32) COMMENT '学籍号',
+  `student_name` varchar(32) COMMENT '学生姓名',
+  `gender` varchar(4) COMMENT '性别',
+  `nation` varchar(16) COMMENT '民族',
+  `birthday` datetime COMMENT '出生日期',
+  PRIMARY KEY (`student_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='学生信息';
+
 DROP TABLE IF EXISTS  `examinne`;
 CREATE TABLE `examinne` (
   `examinne_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `room_id` bigint(20) COMMENT '',
+  `student_id` bigint(20) COMMENT '学生ID',
+  `term_test_id` bigint(20) NOT NULL COMMENT '考试ID',
+  `school_id` bigint(20) COMMENT '考生所在学校ID',  
+  `room_id` bigint(20) COMMENT '考场ID',
+  `seating_number` int(8) COMMENT '座位号',  
   `examinne_name` varchar(32) COMMENT '考生姓名',
-  `examinne_uuid` varchar(32) COMMENT '考生在本次考试中的唯一编码',
+  `examinne_uuid` varchar(32) COMMENT '考生在本次考试中的唯一编码，可以是准考证号，也可以是学号等',
+  `uuid_type` varchar(4) COMMENT '01-身份证，学籍号-90，准考证号-91，其他参考国标',
+  `arts` int(2) DEFAULT '0' COMMENT '文理科标志；0-不分；1-文科；2-理科 ',
+  `clazz_name` varchar(16) COMMENT '班级名称',
+  `clazz_code` varchar(16) COMMENT '班级代码',
+  `absence` int(2)  DEFAULT '1' COMMENT '缺考标志0-缺考；1-正常',
+  `total_score` float(5,2) COMMENT '总分',
   PRIMARY KEY (`examinne_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='考生信息';
 
 DROP TABLE IF EXISTS  `room`;
 CREATE TABLE `room` (
   `room_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `district_id` bigint(20) COMMENT '',
+  `parent_id` int(16) COMMENT '',
   `room_number` int(8) COMMENT '考场编号',
   PRIMARY KEY (`room_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='考场信息';
 
+DROP TABLE IF EXISTS  `student_do_test`;
+CREATE TABLE `student_do_test` (
+  `sdt_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `test_id` bigint(20) NOT NULL COMMENT '科目考试ID',
+  `examinne_id` bigint(20) NOT NULL COMMENT '考生ID',
+  `absence` int(2)  DEFAULT '1' COMMENT '缺考标志0-缺考；1-正常',
+  PRIMARY KEY (`sdt_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='学生参加科目考试';
+
+DROP TABLE IF EXISTS  `school`;
+CREATE TABLE `school` (
+  `school_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `district_id` bigint(20) COMMENT '',
+  `school_name` varchar(16) COMMENT '学校名称',
+  `school_code` varchar(16) COMMENT '学校代码',
+  PRIMARY KEY (`school_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='学校信息';
+
 DROP TABLE IF EXISTS  `district`;
 CREATE TABLE `district` (
   `district_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `parent_id` int(16) COMMENT '',
-  `district_number` varchar(32) COMMENT '考区编号',
+  `parent_id` int(16) COMMENT '上级，NULL为最高级',
+  `district_number` varchar(32) COMMENT '行政区编号，建议采用国家标准代码',
+  `district_name` varchar(64) COMMENT '行政区名称',
   PRIMARY KEY (`district_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='考区信息';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='行政区信息，省市区县';
