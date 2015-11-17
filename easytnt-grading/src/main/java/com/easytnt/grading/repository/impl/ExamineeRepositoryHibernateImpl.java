@@ -14,7 +14,7 @@ public class ExamineeRepositoryHibernateImpl extends HibernateRepository impleme
 	private static Query query = null;
 	//读取数据
 	@Override
-	public int insertImports(ListDataMapper mapper, ListDataSourceReader reader) {
+	public int imports(ListDataMapper mapper, ListDataSourceReader reader) {
 		try {
 			int colindex = 0;
 			String sql = "";
@@ -72,11 +72,11 @@ public class ExamineeRepositoryHibernateImpl extends HibernateRepository impleme
 				String  total_score = reader.get(i, colindex);
 				
 				//测试测试
-				sql = "insert into student values("+student_number+","+student_name+","+gender+","+nation+","+birthday+");";
-				sql += "insert into district values("+parent_id+","+district_number+","+district_name+");";
-				sql += "insert into school values(1,"+school_name+","+school_code+");";
-				sql += "insert into room values(1,"+room_number+");";
-				sql += "insert into examinne values(1,1,1,1,"+seating_number+","+examinne_name+","+examinne_uuid+","+uuid_type+","+arts+","+clazz_name+","+clazz_code+","+absence+","+total_score+");";
+				sql = "insert into student values('"+student_number+"','"+student_name+"','"+gender+"','"+nation+"','"+birthday+"');";
+				sql += "insert into district values('"+parent_id+"','"+district_number+"','"+district_name+"');";
+				sql += "insert into school values(1,'"+school_name+"','"+school_code+"');";
+				sql += "insert into room values(1,'"+room_number+"');";
+				sql += "insert into examinne values(1,1,1,1,'"+seating_number+"','"+examinne_name+"','"+examinne_uuid+"','"+uuid_type+"','"+arts+"','"+clazz_name+"','"+clazz_code+"','"+absence+"','"+total_score+"');";
 				
 				query = this.getCurrentSession().createSQLQuery(sql);
 				Integer num = (Integer) query.executeUpdate();
