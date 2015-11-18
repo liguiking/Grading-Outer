@@ -24,10 +24,11 @@ import com.easytnt.commons.io.FileUtil;
 import com.easytnt.commons.ui.MenuGroup;
 import com.easytnt.commons.web.view.ModelAndViewFactory;
 import com.easytnt.grading.domain.grade.Teacher;
-import com.easytnt.grading.service.ExamService;
 import com.easytnt.grading.service.ExamineeService;
-import com.easytnt.grading.service.impl.ListDataMapperImpl;
-import com.easytnt.grading.service.impl.ListDataSourceReaderImpl;
+import com.easytnt.grading.service.impl.ListDataMapperDBFImpl;
+import com.easytnt.grading.service.impl.ListDataMapperExcelImpl;
+import com.easytnt.grading.service.impl.ListDataSourceReaderDBFImpl;
+import com.easytnt.grading.service.impl.ListDataSourceReaderExcelImpl;
 
 
 /** 
@@ -46,8 +47,7 @@ public class ExamineeController {
 	@Autowired(required = false)
 	private ExamineeService examineeService;
 	
-	@Value("${easytnt.img.sample.dir}")
-	private String imgDir;
+	private String imgDir=null;
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView onGet()throws Exception {
 		logger.debug("URL /examinee Method GET ");
@@ -74,11 +74,16 @@ public class ExamineeController {
 		if(it.hasNext()) {
 			String fileName = it.next();
 			MultipartFile mfile = request.getFile(fileName);
-			ListDataMapperImpl ListDataMapperImpl = new ListDataMapperImpl(mfile.getInputStream(),null);
-			titleList = ListDataMapperImpl.getTitleList();
+			if(mfile.getOriginalFilename().indexOf("dbf")!=-1){
+				ListDataMapperDBFImpl listDataMapperDBFImpl = new ListDataMapperDBFImpl(mfile.getInputStream(),null);
+				titleList = listDataMapperDBFImpl.getTitleList();
+			}else{
+				ListDataMapperExcelImpl ListDataMapperImpl = new ListDataMapperExcelImpl(mfile.getInputStream(),null);
+				titleList = ListDataMapperImpl.getTitleList();
+			}
 			File file = FileUtil.inputStreamToFile(mfile.getInputStream(),mfile.getOriginalFilename());
 			logger.debug(file.getAbsolutePath());
-			if(imgDir!=null){
+			if(!(null==imgDir)){
 				File tempFile = new File(imgDir);
 				tempFile.delete();
 			}
@@ -93,12 +98,17 @@ public class ExamineeController {
 	@RequestMapping(value="/importExaminee",method = RequestMethod.POST)
 	public ModelAndView importExaminee(@RequestBody Map<String,String> map)throws Exception {
 		logger.debug("URL /importExaminee Method POST ");
-		if(imgDir!=null){
+		if(!(null==imgDir)){
 			File file = new File(imgDir);
 			FileInputStream stream = new FileInputStream(file);
 			FileInputStream stream2 = new FileInputStream(file);
-			examineeService.insertImports(new ListDataMapperImpl(stream,map), new ListDataSourceReaderImpl(stream2));
+			if(file.getName().indexOf("dbf")!=-1){
+				examineeService.insertImports(new ListDataMapperDBFImpl(stream,map), new ListDataSourceReaderDBFImpl(stream2));
+			}else{
+				examineeService.insertImports(new ListDataMapperExcelImpl(stream,map), new ListDataSourceReaderExcelImpl(stream2));
+			}
 			file.delete();
+			imgDir = null;
 		}
 		return ModelAndViewFactory.newModelAndViewFor().build();
 	}

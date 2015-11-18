@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.easytnt.grading.service.ListDataMapper;
 
-public class ListDataMapperImpl implements ListDataMapper {
+public class ListDataMapperExcelImpl implements ListDataMapper {
 	
 	private InputStream is;
 	
@@ -13,13 +13,15 @@ public class ListDataMapperImpl implements ListDataMapper {
 	
 	private Map<String,String> Map;
 	
-	public ListDataMapperImpl(InputStream is,Map<String,String> map){
+	public ListDataMapperExcelImpl(){};
+	
+	public ListDataMapperExcelImpl(InputStream is,Map<String,String> map){
 		this.is = is;
 		this.Map = map;
 	}
 	private void init() throws Exception{
 		if(is!=null && (titleList ==null || titleList.length==0)){
-			ListDataSourceReaderImpl reader = new ListDataSourceReaderImpl(is);
+			ListDataSourceReaderExcelImpl reader = new ListDataSourceReaderExcelImpl(is);
 			 	reader.open();
 				titleList = reader.get(0);
 				reader.close();

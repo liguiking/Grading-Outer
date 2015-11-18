@@ -17,12 +17,12 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.easytnt.grading.service.ListDataSourceReader;
 
-public class ListDataSourceReaderImpl implements ListDataSourceReader {
+public class ListDataSourceReaderExcelImpl implements ListDataSourceReader {
 	
 	private InputStream is;
 	
-	public ListDataSourceReaderImpl(){}
-	public ListDataSourceReaderImpl(InputStream is){
+	public ListDataSourceReaderExcelImpl(){}
+	public ListDataSourceReaderExcelImpl(InputStream is){
 		this.is = is;
 	}
 	private Workbook workBook = null;
@@ -47,6 +47,9 @@ public class ListDataSourceReaderImpl implements ListDataSourceReader {
 	//获取某行数据
 	@Override
 	public String[] get(int row) throws Exception {
+		if(sheet.getPhysicalNumberOfRows()<=row){
+			throw new IndexOutOfBoundsException();
+		}
 		List<String> result = new ArrayList<String>();
 		Row thisRow = sheet.getRow(row);
 		Iterator<Cell> cells =  thisRow.iterator();
@@ -62,7 +65,13 @@ public class ListDataSourceReaderImpl implements ListDataSourceReader {
 	//获取某行某列数据
 	@Override
 	public String get(int row, int col) throws Exception {
+		if(sheet.getPhysicalNumberOfRows()<=row){
+			throw new IndexOutOfBoundsException();
+		}
 		Row thisRow = sheet.getRow(row);
+		if(thisRow.getPhysicalNumberOfCells()<=col){
+			throw new IndexOutOfBoundsException();
+		}
 		Cell cell = thisRow.getCell(col);
 		return cell.getStringCellValue();
 	}
