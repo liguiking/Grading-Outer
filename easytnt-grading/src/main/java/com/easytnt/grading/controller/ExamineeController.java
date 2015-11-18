@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,11 +26,10 @@ import com.easytnt.commons.io.FileUtil;
 import com.easytnt.commons.ui.MenuGroup;
 import com.easytnt.commons.web.view.ModelAndViewFactory;
 import com.easytnt.grading.domain.grade.Teacher;
+import com.easytnt.grading.domain.room.Examinee;
 import com.easytnt.grading.service.ExamineeService;
-import com.easytnt.grading.service.impl.ListDataMapperDBFImpl;
-import com.easytnt.grading.service.impl.ListDataMapperExcelImpl;
-import com.easytnt.grading.service.impl.ListDataSourceReaderDBFImpl;
-import com.easytnt.grading.service.impl.ListDataSourceReaderExcelImpl;
+import com.easytnt.grading.service.impl.ListDataMapperImpl;
+import com.easytnt.grading.service.impl.ListDataSourceReaderImpl;
 
 
 /** 
@@ -64,6 +63,7 @@ public class ExamineeController {
 				.with("rightSideMenu", rightMenuGroup.getMenus())
 				.with("menus3", configMenuGroup.getMenus())
 				.with("query",query)
+				.with("titleMap",Examinee.valueMap)
 				.with("page","examinee").build();
 	}
 	
@@ -75,13 +75,8 @@ public class ExamineeController {
 		if(it.hasNext()) {
 			String fileName = it.next();
 			MultipartFile mfile = request.getFile(fileName);
-			if(mfile.getOriginalFilename().indexOf("dbf")!=-1){
-				ListDataMapperDBFImpl listDataMapperDBFImpl = new ListDataMapperDBFImpl(mfile.getInputStream(),null);
-				titleList = listDataMapperDBFImpl.getTitleList();
-			}else{
-				ListDataMapperExcelImpl ListDataMapperImpl = new ListDataMapperExcelImpl(mfile.getInputStream(),null);
-				titleList = ListDataMapperImpl.getTitleList();
-			}
+			ListDataMapperImpl ListDataMapperImpl = new ListDataMapperImpl(mfile.getInputStream(),mfile.getOriginalFilename(),null);
+			titleList = ListDataMapperImpl.getTitleList();
 			File file = FileUtil.inputStreamToFile(mfile.getInputStream(),mfile.getOriginalFilename());
 			logger.debug(file.getAbsolutePath());
 			
@@ -106,11 +101,7 @@ public class ExamineeController {
 			File file = new File(imgDir);
 			FileInputStream stream = new FileInputStream(file);
 			FileInputStream stream2 = new FileInputStream(file);
-			if(file.getName().indexOf("dbf")!=-1){
-				examineeService.insertImports(new ListDataMapperDBFImpl(stream,map), new ListDataSourceReaderDBFImpl(stream2));
-			}else{
-				examineeService.insertImports(new ListDataMapperExcelImpl(stream,map), new ListDataSourceReaderExcelImpl(stream2));
-			}
+			examineeService.insertImports(new ListDataMapperImpl(stream,file.getName(),map), new ListDataSourceReaderImpl(stream2,file.getName()));
 			file.delete();
 			request.getSession().removeAttribute("imgDir");
 		}

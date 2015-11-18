@@ -24,150 +24,31 @@
 		 </div>
 		 </div>
       </div>
-     <div class="row">
-	   	<div class="form-group">
-		    <label for="StringOne" class="col-sm-2 control-label">学籍号</label>
+      <#list titleMap?keys as s> 
+        <#if s_index ?? && s_index%2 = 0>
+        <div class="row">
+   		  <div class="form-group">
+      	 	<label for="StringOne" class="col-sm-2 control-label">${titleMap[s]}</label>
 		    <div class="col-sm-4">
-		        <select  name="studentNumber">
+		        <select  name="dataName" data-name="${s}">
 				    <option>全部</option>
 				 </select>
 		    </div>
-		    <label for="StringTwo" class="col-sm-1 control-label">学生姓名</label>
+      	 	<#else>
+      	 	<label for="StringTwo" class="col-sm-1 control-label">${titleMap[s]}</label>
 		    <div class="col-sm-5">
-		       <select name="studentName">
+		       <select name="dataName" data-name="${s}">
 				    <option>全部</option>
 				 </select>
 		    </div>
 		 </div>
+	  	</div>
+      	</#if>
+      </#list>
+      <#if titleMap ? size%2 = 1>
+      	</div>
 	  </div>
-	  <div class="row">
-	   	<div class="form-group">
-		    <label for="StringThere" class="col-sm-2 control-label">性别</label>
-		    <div class="col-sm-4">
-		       <select name="gender">
-				    <option>全部</option>
-				 </select>
-		    </div>
-		    <label for="StringFour" class="col-sm-1 control-label">民族</label>
-		    <div class="col-sm-5">
-		       <select name="nation">
-				    <option>全部</option>
-				 </select>
-		    </div>
-		 </div>
-	  </div>
-	  <div class="row">
-	   	<div class="form-group">
-		    <label for="StringFive" class="col-sm-2 control-label">出生日期</label>
-		    <div class="col-sm-4">
-		       <select name="birthday">
-				    <option>全部</option>
-				 </select>
-		    </div>
-		    <label for="StringSix" class="col-sm-1 control-label">座位号</label>
-		    <div class="col-sm-5">
-		       <select name="seatingNumber">
-				    <option>全部</option>
-				 </select>
-		    </div>
-		 </div>
-	  </div>
-	  <div class="row">
-	   	<div class="form-group">
-		    <label for="StringSeven" class="col-sm-2 control-label">准考证号</label>
-		    <div class="col-sm-4">
-		       <select name="examinneUuid">
-				    <option>全部</option>
-				 </select>
-		    </div>
-		    <label for="StringEight" class="col-sm-1 control-label">身份证</label>
-		    <div class="col-sm-5">
-		       <select name="uuidType">
-				    <option>全部</option>
-				 </select>
-		    </div>
-		 </div>
-	  </div>
-	   <div class="row">
-	   	<div class="form-group">
-		    <label for="StringSeven" class="col-sm-2 control-label">文理科标志</label>
-		    <div class="col-sm-4">
-		       <select name="arts">
-				    <option>全部</option>
-				 </select>
-		    </div>
-		    <label for="StringEight" class="col-sm-1 control-label">班级名称</label>
-		    <div class="col-sm-5">
-		       <select name="clazzName">
-				    <option>全部</option>
-				 </select>
-		    </div>
-		 </div>
-	  </div>
-	  <div class="row">
-	   	<div class="form-group">
-		    <label for="StringSeven" class="col-sm-2 control-label">班级代码</label>
-		    <div class="col-sm-4">
-		       <select name="clazzCode">
-				    <option>全部</option>
-				 </select>
-		    </div>
-		    <label for="StringEight" class="col-sm-1 control-label">缺考标志</label>
-		    <div class="col-sm-5">
-		       <select name="absence">
-				    <option>全部</option>
-				 </select>
-		    </div>
-		 </div>
-	  </div>
-	  <div class="row">
-	   	<div class="form-group">
-		    <label for="StringSeven" class="col-sm-2 control-label">总分</label>
-		    <div class="col-sm-4">
-		       <select name="totalScore">
-				    <option>全部</option>
-				 </select>
-		    </div>
-		    <label for="StringEight" class="col-sm-1 control-label">考场编号</label>
-		    <div class="col-sm-5">
-		       <select name="roomNumber">
-				    <option>全部</option>
-				 </select>
-		    </div>
-		 </div>
-	  </div>
-	  <div class="row">
-	   	<div class="form-group">
-		    <label for="StringSeven" class="col-sm-2 control-label">学校名称</label>
-		    <div class="col-sm-4">
-		       <select name="schoolName">
-				    <option>全部</option>
-				 </select>
-		    </div>
-		    <label for="StringEight" class="col-sm-1 control-label">学校代码</label>
-		    <div class="col-sm-5">
-		       <select name="schoolCode">
-				    <option>全部</option>
-				 </select>
-		    </div>
-		 </div>
-	  </div>
-	  <div class="row">
-	   	<div class="form-group">
-		    <label for="StringSeven" class="col-sm-2 control-label">行政区编号</label>
-		    <div class="col-sm-4">
-		       <select name="districtNumber">
-				    <option>全部</option>
-				 </select>
-		    </div>
-		    <label for="StringEight" class="col-sm-1 control-label">行政区名称</label>
-		    <div class="col-sm-5">
-		       <select name="districtName">
-				    <option>全部</option>
-				 </select>
-		    </div>
-		 </div>
-	  </div>
+      </#if>
 	  </form>
   </div>
   <hr style="margin-top:10px;margin-bottom:10px;">

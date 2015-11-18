@@ -30,44 +30,14 @@
 				
 			});
 			function addOption(value){
-				$("select[name='studentNumber']").append('<option value='+value+'>'+value+'</option>');
-				$("select[name='studentName']").append('<option value='+value+'>'+value+'</option>');
-				$("select[name='gender']").append('<option value='+value+'>'+value+'</option>');
-				$("select[name='nation']").append('<option value='+value+'>'+value+'</option>');
-				$("select[name='birthday']").append('<option value='+value+'>'+value+'</option>');
-				$("select[name='seatingNumber']").append('<option value='+value+'>'+value+'</option>');
-				$("select[name='examinneUuid']").append('<option value='+value+'>'+value+'</option>');
-				$("select[name='uuidType']").append('<option value='+value+'>'+value+'</option>');
-				$("select[name='arts']").append('<option value='+value+'>'+value+'</option>');
-				$("select[name='clazzName']").append('<option value='+value+'>'+value+'</option>');
-				$("select[name='clazzCode']").append('<option value='+value+'>'+value+'</option>');
-				$("select[name='absence']").append('<option value='+value+'>'+value+'</option>');
-				$("select[name='totalScore']").append('<option value='+value+'>'+value+'</option>');
-				$("select[name='roomNumber']").append('<option value='+value+'>'+value+'</option>');
-				$("select[name='schoolName']").append('<option value='+value+'>'+value+'</option>');
-				$("select[name='schoolCode']").append('<option value='+value+'>'+value+'</option>');
-				$("select[name='districtNumber']").append('<option value='+value+'>'+value+'</option>');
-				$("select[name='districtName']").append('<option value='+value+'>'+value+'</option>');
+				$("select[name='dataName']").each(function () {
+					$(this).append('<option value='+value+'>'+value+'</option>');
+		        });
 			}
 			function clearOption(){
-				$("select[name='studentNumber']").empty();
-				$("select[name='studentName']").empty();
-				$("select[name='gender']").empty();
-				$("select[name='nation']").empty();
-				$("select[name='birthday']").empty();
-				$("select[name='seatingNumber']").empty();
-				$("select[name='examinneUuid']").empty();
-				$("select[name='uuidType']").empty();
-				$("select[name='arts']").empty();
-				$("select[name='clazzName']").empty();
-				$("select[name='clazzCode']").empty();
-				$("select[name='absence']").empty();
-				$("select[name='totalScore']").empty();
-				$("select[name='roomNumber']").empty();
-				$("select[name='schoolName']").empty();
-				$("select[name='schoolCode']").empty();
-				$("select[name='districtNumber']").empty();
-				$("select[name='districtName']").empty();
+				$("select[name='dataName']").each(function () {
+					$(this).empty();
+		        });
 			}
 			this.query = function(pager){
 				logger.log('examinee.query');
@@ -83,28 +53,14 @@
 			
 			$outer.show();
 			function setData(){
-				var options={
-						student_name : $("select[name='studentName']").val(),
-						student_number : $("select[name='studentNumber']").val(),
-						gender : $("select[name='gender']").val(),
-						nation : $("select[name='nation']").val(),
-						birthday : $("select[name='birthday']").val(),
-						seating_number : $("select[name='seatingNumber']").val(),
-						examinne_uuid : $("select[name='examinneUuid']").val(),
-						uuid_type : $("select[name='uuidType']").val(),
-						arts : $("select[name='arts']").val(),
-						clazz_name :  $("select[name='clazzName']").val(),
-						clazz_code : $("select[name='clazzCode']").val(),
-						absence  :  $("select[name='absence']").val(),
-						total_score :  $("select[name='totalScore']").val(),
-						room_number  :  $("select[name='roomNumber']").val(),
-						school_name  :  $("select[name='schoolName']").val(),
-						school_code  :  $("select[name='schoolCode']").val(),
-						district_number  :  $("select[name='districtNumber']").val(),
-						district_name  :  $("select[name='districtName']").val()
-				}
+				var options = '({';
+				$("select[name='dataName']").each(function () {
+					options+=$(this).attr("data-name")+':"'+$(this).val()+'",';
+		        });
+				options=options.substring(0,options.length-1)
+				options+='})';
+				options = eval(options);
 				return options;
-				
 			}
 			$('.import').click(function(){
 				ajaxWrapper.postJson("examinee/importExaminee",setData(),

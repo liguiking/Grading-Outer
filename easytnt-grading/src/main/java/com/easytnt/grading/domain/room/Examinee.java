@@ -5,6 +5,9 @@
 
 package com.easytnt.grading.domain.room;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -20,7 +23,30 @@ import com.easytnt.commons.entity.share.Entity;
  * @version 1.0
  **/
 public class Examinee implements Entity<Examinee>{
-
+	public static Map<String,String> valueMap;
+	static{
+		valueMap = new LinkedHashMap<String,String>();
+		valueMap.put("student_number", "学籍号");
+		valueMap.put("student_name", "学生姓名");
+		valueMap.put("gender", "性别");
+		valueMap.put("nation", "民族");
+		valueMap.put("birthday", "出生日期");
+		valueMap.put("seating_number", "座位号");
+		valueMap.put("examinne_uuid", "准考证号");
+		valueMap.put("uuid_type", "身份证");
+		valueMap.put("arts", "文理科标志");
+		valueMap.put("clazz_name", "班级名称");
+		valueMap.put("clazz_code", "班级代码");
+		valueMap.put("absence", "缺考标志");
+		valueMap.put("total_score", "总分");
+		valueMap.put("room_number", "考场编号");
+		valueMap.put("school_name", "学校名称");
+		valueMap.put("school_code", "学校代码");
+		valueMap.put("district_number", "行政区编号");
+		valueMap.put("district_name", "行政区名称");
+		
+	}
+	
 	private String uuid;
 	
 	private Room room;
