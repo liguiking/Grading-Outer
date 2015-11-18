@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +49,6 @@ public class ExamineeController {
 	@Autowired(required = false)
 	private ExamineeService examineeService;
 	
-	private String imgDir=null;
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView onGet()throws Exception {
 		logger.debug("URL /examinee Method GET ");
@@ -83,11 +84,13 @@ public class ExamineeController {
 			}
 			File file = FileUtil.inputStreamToFile(mfile.getInputStream(),mfile.getOriginalFilename());
 			logger.debug(file.getAbsolutePath());
+			
+			String imgDir = (String) request.getSession().getAttribute("imgDir");
 			if(!(null==imgDir)){
 				File tempFile = new File(imgDir);
 				tempFile.delete();
 			}
-			imgDir = file.getAbsolutePath();
+			request.getSession().setAttribute("imgDir", file.getAbsolutePath());
 		}else {
 			throw new IllegalArgumentException("无效的文件名");
 		}
@@ -96,8 +99,9 @@ public class ExamineeController {
 	}
 	
 	@RequestMapping(value="/importExaminee",method = RequestMethod.POST)
-	public ModelAndView importExaminee(@RequestBody Map<String,String> map)throws Exception {
+	public ModelAndView importExaminee(@RequestBody Map<String,String> map,HttpServletRequest request)throws Exception {
 		logger.debug("URL /importExaminee Method POST ");
+		String imgDir = (String) request.getSession().getAttribute("imgDir");
 		if(!(null==imgDir)){
 			File file = new File(imgDir);
 			FileInputStream stream = new FileInputStream(file);
@@ -108,7 +112,7 @@ public class ExamineeController {
 				examineeService.insertImports(new ListDataMapperExcelImpl(stream,map), new ListDataSourceReaderExcelImpl(stream2));
 			}
 			file.delete();
-			imgDir = null;
+			request.getSession().removeAttribute("imgDir");
 		}
 		return ModelAndViewFactory.newModelAndViewFor().build();
 	}
