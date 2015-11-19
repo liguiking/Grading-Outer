@@ -23,6 +23,5 @@ public class ExamineeRepositoryHibernateImplTest extends AbstractHibernateTest{
 		this.beginTransaction();
 		new ExamineeDataImpoirtor(getSession(),mapper,reader).doImport();
 		this.commit();
-		
 	}
 }

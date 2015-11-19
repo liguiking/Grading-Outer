@@ -54,8 +54,8 @@ public class ListDataSourceReaderImpl implements ListDataSourceReader {
     	   //各种出错，所以手动进行装箱操作
     	   XSSFWorkbook temp = new XSSFWorkbook(is);  
     	   workBook = temp;
-    	   sheet = workBook.getSheetAt(0);
        }
+		sheet = workBook.getSheetAt(0);
 	}
 	private void openDBF() throws IOException{
 		reader = new DBFReader(is); 
@@ -79,6 +79,7 @@ public class ListDataSourceReaderImpl implements ListDataSourceReader {
 		Iterator<Cell> cells =  thisRow.iterator();
 		while(cells.hasNext()){
 			Cell cell = cells.next();
+			cell.setCellType(Cell.CELL_TYPE_STRING);
 			result.add(cell.getStringCellValue());
 		}
 		String[] str=new String[]{};
@@ -102,6 +103,9 @@ public class ListDataSourceReaderImpl implements ListDataSourceReader {
 	//获取某行某列数据
 	@Override
 	public String get(int row, int col) throws Exception {
+		if(col==-1){
+			return null;
+		}
 		if(fileName.toLowerCase().endsWith("dbf")){
 			return getDBF(row,col);
 		}else{
@@ -117,6 +121,7 @@ public class ListDataSourceReaderImpl implements ListDataSourceReader {
 			throw new IndexOutOfBoundsException();
 		}
 		Cell cell = thisRow.getCell(col);
+		cell.setCellType(Cell.CELL_TYPE_STRING);
 		return cell.getStringCellValue();
 	}
 	private String getDBF(int row, int col) throws Exception {

@@ -31,14 +31,14 @@
       	 	<label for="StringOne" class="col-sm-2 control-label">${titleMap[s]}</label>
 		    <div class="col-sm-4">
 		        <select  name="dataName" data-name="${s}">
-				    <option>全部</option>
+				    <option>无</option>
 				 </select>
 		    </div>
       	 	<#else>
       	 	<label for="StringTwo" class="col-sm-1 control-label">${titleMap[s]}</label>
 		    <div class="col-sm-5">
 		       <select name="dataName" data-name="${s}">
-				    <option>全部</option>
+				    <option>无</option>
 				 </select>
 		    </div>
 		 </div>

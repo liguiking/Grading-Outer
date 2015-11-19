@@ -20,7 +20,7 @@
 							var table  = $('.table').find('thead').find('tr');
 							table.empty();
 							clearOption();
-							addOption("全部");
+							addOption("无");
 							var length=data.title.length;
 							for(var i=0;i<length;i++){
 								table.append('<th>'+data.title[i]+'</th>');

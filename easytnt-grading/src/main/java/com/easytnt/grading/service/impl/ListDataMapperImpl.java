@@ -40,7 +40,7 @@ public class ListDataMapperImpl implements ListDataMapper {
 				return i;
 			}
 		}
-		return 0;
+		return -1;
 	}
 	
 	
