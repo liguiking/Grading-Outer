@@ -48,6 +48,10 @@ public class ExamPaper implements Entity<ExamPaper> {
 	
 	private Float subjectivityScore; //主观题满分
 	
+	private String imgFromPath;
+	
+	private String imgCuttoPath;
+	
 	public ExamPaper(String name,Float fullScore) {
 		this.name = name;
 		this.fullScore = fullScore;
@@ -251,6 +255,18 @@ public class ExamPaper implements Entity<ExamPaper> {
 	}
 	public void setPaperCards(Set<PaperCard> paperCards) {
 		this.paperCards = paperCards;
+	}
+	public String getImgFromPath() {
+		return imgFromPath;
+	}
+	public void setImgFromPath(String imgFromPath) {
+		this.imgFromPath = imgFromPath;
+	}
+	public String getImgCuttoPath() {
+		return imgCuttoPath;
+	}
+	public void setImgCuttoPath(String imgCuttoPath) {
+		this.imgCuttoPath = imgCuttoPath;
 	}
 	
 	

@@ -73,6 +73,18 @@
 	    <div class="col-sm-8">
 	      <input type="text" class="form-control" id="subjectivityScore" data-rr-type="number" placeholder="主观题满分">
 	    </div>
+	  </div>
+	  <div class="form-group">
+	    <label for="`subjectivityScore`" class="col-sm-4 control-label">原答题卡路径</label>
+	    <div class="col-sm-8">
+	      <input type="text" class="form-control" id="imgFromPath" data-rr-type="number" placeholder="主观题满分">
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <label for="`subjectivityScore`" class="col-sm-4 control-label">分割后答题卡路径</label>
+	    <div class="col-sm-8">
+	      <input type="text" class="form-control" id="imgCuttoPath" data-rr-type="number" placeholder="主观题满分">
+	    </div>
 	  </div>	  	  
 	  <div class="form-group">
 	    <div class="col-sm-offset-3 col-sm-9">

@@ -12,6 +12,8 @@
 			this.fullScore = 0;
 			this.objectivityScore = 0;
 			this.subjectivityScore = 0;
+			this.imgFromPath = '';
+			this.imgCuttoPath = '';
 		};
 		var subject = function(){
 			this.name = '';
@@ -122,6 +124,8 @@
 					e.fullScore = myForm.find('#fullScore').val();
 					e.objectivityScore = myForm.find('#objectivityScore').val();
 					e.subjectivityScore = myForm.find('#subjectivityScore').val();
+					e.imgFromPath = myForm.find('#imgFromPath').val();
+					e.imgCuttoPath = myForm.find('#imgCuttoPath').val();
 					se.testId=myForm.find('#testId').val();
 					se.subject = s;
 					se.usedPaper = [e];
