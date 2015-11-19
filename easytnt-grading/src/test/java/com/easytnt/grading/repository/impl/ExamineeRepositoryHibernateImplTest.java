@@ -11,6 +11,7 @@ public class ExamineeRepositoryHibernateImplTest extends AbstractHibernateTest{
 	
 	@Before
 	public void before()throws Exception{
+		initHibernate("hibernate/mapping/paper/ExamPaper.hbm.xml","hibernate/mapping/paper/Item.hbm.xml","hibernate/mapping/paper/PaperType.hbm.xml","hibernate/mapping/paper/Section.hbm.xml","hibernate/mapping/exam/Subject.hbm.xml","hibernate/mapping/exam/SubjectExam.hbm.xml","hibernate/mapping/paper/PaperCard.hbm.xml");
 		repository =  new ExamineeRepositoryHibernateImpl();
 		repository.setSessionFactory01(sessionFactory);
 	}
@@ -19,51 +20,9 @@ public class ExamineeRepositoryHibernateImplTest extends AbstractHibernateTest{
 	public void testSave()throws Exception{
 		ListDataMapperMocker mapper = new ListDataMapperMocker();
 		ListDataSourceReaderMocker reader = new ListDataSourceReaderMocker();
-		int num =0;
-		reader.open();
-		num = mapper.getColIndex("district_name");
-		String district_name =  reader.get(1, num);
-		num = mapper.getColIndex("district_number");
-		String district_number =  reader.get(1, num);
+		this.beginTransaction();
+		new ExamineeDataImpoirtor(getSession(),mapper,reader).doImport();
+		this.commit();
 		
-		System.out.println("-----------------------");
-		System.out.println(district_name);
-		System.out.println(district_number);
-		System.out.println(num);
-		if(num>0){
-			String sql ="insert into district(parent_id,district_number,district_name) "
-				+ " values(1,'"+district_number+"','"+district_name+"');";
-			//获取插入后的id
-			num = mapper.getColIndex("district_id");
-			String districtid =  reader.get(1, num);
-			int district_id = Integer.parseInt(districtid);
-			System.out.println(district_id);
-			
-			for(int i =0;i<3;i++){
-				num = mapper.getColIndex("school_name");
-				String school_name =  reader.get(i, num);
-				System.out.println(school_name);
-				num = mapper.getColIndex("school_code");
-				String school_code =  reader.get(i, num);
-				System.out.println(school_code);
-				sql += "insert into school(district_id,school_name,school_code) "
-						+ " values("+district_id+",'"+school_name+"','"+school_code+"');";
-				this.beginTransaction();
-				Query q = this.getSession().createSQLQuery(sql);
-			    int nums =	q.executeUpdate();
-			     
-			     if(nums>0){
-			    	 System.out.println("我去进去了");
-			     }else{
-			    	 System.out.println("什么鬼");
-			     }
-				this.commit();
-			}
-
-			
-		}
-		//saveOrUpdate(null);
-		
-		//clear(null);
 	}
 }

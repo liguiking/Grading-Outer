@@ -14,8 +14,7 @@ public class ExamineeRepositoryHibernateImpl extends HibernateRepository impleme
 	
 	//读取数据
 	@Override
-	public int insertImports(ListDataMapper mapper, ListDataSourceReader reader) {
-		// TODO Auto-generated method stub
+	public int insertImports(ListDataMapper mapper, ListDataSourceReader reader) throws Exception {
 		new ExamineeDataImpoirtor(this.getCurrentSession(),mapper,reader).doImport();
 		return 0;
 	}
