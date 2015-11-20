@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -87,11 +88,12 @@ public class ExamPaperController {
 		examPaperService.addSectionFor(examPaperId,section);
 		return ModelAndViewFactory.newModelAndViewFor().build();
 	}
-	@RequestMapping(value="/{examPaperId}",method = RequestMethod.POST)
-	public ModelAndView onAddPaperCard(@PathVariable Long examPaperId,MultipartHttpServletRequest request)
+	@RequestMapping(value="/{examPaperId}/{rotate}",method = RequestMethod.POST)
+	public ModelAndView onAddPaperCard(@PathVariable Long examPaperId,@PathVariable Integer rotate,MultipartHttpServletRequest request)
 					throws Exception {
 		logger.debug("URL /examPaper Method onAddPaperCard "+imgDir);
 		PaperCard paperCard = new PaperCard();
+		paperCard.setRotate(rotate);
 		ExamPaper examPaper = examPaperService.addPaperCardFor(examPaperId, paperCard);
 		Iterator<String> it = request.getFileNames();
 		if(it.hasNext()) {

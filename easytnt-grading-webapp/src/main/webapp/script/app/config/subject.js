@@ -201,6 +201,12 @@
 						    '</button>'+
 					    '</div>'+
 				       '</div>'+
+				       '<div class="form-group" style="margin-top:15px">'+
+					    '<label for="`subjectivityScore`" class="col-sm-4 control-label">旋转角度</label>'+
+					    '<div class="col-sm-8">'+
+					      '<input type="text" class=form-control" id="rotate" data-rr-type="number" placeholder="旋转角度">'+
+					    '</div>'+
+					  '</div>'+
 				  '</form>';
 				var modal = ui.modal("图片上传",message,'md',btns);
 				ui.fileUpload(modal);
@@ -209,11 +215,15 @@
 				});
 				var row = $(this).parent().parent().parent();
 				var paperId = row.find('td:eq(4)').attr('data-rr-paperId');
+				var rotate = document.getElementById("rotate");
+				modal.on('keyup','#rotate',function(e){
+					onlyNumber(this);
+				});
 				$(modal.find('#upload')).click(function(){
 					if($('div.file-preview-filename').val() == 0){
 						return;
 					}
-					ajaxWrapper.upload('examPaper/'+paperId,
+					ajaxWrapper.upload('examPaper/'+paperId+"/"+rotate.value,
 							'fileName',
 							{beforeMsg:{tipText:".",show:false},
 							 successMsg:{tipText:"上传成功",show:true}},
