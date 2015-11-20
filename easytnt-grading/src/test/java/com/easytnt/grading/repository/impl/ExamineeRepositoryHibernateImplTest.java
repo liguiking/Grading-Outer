@@ -1,4 +1,6 @@
 package com.easytnt.grading.repository.impl;
+import static org.junit.Assert.*;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.LinkedHashMap;
@@ -6,13 +8,21 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.ContextConfiguration;
 
+import com.easytnt.commons.util.SpringContextUtil;
 import com.easytnt.grading.service.impl.ListDataMapperImpl;
 import com.easytnt.grading.service.impl.ListDataSourceReaderImpl;
 import com.easytnt.test.repository.AbstractHibernateTest;
 
+
 public class ExamineeRepositoryHibernateImplTest extends AbstractHibernateTest{
 
+	
 	private ExamineeRepositoryHibernateImpl repository;
 	
 	@Before
@@ -23,11 +33,22 @@ public class ExamineeRepositoryHibernateImplTest extends AbstractHibernateTest{
 	}
 	@Test
 	public void testSave()throws Exception{
-//		ListDataMapperMocker mapper = new ListDataMapperMocker();
-//		ListDataSourceReaderMocker reader = new ListDataSourceReaderMocker();
-//		this.beginTransaction();
-//		new ExamineeDataImpoirtor(getSession(),mapper,reader).doImport();
-//		this.commit();
+		ListDataMapperMocker mapper = new ListDataMapperMocker();
+		ListDataSourceReaderMocker reader = new ListDataSourceReaderMocker();
+		this.beginTransaction();
+		ExamineeDataImpoirtor tor=null;
+		try{
+			ApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"classpath:applicationContext.xml","classpath*:applicationContext-*.xml"});
+			SpringContextUtil sp = new SpringContextUtil();
+			sp.setApplicationContext(context);
+			JdbcTemplate jt = SpringContextUtil.getBean("jdbcTemplate");
+			tor = new ExamineeDataImpoirtor(jt,getSession(),mapper,reader);
+			tor.doImport();
+		}catch(Exception e){
+			assertTrue(e instanceof IndexOutOfBoundsException);
+		}
+		assertTrue(tor.getErrorDatas().size()==1);
+		this.commit();
 	}
 	@Test
 	public void testFileSave()throws Exception{
@@ -43,8 +64,6 @@ public class ExamineeRepositoryHibernateImplTest extends AbstractHibernateTest{
 		valueMap.put("arts", "文理科标志");
 		valueMap.put("clazz_name", "班级名称");
 		valueMap.put("clazz_code", "班级代码");
-		valueMap.put("absence", "缺考标志");
-		valueMap.put("total_score", "总分");
 		valueMap.put("room_number", "考场编号");
 		valueMap.put("school_name", "学校名称");
 		valueMap.put("school_code", "学校代码");
@@ -55,8 +74,18 @@ public class ExamineeRepositoryHibernateImplTest extends AbstractHibernateTest{
 		File f2 = new File(f.toPath()+"\\学生导入.xls");
 		ListDataMapperImpl mapper = new ListDataMapperImpl(new FileInputStream(f1),f1.getName(),valueMap);
 		ListDataSourceReaderImpl reader = new ListDataSourceReaderImpl(new FileInputStream(f2),f2.getName());
+		ApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"classpath:applicationContext.xml","classpath*:applicationContext-*.xml"});
+		SpringContextUtil sp = new SpringContextUtil();
+		sp.setApplicationContext(context);
+		JdbcTemplate jt = SpringContextUtil.getBean("jdbcTemplate");
+		
 		this.beginTransaction();
-		new ExamineeDataImpoirtor(getSession(),mapper,reader).doImport();
+		try{
+			new ExamineeDataImpoirtor(jt,getSession(),mapper,reader).doImport();
+		}catch(Exception e){
+			e.printStackTrace();
+			assertTrue(e instanceof IndexOutOfBoundsException);
+		}
 		this.commit();
 	}
 }

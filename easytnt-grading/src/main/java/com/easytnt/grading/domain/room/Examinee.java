@@ -37,9 +37,7 @@ public class Examinee implements Entity<Examinee>{
 		valueMap.put("arts", "文理科标志");
 		valueMap.put("clazz_name", "班级名称");
 		valueMap.put("clazz_code", "班级代码");
-		valueMap.put("absence", "缺考标志");
-		valueMap.put("total_score", "总分");
-		valueMap.put("room_number", "考场编号");
+		valueMap.put("room_number", "考场号");
 		valueMap.put("school_name", "学校名称");
 		valueMap.put("school_code", "学校代码");
 		valueMap.put("district_number", "行政区编号");

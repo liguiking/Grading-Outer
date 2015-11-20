@@ -1,14 +1,21 @@
 package com.easytnt.grading.repository.impl;
 
 import java.math.BigInteger;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.easytnt.grading.service.ListDataMapper;
 import com.easytnt.grading.service.ListDataSourceReader;
@@ -21,35 +28,38 @@ public class ExamineeDataImpoirtor{
 	private StringBuffer sql = new StringBuffer();
 	private int colindex = 0;
 	private Map<String,Long> longMap = new HashMap<String,Long>();
+	private Map<Integer,String[]> errorDatas = new HashMap<Integer,String[]>();
 	private static SimpleDateFormat sdf;
+	private JdbcTemplate jdbcTemplate;
 	static{
 		sdf = new SimpleDateFormat("yyyyMMdd");
 	}
-	public ExamineeDataImpoirtor(Session session,ListDataMapper mapper, ListDataSourceReader reader){
+	public ExamineeDataImpoirtor(JdbcTemplate jdbcTemplate,Session session,ListDataMapper mapper, ListDataSourceReader reader){
 		this.session = session;
 		this.mapper = mapper;
 		this.reader = reader;
+		this.jdbcTemplate = jdbcTemplate;
 	}
 	public void doImport() throws Exception{
-		try {
-			reader.open();
+		reader.open();
+		try{
 			for(int i=1;;i++){
 				Map<String,Object> paramMap = getParam(i,mapper,reader);
 				importDistrict(session,paramMap);
 				importSchool(session,paramMap);
-				importStudent(session,paramMap);
 				importRoom(session,paramMap);
-				importExaminne(session,paramMap);
+				importStudentAndExaminne(false,session,paramMap);
+				if(examinneIsNull(paramMap)){
+					errorDatas.put(i, reader.get(i));
+				}
 			}
 		}catch(IndexOutOfBoundsException e){
-			e.printStackTrace();
+			importStudentAndExaminne(true,null,null);
+			throw  new IndexOutOfBoundsException();
 		}finally{
-			try {
-				reader.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			reader.close();
 		}
+		
 	}
 	private void clearSql(){
 		sql=sql.delete(0, sql.length());
@@ -114,12 +124,17 @@ public class ExamineeDataImpoirtor{
 	 */
 	private void getSchool(Map<String,Object> paramMap,Long districtId,String key){
 		clearSql();
-		sql.append(" select school_id from school where school_name =?  and school_code =?  and district_id =? ");
+		sql.append(" select school_id from school where school_name =?  and school_code =? ");
+		if(districtId==null){
+			sql.append(" and district_id is ? ");
+		}else{
+			sql.append(" and district_id = ? ");
+		}
 		String str = sql.toString();
 		List list = session.createSQLQuery(str)
 				.setString(0, (String)paramMap.get("school_name"))
 				.setString(1, (String)paramMap.get("school_code"))
-				.setBigInteger(2, BigInteger.valueOf(districtId)).list();
+				.setBigInteger(2, longToBigInteger(districtId)).list();
 		clearSql();
 		if(list.size()>0){
 			longMap.put(key, ((BigInteger)list.get(0)).longValue());
@@ -129,54 +144,11 @@ public class ExamineeDataImpoirtor{
 			session.createSQLQuery(sql.toString())
 				.setString(0, (String)paramMap.get("school_name"))
 				.setString(1, (String)paramMap.get("school_code"))
-				.setBigInteger(2, BigInteger.valueOf(districtId)).executeUpdate();
+				.setBigInteger(2, longToBigInteger(districtId)).executeUpdate();
 			list = session.createSQLQuery(str)
 					.setString(0, (String)paramMap.get("school_name"))
 					.setString(1, (String)paramMap.get("school_code"))
-					.setBigInteger(2, BigInteger.valueOf(districtId)).list();
-			longMap.put(key, ((BigInteger)list.get(0)).longValue());
-			clearSql();
-		}
-	}
-	
-	//插入学生表数据student
-	private Long importStudent(Session session,Map<String,Object> paramMap){
-		if(studentIsNull(paramMap)){
-			return null;
-		}
-		String key =paramMap.get("student_number")+"_"+paramMap.get("student_name");
-		if(longMap.get(key)==null){
-			getStudent(paramMap,key);
-		}
-		return longMap.get(key);
-	}
-	/**
-	 * 查询内存或数据库中是否存在，否则进行插入
-	 * @param paramMap
-	 */
-	private void getStudent(Map<String,Object> paramMap,String key){
-		clearSql();
-		sql.append(" select student_id from student where student_number =? and student_name =? ");
-		String str = sql.toString();
-		List list = session.createSQLQuery(str)
-				.setString(0, (String)paramMap.get("student_number"))
-				.setString(1, (String)paramMap.get("student_name")).list();
-		clearSql();
-		if(list.size()>0){
-			longMap.put(key, ((BigInteger)list.get(0)).longValue());
-		}else{
-			clearSql();
-			sql.append(" insert into student(student_number,student_name,gender,nation,birthday) values (?,?,?,?,?);");
-			session.createSQLQuery(sql.toString())
-				.setString(0, (String)paramMap.get("student_number"))
-				.setString(1, (String)paramMap.get("student_name"))
-				.setString(2, (String)paramMap.get("gender"))
-				.setString(3, (String)paramMap.get("nation"))
-				.setString(4, (String)paramMap.get("birthday")).executeUpdate();
-			
-			list = session.createSQLQuery(str)
-					.setString(0, (String)paramMap.get("student_number"))
-					.setString(1, (String)paramMap.get("student_name")).list();
+					.setBigInteger(2, longToBigInteger(districtId)).list();
 			longMap.put(key, ((BigInteger)list.get(0)).longValue());
 			clearSql();
 		}
@@ -216,76 +188,55 @@ public class ExamineeDataImpoirtor{
 			clearSql();
 		}
 	}
-//	private Long importTermTest(Session session,Map<String,Object> paramMap){
-//		String key = paramMap.get("term_test_name")+"_"+paramMap.get("term_test_from")+"_"+paramMap.get("term_test_to");
-//		if(longMap.get(key)==null){
-//			getTermTest(paramMap,key);
-//		}
-//		return  longMap.get(key);
-//	}
-//	/**
-//	 * 查询内存或数据库中是否存在，否则进行插入
-//	 * @param paramMap
-//	 */
-//	private void getTermTest(Map<String,Object> paramMap,String key){
-//		clearSql();
-//		sql.append(" select term_test_id from term_test where term_test_name = '").append(paramMap.get("term_test_name"))
-//		.append("' and term_test_from ='").append(paramMap.get("term_test_from"))
-//		.append("' and term_test_to ='").append(paramMap.get("term_test_to")).append("'");
-//		String str = sql.toString();
-//		List list = session.createSQLQuery(str).list();
-//		clearSql();
-//		if(list.size()>0){
-//			longMap.put(key, ((BigInteger)list.get(0)).longValue());
-//		}else{
-//			clearSql();
-//			sql.append(" insert into term_test (term_test_oid,term_test_name,term_test_from,term_test_to) values (")
-//			   .append(sdf.format(new Date())).append(",'").append(paramMap.get("term_test_name")).append("','")
-//			   .append(paramMap.get("term_test_from")).append("','").append(paramMap.get("term_test_to")).append("')");
-//			session.createSQLQuery(sql.toString()).executeUpdate();
-//			list = session.createSQLQuery(str).list();
-//			longMap.put(key, ((BigInteger)list.get(0)).longValue());
-//			clearSql();
-//		}
-//	}
-	//插入考试表数据Examinne
-	private void importExaminne(Session session,Map<String,Object> paramMap){
+	List<Map<String,Object>> studentlist = new ArrayList<Map<String,Object>>();
+	List<Map<String,Object>> examinnelist = new ArrayList<Map<String,Object>>();
+	private void importStudentAndExaminne(boolean isLast,Session session,Map<String,Object> paramMap) throws SQLException{
+		if((studentlist.size()!=0 && examinnelist.size()!=0) && 
+				(isLast || examinnelist.size()%50==0 )){
+			addStudentAndExaminne(studentlist,examinnelist);
+			examinnelist.clear();
+			studentlist.clear();
+		}
+		if(paramMap==null){
+			return;
+		}
 		if(examinneIsNull(paramMap)){
 			return;
 		}
-		StringBuffer sqlsb = new StringBuffer();
-
-		sqlsb.append(" insert into examinne(school_id,student_id,term_test_id,room_id,seating_number,examinne_name,examinne_uuid,uuid_type,arts,clazz_name,clazz_code,absence,total_score) values (")
-		.append("?,?,?,?,?,?,?,?,?,?,?,?,?);");
-		session.createSQLQuery(sqlsb.toString())
-			.setBigInteger(0, BigInteger.valueOf(importSchool(session,paramMap)))
-			.setBigInteger(1, BigInteger.valueOf(importStudent(session,paramMap)))
-			.setBigInteger(2, BigInteger.valueOf(1l))
-			.setBigInteger(3, longToBigInteger(importRoom(session,paramMap)))
-			.setInteger(4, strToInteger(paramMap.get("seating_number")))
-			.setString(5, (String)paramMap.get("examinne_name"))
-			.setString(6, (String)paramMap.get("examinne_uuid"))
-			.setString(7, (String)paramMap.get("uuid_type"))
-			.setInteger(8, strToInteger(paramMap.get("arts")))
-			.setString(9, (String)paramMap.get("clazz_name"))
-			.setString(10, (String)paramMap.get("clazz_code"))
-			.setInteger(11, strToInteger(paramMap.get("absence")))
-			.setFloat(12, strToFloat(paramMap.get("total_score")))
-			.executeUpdate();
-	}
-	private Float strToFloat(Object o){
-		if(o==null){
-			return 0f;
-		}else{
-			return Float.valueOf((String)o);
+		if(studentIsNull(paramMap)){
+			return;
 		}
+		Map<String,Object> examinnemap = new LinkedHashMap<String,Object>();
+		examinnemap.put("school_id", longToBigInteger(importSchool(session,paramMap)));
+		examinnemap.put("room_id", longToBigInteger(importRoom(session,paramMap)));
+		examinnemap.put("seating_number", paramMap.get("seating_number"));
+		examinnemap.put("examinne_name", paramMap.get("examinne_name"));
+		examinnemap.put("examinne_uuid", paramMap.get("examinne_uuid"));
+		examinnemap.put("uuid_type", paramMap.get("uuid_type"));
+		examinnemap.put("arts", paramMap.get("arts"));
+		examinnemap.put("clazz_name", paramMap.get("clazz_name"));
+		examinnemap.put("clazz_code", paramMap.get("clazz_code"));
+		examinnemap.put("absence", paramMap.get("absence"));
+		examinnemap.put("total_score", paramMap.get("total_score"));
+		examinnelist.add(examinnemap);
+		Map<String,Object> studentmap = new LinkedHashMap<String,Object>();
+		studentmap.put("student_number", paramMap.get("student_number"));
+		studentmap.put("student_name", paramMap.get("student_name"));
+		studentmap.put("gender", paramMap.get("gender"));
+		studentmap.put("nation", paramMap.get("nation"));
+		studentmap.put("birthday", paramMap.get("birthday"));
+		studentlist.add(studentmap);
+		
 	}
-	private Integer strToInteger(Object o){
-		if(o==null){
-			return 0;
-		}else{
-			return Integer.valueOf((String)o);
+	public void addStudentAndExaminne(List<Map<String,Object>> studentList,List<Map<String,Object>> examinneList) throws SQLException{
+		String sql = " insert into student(student_number,student_name,gender,nation,birthday) values (?,?,?,?,?) ";
+		List<Integer> studentIdList = addBean(sql,studentList);
+		for(int i=0;i<examinneList.size();i++){
+			examinneList.get(i).put("student_id", studentIdList.get(i));
 		}
+		sql=" insert into examinne(school_id,term_test_id,room_id,seating_number,examinne_name,examinne_uuid,uuid_type,arts,clazz_name,clazz_code,absence,total_score,student_id) " +
+		   		" values (?,1,?,?,?,?,?,?,?,?,?,?,?) ";
+		addBean(sql,examinneList);
 	}
 	private BigInteger longToBigInteger(Long lo){
 		if(lo==null){
@@ -352,6 +303,12 @@ public class ExamineeDataImpoirtor{
 	    colindex = mapper.getColIndex("total_score");
 	    paramMap.put("total_score", reader.get(i, colindex));
 	    
+	    if(paramMap.get("examinne_name")==null
+	    		&&paramMap.get("student_name")!=null){
+	    	paramMap.put("examinne_name", paramMap.get("student_name"));
+	    }else{
+	    	paramMap.put("student_name", paramMap.get("examinne_name"));
+	    }
 	   //获取term_test表字段列
 //	    colindex = mapper.getColIndex("term_test_name");
 //	    paramMap.put("term_test_name", reader.get(i, colindex));
@@ -376,11 +333,7 @@ public class ExamineeDataImpoirtor{
 	}
 	private boolean studentIsNull(Map<String,Object> paramMap){
 		boolean isTrue = true;
-		isTrue= isTrue && paramMap.get("student_number")==null;
-		isTrue= isTrue && paramMap.get("student_name")==null;
-		isTrue= isTrue && paramMap.get("gender")==null;
-		isTrue= isTrue && paramMap.get("nation")==null;
-		isTrue= isTrue && paramMap.get("birthday")==null;
+		isTrue= isTrue && (paramMap.get("student_number")==null || paramMap.get("student_name")==null);
 		return isTrue;
 	}
 	private boolean roomIsNull(Map<String,Object> paramMap){
@@ -389,16 +342,41 @@ public class ExamineeDataImpoirtor{
 		return isTrue;
 	}
 	private boolean examinneIsNull(Map<String,Object> paramMap){
-		boolean isTrue = true;
-		isTrue= isTrue && paramMap.get("seating_number")==null;
-		isTrue= isTrue && paramMap.get("examinne_name")==null;
-		isTrue= isTrue && paramMap.get("examinne_uuid")==null;
-		isTrue= isTrue && paramMap.get("uuid_type")==null;
-		isTrue= isTrue && paramMap.get("arts")==null;
-		isTrue= isTrue && paramMap.get("clazz_name")==null;
-		isTrue= isTrue && paramMap.get("clazz_code")==null;
-		isTrue= isTrue && paramMap.get("absence")==null;
-		isTrue= isTrue && paramMap.get("total_score")==null;
+		boolean isTrue = true ;
+		isTrue= isTrue && (paramMap.get("examinne_name") ==null || paramMap.get("examinne_uuid") ==null);
 		return isTrue;
 	}
+	public Map<Integer, String[]> getErrorDatas() {
+		return errorDatas;
+	}
+	
+	public List<Integer> addBean(String sql,List<Map<String,Object>> expList) throws SQLException {   
+	       final List<Map<String,Object>> tempexpList = expList;    
+	       Connection con =  jdbcTemplate.getDataSource().getConnection();
+	       con.setAutoCommit(false);   
+	       PreparedStatement pstmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+	       List<String> keyList = new ArrayList<String>();
+	       for(Map<String,Object> map:tempexpList ){
+	    	   keyList.clear();
+	    	   keyList.addAll(map.keySet());
+	    	   for(int i=0;i<keyList.size();i++){
+	    		   pstmt.setObject(i+1,map.get(keyList.get(i)));
+	    	   }
+	    	   pstmt.addBatch();
+	       }
+	       pstmt.executeBatch();    
+	       con.commit();      
+	       ResultSet rs = pstmt.getGeneratedKeys(); //获取结果   
+	       List<Integer> list = new ArrayList<Integer>();    
+	       while(rs.next()) {   
+	           list.add(rs.getInt(1));//取得ID   
+	       }   
+	       con.close();   
+	       pstmt.close();   
+	       rs.close();   
+	          
+	       return list;   
+	          
+	}
+	
 }

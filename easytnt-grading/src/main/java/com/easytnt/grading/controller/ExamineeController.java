@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,6 +48,10 @@ public class ExamineeController {
 	
 	@Autowired(required = false)
 	private ExamineeService examineeService;
+	
+	@Autowired(required = false)
+	private JdbcTemplate jdbcTemplate;
+	
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView onGet()throws Exception {
@@ -101,7 +106,7 @@ public class ExamineeController {
 			File file = new File(imgDir);
 			FileInputStream stream = new FileInputStream(file);
 			FileInputStream stream2 = new FileInputStream(file);
-			examineeService.insertImports(new ListDataMapperImpl(stream,file.getName(),map), new ListDataSourceReaderImpl(stream2,file.getName()));
+			examineeService.insertImports(jdbcTemplate,new ListDataMapperImpl(stream,file.getName(),map), new ListDataSourceReaderImpl(stream2,file.getName()));
 			file.delete();
 			request.getSession().removeAttribute("imgDir");
 		}
