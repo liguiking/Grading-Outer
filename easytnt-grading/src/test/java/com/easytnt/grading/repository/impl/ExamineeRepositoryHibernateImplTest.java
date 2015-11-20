@@ -88,4 +88,29 @@ public class ExamineeRepositoryHibernateImplTest extends AbstractHibernateTest{
 		}
 		this.commit();
 	}
+	@Test
+	public void testFileRead()throws Exception{
+		File f = new File(this.getClass().getResource("").getPath());
+		File f1 = new File(f.toPath()+"\\学生导入.csv");
+		File f2 = new File(f.toPath()+"\\学生导入.csv");
+		ListDataMapperImpl mapper = new ListDataMapperImpl(new FileInputStream(f1),f1.getName(),null);
+		ListDataSourceReaderImpl reader = new ListDataSourceReaderImpl(new FileInputStream(f2),f2.getName());
+		String[] str = mapper.getTitleList();
+		assertNotNull(str);
+		reader.open();
+		assertNotNull(reader.get(1));
+		try{
+			for(int i=0;;i++){
+				reader.get(i);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			assertTrue(e instanceof IndexOutOfBoundsException);
+		}finally{
+			reader.close();
+		}
+		
+		
+	}
+	
 }
